@@ -1,0 +1,52 @@
+{% extends '../stdbody.html' %}
+{% set dataPage="about" %}
+
+{% block head %}
+	<link rel="stylesheet" href="{{ assetUrl('css','bundle.css') }}" />
+{% endblock %}
+
+{% block body %}
+	<header>
+		<div class="background blur" style="background-image: url(/static/images/asm.jpg)"></div>
+		<div class="blackout"></div>
+		<div class="container">
+			<nav>
+				<div class="brand">
+					QI <i class="icon-bulb2"></i> LABS
+				</div>
+				<ul>
+					<li>
+						<a {% if dataAbout === "main" %}class="active"{% endif %} href="{{ getPageUrl('about') }}">Sobre</a>
+					</li>
+					<li>
+						<a {% if dataAbout === "faq" %}class="active"{% endif %} href="{{ getPageUrl('faq') }}">FAQ &amp; Ajuda</a>
+					</li>
+					<li>
+						<a href="{{ getPageUrl('blog') }}">Blog</a>
+					</li>
+					<li>
+						<a class="button" href="/" data-action="login">Login</a>
+					</li>
+				</ul>
+			</nav>
+
+			{% block aboutHeader %}
+			{% endblock %}
+		</div>
+	</header>
+
+	{% block aboutBody %}
+	{% endblock %}
+
+	<footer>
+		<div class="container">
+			<div class="qi-copy">
+				&reg; <span class="brand">QI Labs</span> 2014 · Um abrigo de produtividade na internet
+			</div>
+			<div class="qi-sn">
+				<a href="{{ urls.twitter }}">Twitter</a>
+				<a href="{{ urls.facebook }}">Facebook</a>
+			</div>
+		</div>
+	</footer>
+{% endblock %}

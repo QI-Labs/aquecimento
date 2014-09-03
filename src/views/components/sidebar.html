@@ -1,0 +1,74 @@
+{% if user %}
+
+{% import "../macros/user.html" as userMacros %}
+
+<div class="sd-blackout"></div>
+
+<button id="openSidebar">
+	<i class="icon-arrow-right22"></i>
+</button>
+
+<div id="sidebarPanel">
+	<section>
+		<li class="me">
+			<a href="{{ user.path }}">
+				{{ userMacros.render(user) }}
+				<span>Meu Perfil</span>
+			</a>
+			<a class="cog" href="{{ getPageUrl('settings') }}">
+				<i class="icon-gear"></i>
+			</a>
+		</li>
+		{#
+		<li>
+			<a data-trigger="component" data-component="notifications">
+				<em data-info="unseen-notifs">0</em>
+				<span>Notificações</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" data-trigger="component" data-component="createPost">
+				<i class="icon-pencil"></i>
+				Criar Publicação
+			</a>
+		</li>
+		#}
+		{#
+		<li>
+			<a href="{{ user.path }}">
+				<i class="icon-folder2"></i>
+				Minhas Publicações
+			</a>
+		</li>
+		<li>
+			<a href="#mine">
+				<i class="icon-tags"></i>
+				Editar Interesses
+			</a>
+		</li>
+		#}
+		<li>
+			<button onClick="location.href='/matematica'" data-action="go-matematica">
+				<span><i class="icon-tag2"></i> Matemática</span>
+			</button>
+			<button onClick="location.href='/application'" data-action="go-application">
+				<span><i class="icon-tag2"></i> Application</span>
+			</button>
+		</li>
+		<li>
+			<button onClick="location.href='/guias'" data-action="explore">
+				<span>Explorar Guias</span>
+			</button>
+			<button onClick="" data-action="show-uv" id="sd-feedback-btn">
+				<span>Fornecer Feedback</span>
+			</button>
+		</li>
+	</section>
+
+	<section class="sidebarBottom">
+		QI LABS 2014 ·
+		<a href="{{ getPageUrl('faq') }}">AJUDA</a> ·
+		<a href="#" data-action="logout" data-ajax-post-href="{{ getPageUrl('logout') }}" data-redirect-href="/">LOGOUT</a>
+	</section>
+</div>
+{% endif %}

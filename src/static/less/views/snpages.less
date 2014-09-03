@@ -1,0 +1,70 @@
+
+/*
+** sn_pages.less
+** Copyright QIlabs.org
+** Styles of the internal pages.
+*/
+
+@import "../common.less";
+
+// @import "components/cards.less";
+// @import "components/sidebar.less";
+@import "components/alerts.less";
+@import "components/wallterfall.less";
+
+// @import "pages/signing.less";
+// @import "pages/post_view.less";
+// @import "pages/post_form.less";
+// @import "pages/profile.less";
+// @import "pages/settings.less";
+// @import "pages/open_profile.less";
+// @import "pages/open_post.less";
+// @import "pages/interests_list.less";
+
+// @import "pages/tag.less";
+// @import "pages/guides.less";
+@import "pages/front.less";
+// @import "pages/notifications.less";
+// @import "pages/about.less";
+@import "pages/error.less";
+
+.qi-box {
+	width: 740px;
+	background: white;
+	position: relative;
+	margin: 40px auto;
+	display: table;
+	z-index: 1000;
+
+	.close-btn {
+		position: fixed;
+		right: 31px;
+		top: 10px;
+		font-weight: bold;
+	}
+}
+
+body {
+	background: #EEE;
+}
+
+.invisible {
+	opacity: 0 !important;
+}
+
+.close-btn {
+	color: #EEE;
+	font-style: normal;
+	font-size: 22px;
+	cursor: pointer;
+	color: white;
+	.transition;
+
+	opacity: .9;
+	&:hover {
+		opacity: 1;
+	}
+	&::before {
+		content: "×";
+	}
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+<title>{% block title %}{% if pageTitle %}{{ pageTitle }}{% else %}Qi Labs{% endif %}{% endblock %}</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="csrf-token" content="{{ token }}">
+<meta name="description" content=".">
+<meta name="keywords" content="QI Labs">
+<link type="text/plain" rel="author" href="http://www.qilabs.org/humans.txt" />
+<meta name="viewport" content="width=device-width">
+<meta property="fb:app_id" content="326254770799145" />
+{% block meta %}{% endblock %}
+{% block head %}{% endblock %}
+<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lato|Open+Sans:300,600,700,800' />
+<script>_flash_msgs={{ JSON.stringify(messages) }}</script>
+<!--[if lt IE 6]><script type="text/javascript"> window.ieversion = -1;</script><![endif]-->
+<!--[if IE 6]><script type="text/javascript"> window.ieversion = 6;</script><![endif]-->
+<!--[if IE 7]><script type="text/javascript"> window.ieversion = 7;</script><![endif]-->
+<!--[if IE 8]><script type="text/javascript"> window.ieversion = 8;</script><![endif]-->
+<!--[if IE 9]><script type="text/javascript"> window.ieversion = 9;</script><![endif]-->
+</head>
+<body data-page="{{ dataPage }}" class="{% if user %}loggedIn{% endif %}">
+{% block body %}
+{% endblock %}
+
+{% block bodyEnd %}
+{% endblock %}
+
+<!-- Google Analytics -->
+<script>
+{% if app.env !== 'development' %}
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-51277191-1', 'qilabs.org');ga('send', 'pageview');
+{% endif %}
+</script>
+<!-- End Google Analytics -->
+<body>
+<html>

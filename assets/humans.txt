@@ -1,0 +1,18 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Felipe Aragão Pires -- Founder & Developer -- f03lipe
+    Michelle Malher Jorge -- Co-founder & Content Director -- mimimalher
+    Luiz Fernando Leal -- Co-founder & Operations Director
+
+# THANKS
+
+    Mama
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3
+    jQuery, Modernizr
+    Node.js

@@ -1,0 +1,65 @@
+{% extends '../stdbody.html' %}
+{% set dataPage="main" %}
+
+{% import '../macros/tags.html' as tagMacros %}
+{% import '../macros/metaTags.html' as metaTagMacros %}
+
+{% block pageTitle %}{{ pageTitle|"Aquecimento QI Labs" }}{% endblock %}
+
+{% block head %}
+{% parent %}
+	{% block meta %}
+	{{ metaTagMacros.facebook({
+		title: "Aquecimento Qi Labs · OBM",
+		description: 'Aquecimento para a segunda fase da OBM 2014.',
+	}) }}
+	{{ metaTagMacros.meta({
+		title: "Aquecimento Qi Labs · OBM",
+		description: 'Aquecimento para a segunda fase da OBM 2014.',
+	}) }}
+	{{ metaTagMacros.twitter({
+		title: "Aquecimento Qi Labs · OBM",
+		description: 'Aquecimento para a segunda fase da OBM 2014.',
+	}) }}
+	{% endblock %}
+	{% if user %}
+	<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}', following_pages: {{user.preferences.interests|json|safe}}}</script>
+	{% else %}
+	<script>window.user={}</script>
+	{% endif %}
+	<link rel="stylesheet" href="{{ assetUrl('css/bundle.css') }}">
+	<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700|PT+Serif:400,400i,700,700i'>
+{% endblock %}
+
+{% block body %}
+
+	{% block preBody %}{% endblock %}
+
+	<div class="cContainer gcontainer" id="global-container">
+		BEN VENIDO
+	</div>
+
+	{% if user %}
+		<!-- User Voice -->
+		<script src="/static/js/bundle.js"></script>
+		<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+		<!-- End User Voice -->
+		<!-- Intercom -->
+		<script id="IntercomSettingsScriptTag">
+		{%
+			set intercomObj = {
+				user_id: user.id,
+				email: user.email,
+				name: user.name,
+				created_at: Math.floor(user.meta.created_at/1000)-200000,
+				session_count: user.meta.sessionCount,
+				avatar: user.avatar_url,
+				app_id: "3le7gbsg"
+			}
+		%}
+		window.intercomSettings = {{ intercomObj|json|safe }};
+		</script>
+		<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://static.intercomcdn.com/intercom.v1.js';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+		</script>
+	{% endif %}
+{% endblock %}

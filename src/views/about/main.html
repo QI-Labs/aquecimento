@@ -1,0 +1,175 @@
+{% extends 'layout.html' %}
+{% set dataAbout="main" %}
+{% set pageTitle="Sobre" %}
+
+{% block aboutHeader %}
+<h1>Sobre</h1>
+<p>
+	O QI Labs é uma plataforma online para difusão de conhecimento entre estudantes de todas as origens e contextos sociais. Nossa missão é desenvolver ferramentas para conectar alunos pelo Brasil interessados em assuntos como Olimpíadas Científicas, Vestibular, Application, Robótica etc.
+</p>
+{% endblock %}
+
+{% block aboutBody %}
+<section class="team">
+	<div class="container">
+		<label>
+			<h2><strong>QI Labs.</strong> A Equipe</h2>
+		</label>
+		<ul class="people">
+			<li>
+				<figure>
+					<a href="/@felipearagaopires">
+					<img src="{{ process.env.picture_me }}"></img>
+					</a>
+				</figure>
+				<figcaption>
+					<span class="name">Felipe</span>
+					<span class="role">Desenvolvimento</span>
+				</figcaption>
+			</li>
+			<li>
+				<figure>
+					<a href="/@michelle.malher">
+					<img src="https://graph.facebook.com/michelle.malher/picture?width=200&height=200"></img>
+					</a>
+				</figure>
+				<figcaption>
+					<span class="name">Michelle</span>
+					<span class="role">Conteúdo</span>
+				</figcaption>
+			</li>
+			<li>
+				<figure>
+					<a href="/@luizfernando.gomes.581">
+					<img src="https://graph.facebook.com/100001334209362/picture?width=200&height=200"></img>
+					</a>
+				</figure>
+				<figcaption>
+					<span class="name">Luiz Fernando</span>
+					<span class="role">Operações</span>
+				</figcaption>
+			</li>
+			{#
+			<li>
+				<figure>
+					<a href="/@mariitope">
+					<img src="https://graph.facebook.com/100001115788168/picture?width=200&height=200"></img>
+					</a>
+				</figure>
+				<figcaption>
+					<span class="name">Mariam</span>
+					<span class="role">Crescimento</span>
+				</figcaption>
+			</li>
+			#}
+		</ul>
+	</div>
+</section>
+
+<section class="join">
+	<div class="container">
+		<h2><strong>Você tem entre 12 e 22 anos e quer ajudar?</strong></h2>
+		<h3>(bônus para quem for aspirante a programador/designer)</h3>
+		<a class="button" href="mailto:piresafelipe ARROBA gmail.com">Quero fazer parte da equipe!</a>
+	</div>
+</section>
+
+			{#
+<section class="editores">
+	<div class="container">
+		<label>
+			<h2><strong>Editores das Guias</strong></h2>
+			<h4>por ordem de chegada</h4>
+		</label>
+		<ul class="people">
+			<li>
+				<figure>
+					<a href="/@michelle.malher">
+					<img src="https://graph.facebook.com/michelle.malher/picture?width=200&height=200"></img>
+					</a>
+				</figure>
+				<figcaption>
+					<span class="name">Michelle Malher</span>
+					<span class="role">Vestibular</span>
+				</figcaption>
+			</li>
+			<li>
+				<figure>
+					<a href="/@felipearagaopires">
+					<img src="{{ process.env.picture_me }}"></img>
+					</a>
+				</figure>
+				<figcaption>
+					<span class="name">Felipe Aragão</span>
+					<span class="role">Informática</span>
+				</figcaption>
+			</li>
+			<li>
+				<figure>
+					<a href="/@vivianeplobo">
+					<img src="https://graph.facebook.com/vivianeplobo/picture?width=200&height=200"></img>
+					</a>
+				</figure>
+				<figcaption>
+					<span class="name">Viviane Lobo</span>
+					<span class="role">Vestibular</span>
+				</figcaption>
+			</li>
+			<li>
+				<figure>
+					<a href="/@luizfernando.gomes.581">
+					<img src="https://graph.facebook.com/100001334209362/picture?width=200&height=200"></img>
+					</a>
+				</figure>
+				<figcaption>
+					<span class="name">Luiz Fernando</span>
+					<span class="role">Astronomia</span>
+				</figcaption>
+			</li>
+			<li>
+				<figure>
+					<a href="/@matheus.carioca.s">
+					<img src="https://graph.facebook.com/matheus.carioca.s/picture?width=200&height=200"></img>
+					</a>
+				</figure>
+				<figcaption>
+					<span class="name">Matheus Carioca</span>
+					<span class="role">Matemática</span>
+				</figcaption>
+			</li>
+			<li>
+				<figure>
+					<a href="/@tiagocgmontalvao">
+					<img src="https://graph.facebook.com/tiagocgmontalvao/picture?width=200&height=200"></img>
+					</a>
+				</figure>
+				<figcaption>
+					<span class="name">Tiago Montalvão</span>
+					<span class="role">Matemática</span>
+				</figcaption>
+			</li>
+			<li>
+				<figure>
+					<a href="/@luccasiau">
+					<img src="https://graph.facebook.com/luccasiau/picture?width=200&height=200"></img>
+					</a>
+				</figure>
+				<figcaption>
+					<span class="name">Lucca Siaudzionis</span>
+					<span class="role">Informática</span>
+				</figcaption>
+			</li>
+			<li>
+				<figure>
+					<img src="/static/images/brain.png"></img>
+				</figure>
+				<figcaption>
+					<span class="name">Você</span>
+					<span class="role">&lt;seu interesse&gt;</span>
+				</figcaption>
+			</li>
+		</ul>
+	</div>
+</section>
+			#}
+{% endblock %}

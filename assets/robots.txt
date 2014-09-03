@@ -1,0 +1,10 @@
+# robotstxt.org/
+
+User-agent: *
+
+Allow: /
+Allow: /guias
+Allow: /guias/contribua
+Allow: /guias/olimpiadas-matematica
+Allow: /guias/application
+Allow: /guias/vestibular

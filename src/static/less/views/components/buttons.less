@@ -1,0 +1,185 @@
+
+@btn-font-weight: 		normal;
+@btn-default-color: 	#333;
+@btn-default-bg: 		#fff;
+@btn-default-border: 	#ccc;
+
+button, .button {
+	border: none;
+	display: inline-block;
+	margin-bottom: 0; // For input.btn
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	white-space: nowrap;
+	border: none;
+	background-image: none;
+	padding: 6px 12px;
+	color: @btn-default-color;
+	font-weight: @btn-font-weight;
+	color: #222;
+	line-height: 1;
+	border-radius: 2px;
+	.user-select(none);
+
+	&:focus {
+		.tab-focus();
+	}
+
+	&:hover, &:focus {
+		// color: @btn-default-color;
+		text-decoration: none;
+	}
+
+	&.disabled, &[disabled], fieldset[disabled] & {
+		cursor: not-allowed;
+		pointer-events: none; // Future-proof disabling of clicks
+		.opacity(.65);
+		.box-shadow(none);
+	}
+	
+	&:active, &.active {
+		outline: 0;
+		background-image: none;
+		.box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
+	}
+}
+
+/* Mixins for building button states. */
+
+.color-btn (@color, @bg, @border) {
+	color: @color;
+	background: @bg;
+	border-color: @border;
+}
+
+.color-btn-hover (@color, @bg, @border) {
+	&:hover {
+		.color-btn(@color, @bg, @border);
+	}
+}
+
+.color-btn-active (@color, @bg, @border) {
+	&:active {
+		.color-btn(@color, @bg, @border);
+	}
+}
+
+.color-btn-focus (@color, @bg, @border) {
+	&:focus {
+		.color-btn(@color, @bg, @border);
+	} 
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+.btn0 {
+	outline: none;
+	font-weight: bold;
+	padding: 8px 20px;
+	border: none;
+	border-radius: 2px;
+}
+
+/* Don't change a thing. */
+.xbtn (@color, @bg, @chover: lighten(@bg, 4%)) {
+	.btn0;
+	.transition;
+
+	.color-btn-focus(@color, @bg, transparent);
+	border: 2px solid transparent;
+	.color-btn(@color, @bg, @bg);
+	.color-btn-hover(@color, @chover, @chover);
+	.color-btn-active(@color, darken(@chover, 4%), darken(@chover, 8%));
+
+	&:active {
+		.no-text-shadow;
+		.no-box-shadow;
+	}
+
+	&[disabled] {
+		.color-btn(@color, mix(greyscale(@bg), @bg, 75%), mix(greyscale(@bg), @bg, 75%));
+	}
+}
+
+.xbtn {
+	.xbtn(#222, #EEE);
+}
+
+.hbtn {
+	.high-xbtn(#222, #EEE);
+}
+
+
+.high-xbtn (@color: white, @bg: @COLOR1, @shadowSize: 3px, @verticalpadding: 9px, @horizontalPadding: 15px, @verticalMargin: 8px) {
+	.btn0;
+
+	.transition;
+	.color-btn-focus(@color, @bg, transparent);
+	.box-shadow(0, @shadowSize, 0, darken(@bg, 10%));
+	.color-btn(@color, @bg, transparent);
+
+	padding: @verticalpadding @horizontalPadding;
+	margin-top: @verticalMargin;
+	margin-bottom: @verticalMargin+@shadowSize;
+
+	&:hover {
+		.text-shadow(1px, 1px, 0, rgba(0,0,0,.1));
+		background: lighten(@bg, 5%);
+	}
+	&[disabled] {
+		.no-box-shadow;
+	}
+
+	&:active {
+		.no-text-shadow;
+		.no-box-shadow;
+		.translate(0, @shadowSize);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+.btn-follow,
+.btn-tag-follow {
+	&[data-action=follow] {
+		border-radius: 5px;
+		&:empty::before { content: "Seguir"; }
+		.xbtn(@color: white, @bg: @COLOR2);
+		padding: 5px 0px;
+	}
+	&[data-action=unfollow]:not(:hover) {
+		border-radius: 5px;
+		.xbtn(@color: white, @bg: @COLOR1);
+		padding: 5px 0px;
+		&::before { content: "Seguindo"; }
+	}
+	&[data-action=unfollow]:hover{
+		&:empty::before { content: "Desfazer"; }
+		.xbtn(@color: white, @bg: desaturate(@COLOR4,10%));
+		padding: 5px 0px;
+	}
+
+	text-transform: uppercase;
+	font-size: 10px !important;
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 66px;
+	font-family: "Open Sans";
+}
+
+
+.btn-tag-follow {
+	&[data-action=follow] {
+		&:empty::before { content: "Seguir Tag"; }
+	}
+	&[data-action=unfollow]:not(:hover) {
+		&::before { content: "Seguindo"; }
+	}
+	&[data-action=unfollow]:hover{
+		&:empty::before { content: "Desfazer"; }
+	}
+	width: 70px;
+}

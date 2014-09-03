@@ -1,0 +1,317 @@
+
+/*
+** main.less
+** for QiLabs.org
+** by @f03lipe
+** Project-specific designs. All project .less files should import this. 
+*/
+
+// @import (reference) "variables.less";
+// @import (reference) "btspmixins.less";
+@import (reference) "mixins.less";
+@import "bstp.less";
+
+@import (css) "fonts.css";
+@import "components/closeicon.less";
+@import "components/buttons.less";
+// @import "components/dialog.less";
+@import "components/icons.less";
+
+@COLOR1: #0bf; // #00b5da;
+@COLOR2: #2ebc71; // #2ecc71;
+@COLOR3: #ff6038; // #FF6008; // #FF3C1F; // #FF8300
+@COLOR4: #FE3F44;
+@CBLUE: #00b5ca;
+@CGREEN: #2ecc71;
+
+@AQUA:  #7FDBFF;
+@BLUE:  #0074D9;
+@NAVY:  #001F3F;
+@TEAL:  #39CCCC;
+@GREEN: #2ECC40;
+@OLIVE: #3D9970;
+@LIME:  #01FF70;
+
+// WARM
+
+@YELLOW:  #FFDC00;
+@ORANGE:  #FF851B;
+@RED:     #FF4136;
+@FUCHSIA: #F012BE;
+@PURPLE:  #B10DC9;
+@MAROON:  #85144B;
+
+// GRAY SCALE
+
+@WHITE:  #FFF;
+@SILVER: #DDD;
+@GRAY:   #AAA;
+@BLACK:  #111;
+
+@COLOR-facebook: #2b4b90;
+@COLOR-twitter: #55ACEE;
+@COLOR-gplus: #dd4b39;
+
+a, a:hover {
+	text-decoration: none;
+}
+
+.brand {
+	font-family: museo-sans;
+	text-transform: uppercase;
+
+	.icon-bulb2,
+	.icon-lightbulb2 {
+		margin: -2px -3px 0 -3px;
+	}
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+label {
+	margin-bottom: 0;
+}
+
+html {
+	// font-size: 16px;
+	position: relative;
+	height: 100%;
+}
+
+body { 
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	height: 100%;
+	font-family: museo-sans, "Open Sans";
+}
+
+
+.avatarWrapper,
+.user-avatar {
+	display: inline-block;
+	vertical-align: middle;
+	width: 50px;
+	height: 50px;
+	text-decoration: none;
+	overflow: hidden;
+	position: relative;
+
+	.avatar {
+		vertical-align: middle;
+		width: 100%;
+		height: 100%;
+		background-size: cover !important;
+	}
+
+	& + .username, & + .name, & + span {
+		vertical-align: middle;
+	}
+}
+
+.iconThumbnail {
+	display: inline-block;
+	vertical-align: middle;
+	width: 40px;
+	height: 40px;
+	text-decoration: none;
+	overflow: hidden;
+	text-align: center;
+	line-height: 40px;
+	color: white;
+
+	background: #333;
+	border-radius: 25px;
+
+	[class*="icon-tag"] {
+		vertical-align: middle;
+		font-size: 30px;
+	}
+
+	& + .username, & + .name, & + span {
+		vertical-align: middle;
+	}
+
+	&.iconThumbnailLarge {
+		width: 50px;
+		height: 50px;
+		line-height: 50px;
+		i {
+			font-size: 35px;
+		}
+	}
+	i&.iconThumbnailLarge {
+		font-size: 31px;
+	}
+
+	&.iconThumbnailSmall {
+		width: 28px;
+		height: 28px;
+		line-height: 28px;
+		i {
+			font-size: 18px;
+		}
+	}
+	&.iconThumbnailSmall.iconShadowed {
+		text-shadow: 2px 2px 0 rgba(0, 0, 0, .2),
+			3px 3px 0 rgba(0, 0, 0, .2),
+			5px 5px 0 rgba(0, 0, 0, .2)
+		;
+		-moz-text-shadow: 2px 2px 0 rgba(0, 0, 0, .2),
+			3px 3px 0 rgba(0, 0, 0, .2),
+			5px 5px 0 rgba(0, 0, 0, .2)
+		;
+	}
+
+	i&.iconThumbnailSmall {
+		font-size: 18px;
+	}
+
+	background: @COLOR1;
+
+	&.icon-user { background: #08C; }
+	&.icon-tag, &.icon-tags { background: @COLOR4; }
+	&.icon-guia { background: @COLOR3; }
+}
+
+.xtag {
+	display: inline-block;
+	background: 40px;
+	padding: 4px 6px;
+	font-size: 11px;
+	margin-right: 5px;
+	color: white;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-family: "museo-sans";
+	margin-bottom: 5px;
+	background: @COLOR2;
+	cursor: pointer;
+	border-bottom: 2px solid rgba(0,0,0,.3);
+
+	&.unknown {
+		background: #AAA;
+	}
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child {
+	margin-top: 5px;
+}
+
+@COLOR_OLIMPIADAS: @COLOR4;
+@COLOR_APPLICATION: #ffa03c;
+@COLOR_OLIMPIADAS_MATEMATICA: mix(@COLOR1, @COLOR2);
+@COLOR_OLIMPIADAS_FISICA: mix(@COLOR1, #777);
+@COLOR_VESTIBULAR: @COLOR2;
+@COLOR_VESTIBULAR_MILITAR: mix(@COLOR2, #4B5320, 30%);
+@COLOR_OLIMPIADAS_QUIMICA: mix(@COLOR3, @COLOR4, 25%);
+@COLOR_OLIMPIADAS_INFORMATICA: @COLOR1;
+@COLOR_VOLUNTARIADO: desaturate(mix(yellow, @COLOR3, 80%), 5%);
+
+.tagBg () {
+	&[data-tag=olimpiadas] { background: @COLOR_OLIMPIADAS; }
+	&[data-tag=application] { background: @COLOR_APPLICATION; }
+	&[data-tag=olimpiadas-matematica] { background: @COLOR_OLIMPIADAS_MATEMATICA; }
+	&[data-tag=olimpiadas-fisica] { background: @COLOR_OLIMPIADAS_FISICA; }
+	&[data-tag=vestibular] { background: @COLOR_VESTIBULAR; }
+	&[data-tag=vestibular-militar] { background: @COLOR_VESTIBULAR_MILITAR; }
+	&[data-tag=olimpiadas-quimica] { background: @COLOR_OLIMPIADAS_QUIMICA; }
+}
+
+[data-tag-bg=voluntariado] { background: @COLOR1; }
+[data-tag-bg=application] { background: @COLOR2; }
+[data-tag-bg=vestibular] { background: @COLOR3; }
+[data-tag-bg=olimpiada] { background: @COLOR4; }
+
+.popover {
+	position: absolute;
+	z-index: 10;
+}
+
+.modal {
+	color: #444;
+}
+
+.blackout (@opacity: .6) {
+	z-index: -1;
+	position: absolute;
+	top: 0; left: 0; right: 0; bottom: 0;
+	background: black;
+	opacity: @opacity;
+}
+
+.flash-msgs {
+	// border: 1px solid black;
+	// z-index: 3;
+	position: fixed;
+
+	margin: 10px 0;
+
+	.warn, .info {
+		margin: 5px 0;
+		margin-bottom: 0;
+	}
+
+	.warn {
+		&:extend(.alert);
+		&:extend(.alert-danger);
+		// background: #e74c3c;
+	}
+
+	.info {
+		&:extend(.alert);
+		&:extend(.alert-info);
+	}
+}
+
+
+.cover () {
+	position: absolute;
+	z-index: -1;
+	background: #FFFFFF no-repeat center bottom;
+	background-clip: content-box;
+	.background-size(cover);
+	top: 0; bottom: 0;
+	width: 100%;
+}
+.bg-blur(@blur: 2px) {
+	top: -4*@blur; bottom: -4*@blur;
+	left: -4*@blur; right: -4*@blur;
+	.blur(@blur);
+}
+
+.bg-cover {
+	.cover;
+}
+
+.bg-cover.bg-pattern {
+	background-image: url(/static/images/icons-green.jpg);
+	background-repeat: repeat;
+	background-clip: content-box;
+	background-size: initial;
+	top: 0; bottom: 0;
+	left: 0; right: 0;
+}
+
+body > .bg-cover {
+	position: fixed;
+	.cover;
+	// .bg-blur(3px);
+}
+
+.bg-img {
+	position: absolute;
+	top: 0; bottom: 0;
+	left: 0; right: 0;
+	background: #FFFFFF repeat center bottom;
+	background-clip: content-box;
+}
+
+
+.bg-img.half-opacity {
+	opacity: 1;
+}

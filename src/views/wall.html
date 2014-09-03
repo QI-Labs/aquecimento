@@ -1,0 +1,24 @@
+{% extends 'snpage.html' %}
+
+{% block global-container %}
+
+	{% block globalHeader %}
+	{% endblock %}
+
+	{% block streamWrapper %}
+	<div id="qi-stream-wrap" class="wall"></div>
+	{% endblock %}
+
+<script>
+	function addClass (el, className) {
+		if (el.classList) { el.classList.add(className); }
+		else if (el.className.split(' ').indexOf(className)==-1) {
+			el.className += ' ' + className;
+		}
+	}
+	addClass(document.body, 'fixedNavbar');
+</script>
+{% endblock %}
+{% block bodyEnd %}
+{% parent %}
+{% endblock %}

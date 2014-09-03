@@ -1,0 +1,25 @@
+
+<div class="wallterfall-screen">
+	<div class="wallterfall">
+		<div class="wall-card-icon">
+			<i></i>
+		</div>
+	</div>
+	<div class="blackout"></div>
+	<script>
+		(function () {
+			var icons = ['icon-bold icon-genius', 'icon-globe-outline', 'icon-measure', 'icon-lightbulb2', 'icon-pi-outline', 'icon-pencil2', 'icon-chart', 'icon-bold icon-strategy', 'icon-bold icon-circle-compass', 'icon-bold icon-telescope', 'icon-bold icon-puzzle', 'icon-bold icon-lab', 'icon-compass2', 'icon-bold icon-chat', 'icon-bold icon-study'];
+			var cv = document.querySelector(".wall-card-icon"),
+				cc = document.querySelector(".wallterfall");
+			var manyW = Math.floor((window.innerWidth+300)/(234+30)), manyH = Math.floor(window.innerHeight/200);
+			for (var i=0; i<(manyW*5-1)+((manyH+1)*manyW); i++) {
+				var nc = cv.cloneNode(true);
+				if (Math.random() > 0.45) {
+					var icon = icons[Math.floor(Math.random()*icons.length)];
+					nc.querySelector('i').className += ' '+icon;
+				}
+				cc.appendChild(nc);
+			}
+		})();
+	</script>
+</div>

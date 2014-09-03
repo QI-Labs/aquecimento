@@ -1,0 +1,57 @@
+
+{% macro selectUBg () %}
+	{% set bgs = [
+		{
+			label:'Harvard University, Boston, USA',
+			source:'u/hav.jpg',
+			credits: '',
+		},{
+			label:'Columbia University, New York, USA',
+			source:'u/col.jpg',
+			credits: '',
+		},{
+			label:'Yale University Library, Durham, USA',
+			source:'u/yal.jpg',
+			credits: '',
+		},{
+			label:'Massachusetts Institute of Technology, Boston, USA',
+			source:'u/mit.jpg',
+			credits: '',
+		},{
+			label:'Stanford University, Santa Clara, USA',
+			source:'u/sta.jpg',
+			credits: '',
+		},{
+			label:'Duke University, Durham, USA',
+			source:'u/duk.jpg',
+			credits: '',
+		},{
+			label:'Escola de Engenharia da Universidade de São Paulo, São Paulo',
+			source: 'u/usp.jpg',
+			credits: 'Marcos Santos / USP Imagens',
+		},{
+			label:'Universidade Estadual de Campinas (UNICAMP), São Paulo',
+			source: 'u/unc.jpg',
+			credits: '',
+		},{
+			label: 'Universidade Federal do Rio de Janeiro, Campus Praia Vermelha',
+			source: 'u/ufrj.jpg',
+			credits: 'FOTO: Gabriela d’Araujo / Imagem UFRJ',
+		},
+	]
+	%}
+	{% set sel_bg = bgs[Math.floor(bgs.length*Math.random())] %}
+	<div class="bg-cover" style="background-image: url({{ assetUrl('images/', sel_bg.source) }});"></div>
+	<div class="box-blackout"></div>
+{% endmacro %}
+
+{% macro selectIBg () %}
+	{% set bgs = [
+		{
+			source: 'old_mathematics.png',
+		},
+	]
+	%}
+	{% set sel_bg = bgs[Math.floor(bgs.length*Math.random())] %}
+	<div class="bg-cover bg-pattern" style="background-image: url({{ assetUrl('images/', sel_bg.source) }});"></div>
+{% endmacro %}

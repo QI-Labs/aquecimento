@@ -1,0 +1,76 @@
+
+@square-card-width: 234px;
+@square-card-height: 230px;
+@square-card-margin: 27px;
+@square-card-margin-bottom: 27px;
+
+.cascade {
+	0% { .translate(0, -(5*(@square-card-height+@square-card-margin-bottom))); }
+	100% { .translate(0, 0); }
+}
+
+@-webkit-keyframes wallterfall { .cascade; }
+@-moz-keyframes wallterfall { .cascade; }
+@-o-keyframes wallterfall { .cascade; }
+@keyframes wallterfall { .cascade; }
+
+.wallterfall-screen {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	overflow: hidden;
+
+	.blackout {
+		.blackout(.1);
+	}
+
+	.icon-bold {
+		font-weight: bold;
+	}	
+
+	.wallterfall {
+		z-index: -1;
+		position: absolute;
+		bottom: 0;
+		top: 0;
+		left: -150px;
+		right: -150px;
+		-webkit-animation: wallterfall linear 200s infinite;
+		-moz-animation: wallterfall linear 200s infinite;
+		-o-animation: wallterfall linear 200s infinite;
+		animation: wallterfall linear 200s infinite;
+
+		.wall-card-icon {
+			display: inline-block;
+			cursor: pointer;
+			width: @square-card-width; margin-right: @square-card-margin;
+			height: @square-card-height; margin-bottom: @square-card-margin-bottom;
+			border: 0;
+			// .box-shadow(3px, .1);
+			border-bottom: 1px solid #D0d0d0;
+			position: relative;
+			background: white;
+			font-family: museo-sans;
+			// border: 1px solid #DDD;
+			// border-bottom: 1px solid #CCC;
+			font-size: 90px;
+			line-height: @square-card-height;
+			text-align: center;
+			// vertical-align: top;
+			background: none;
+			border: none;
+			i {
+				font-size: 100px;
+				line-height: @square-card-height;
+				color: #CCC;
+				color: #888;
+				.transition;
+			}
+			i:hover {
+				color: #666;
+			}
+		}
+	}
+}

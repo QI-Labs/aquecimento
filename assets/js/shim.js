@@ -1,0 +1,17 @@
+module.exports = {
+  'jquery': { exports: "$" },
+  'bootstrap.tooltip':  { depends: ['jquery'] },
+  'bootstrap.dropdown':   { depends: ['jquery'] },
+  'bootstrap.button':   { depends: ['jquery'] },
+  'bootstrap.popover':  { depends: ['jquery', 'bootstrap.tooltip'] },
+  'typeahead':      { depends: ['jquery'] },
+  'typeahead-bundle':   { depends: ['jquery'] , exports: 'Modernizr', },
+  'modernizr': { depends: ['jquery'] },
+  'underscore':       { exports: '_' },
+  'bootstrap' :       { depends: ['jquery'] },
+  'backbone'  :       { exports: 'Backbone', depends: ['jquery', 'underscore']},
+  // 'medium-editor':    { depends: ['jquery', 'vendor/addons/medium-editor-insert-images-modified'] },
+  // 'medium-editor-insert-plugin.min': { depends: ['jquery', 'vendor/addons/medium-editor.min'] },
+  // 'medium-editor-insert-images-modified': { depends: ['vendor/addons/medium-editor-insert-plugin.min'] },
+  // 'medium-editor.min': { depends: ['jquery'] },
+};

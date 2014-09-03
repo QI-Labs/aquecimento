@@ -1,0 +1,50 @@
+{% extends '../stdbody.html' %}
+{% set dataPage="front" %}
+
+{% import '../macros/metaTags.html' as metaTagMacros %}
+
+{% block head %}
+	{% block meta %}
+	{{ metaTagMacros.facebook({
+		title: "Aquecimento Qi Labs · OBM",
+		description: 'Aquecimento para a segunda fase da OBM 2014.',
+	}) }}
+	{{ metaTagMacros.meta({
+		title: "Aquecimento Qi Labs · OBM",
+		description: 'Aquecimento para a segunda fase da OBM 2014.',
+	}) }}
+	{{ metaTagMacros.twitter({
+		title: "Aquecimento Qi Labs · OBM",
+		description: 'Aquecimento para a segunda fase da OBM 2014.',
+	}) }}
+	{% endblock %}
+	<link rel="stylesheet" href="{{ assetUrl('css/bundle.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+{% include '../components/wallterfall.html' %}
+
+<section class="jumbo">
+	<div class="top">
+		<a href="/" class="us">
+			<i class="icon-bulb2"></i>
+		</a>
+		<div class="message">
+			Inscreva-se para o beta!
+		</div>
+		<a class="button btn-facebook" href="/auth/facebook">
+			Entrar
+		</a>
+	</div>
+	<div class="board">
+	</div>
+</div>
+</section>
+
+<script src="/static/js/vendor/jquery-2.0.3.min.js"></script>
+<script src="/static/js/vendor/modernizr-3.0.0-beta.min.js"></script>
+<script>
+</script>
+
+{% endblock %}

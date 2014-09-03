@@ -1,0 +1,48 @@
+
+#flash-wrapper {
+	position: absolute;
+	top: @navbar-height;
+	width: 800px;
+	left: 50%;
+	margin-left: -400px;
+	z-index: 20;
+	position: fixed;
+	top: 0;
+	z-index: 120;
+
+	.message {
+		position: relative;
+		margin: auto;
+		width: 350px;
+
+		background: desaturate(@COLOR2,5%);
+		color: white;
+		text-align: center;
+		padding: 13px 20px 13px 13px;
+		font: normal 15px museo-sans;
+
+		-webkit-box-shadow: inset 0 2px 1px -1px rgba(0,0,0,.2),
+			0 0 2px rgba(0,0,0,.14);
+		-moz-box-shadow: inset 0 2px 1px -1px rgba(0,0,0,.2),
+			0 0 2px rgba(0,0,0,.14);
+		box-shadow: inset 0 2px 1px -1px rgba(0,0,0,.2),
+			0 0 2px rgba(0,0,0,.14);
+
+		cursor: pointer;
+	
+		&.error {
+			background: desaturate(@COLOR4,10%);
+		}
+		&.warn {
+			background: mix(yellow, @COLOR3);
+		}
+	}
+
+	.close-btn {
+		font-size: 13px;
+		right: 13px;
+		top: 13px;
+		font-weight: bold;
+		position: absolute;
+	}
+}

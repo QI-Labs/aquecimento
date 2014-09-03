@@ -1,0 +1,252 @@
+
+[data-page="about"] {
+
+	height: auto;
+
+	.background {
+		.cover;
+		position: fixed;
+	}
+	.background.blur { .blur(3px); }
+	.blackout {
+		.blackout;
+		position: fixed;
+	}
+
+	header {
+		overflow: hidden;
+		padding-bottom: 50px;
+		color: white;
+
+		.container {
+			margin-top: 30px;
+		}
+
+		nav {
+			.brand {
+				display: inline-block;
+				font: normal 26px museo-sans;
+				line-height: 50px;
+				text-transform: uppercase;
+				i {
+					font-size: 22p;
+					margin-top: -4px;
+				}
+			}
+
+			ul {
+				float: right;
+			}
+
+			li {
+				list-style: none;
+				display: inline-block;
+				line-height: 50px;
+
+				margin-left: 22px;
+				&:first-child {
+					margin-left: 0;
+				}
+
+				a, button {
+					color: white;
+					font: 16px museo-sans;
+					background: transparent;
+					text-transform: uppercase;
+					font-weight: bold;
+					vertical-align: middle;
+					&.active {
+						text-decoration: underline;
+					}
+				}
+
+				[data-action=login] {
+					.xbtn(white, mix(@COLOR3, @COLOR4));
+					padding: 7px 11px;
+					border-radius: 3px;
+					// border: 1px solid mix(@COLOR3, @COLOR4);
+					font-size: 15px;
+				}
+			}
+		}
+
+		h1 {
+			font: bold 70px museo-sans;
+			margin-top: 30px;
+		}
+		h3 {
+			font: bold 30px museo-sans;
+		}
+
+		p {
+			font: 23px/1.3 museo-sans; //  "Open Sans";
+			width: 700px;
+			max-width: 100%;
+			margin-top: 30px;
+		}
+
+	}
+
+	section {
+		position: relative;
+		padding: 40px 0;
+		
+		label {
+			h2 {
+				font: normal 22px museo-sans;
+			}
+			h4 {
+				font: lighter 15px museo-sans;
+			}
+		}
+
+		ul.people {
+
+			li {
+				list-style: none;
+				display: inline-block;
+				padding: 20px 33px 20px 0;
+				font-size: 17px;
+				vertical-align: top;
+
+				img {
+					overflow: hidden;
+					position: relative;
+					display: block;	
+					border-radius: 330px;
+					width: 150px;
+					height: 150px;
+					background: white;
+					.background-size(cover);
+
+					.transition(all,ease-out,.1s);
+
+					&:not(:hover) {
+						-webkit-filter: grayscale(40%);
+						-moz-filter: grayscale(40%);
+						filter: grayscale(40%);
+					}
+				}
+
+				.name {
+					text-align: center;
+					font: bold 1em "Open Sans";
+					display: block;
+					margin-top: 20px;
+				}
+				.role {
+					text-align: center;
+					margin-top: 10px;
+					display: block;
+					font: normal 0.9em museo-sans;
+				}
+			}
+		}
+	}
+
+	section.team {
+		background: white;
+	}
+
+	section.faq {
+		background: white;
+
+		ul.questions {
+			margin-top: 30px;
+			margin-left: 30px;
+
+			h3 {
+				font: bold 19px "Open Sans";
+			}
+
+			li {
+				list-style: none;
+				margin-bottom: 30px;
+				font: 17px/1 "Open Sans";
+			}
+		}
+	}
+
+	section.join {
+		text-align: center;
+
+		h2 {
+			font-size: 22px;
+		}
+		h3 {
+			margin-bottom: 15px;
+			font-size: 18px;
+		}
+
+		button, .button {
+			font-size: 19px;
+			.high-xbtn(white, @COLOR1);
+		}
+	}
+
+	section.editores {
+		background: #EEE;
+
+		ul li {
+			font-size: 14px;
+			figure img {
+				width: 120px;
+				height: 120px;
+			}
+		}
+	}
+
+	section.join,
+	footer {
+		background: #444 url(/static/images/stardust.png);
+		background-attachment: fixed;
+		color: white;
+	}
+	
+	footer {
+		padding: 50px;
+
+		.qi-copy {
+			font-size: 15px;
+			.brand {
+				font-family: museo-sans;
+				text-transform: uppercase;
+			}
+			float: left;
+		}
+		
+		.qi-sn {
+			float: right;
+			a {
+				color: white;
+				font: bold 15px museo-sans;
+				margin-left: 5px;
+			}
+		}
+	}
+}
+
+@media (max-width: @screen-sm-max) {
+
+	[data-page="xabout"] {
+		header nav {
+			.brand { display: none; }
+			ul { float: none; width: 100%; text-align: center; }
+		}
+
+		section {
+
+			ul.people {
+				text-align: center;
+
+				li {
+					font-size: 14px;
+					figure img {
+						width: 106px;
+						height: 106px;
+					}
+				}
+			}
+		}
+	}
+} 
