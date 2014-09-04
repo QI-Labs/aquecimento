@@ -32,6 +32,8 @@ ProblemSchema = new mongoose.Schema {
 		body:	{ type: String, required: true }
 		source:	{ type: String }
 		image:  { type: String }
+		solution: { type: String }
+
 		answer: {
 			value: 0,
 			options: [],

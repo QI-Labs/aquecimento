@@ -11,13 +11,14 @@ Problem = mongoose.model 'Problem'
 
 createProblem = (self, data, cb) ->
 	please.args({$isModel:'Player'},
-		{$contains:['content'],content:{$contains:['title','body','answer']}}, '$isCb')
+		{$contains:['content'],content:{$contains:['body','answer']}}, '$isCb')
 	problem = new Problem {
 		author: User.toAuthorObject(self)
 		topic: data.topic,
 		level: data.level,
 		content: {
-			title: data.content.title
+			solution: data.content.solution
+			source: data.content.source
 			body: data.content.body
 			answer: data.content.answer
 		}
@@ -66,7 +67,7 @@ module.exports = (app) ->
 			topic: req.body.topic,
 			level: req.body.level,
 			content: {
-				title: req.body.title
+				solution: req.body.solution
 				body: req.body.body
 				source: req.body.source
 				answer: {
