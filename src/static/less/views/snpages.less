@@ -7,64 +7,77 @@
 
 @import "../common.less";
 
-// @import "components/cards.less";
-// @import "components/sidebar.less";
 @import "components/alerts.less";
 @import "components/wallterfall.less";
 
-// @import "pages/signing.less";
-// @import "pages/post_view.less";
-// @import "pages/post_form.less";
-// @import "pages/profile.less";
-// @import "pages/settings.less";
-// @import "pages/open_profile.less";
-// @import "pages/open_post.less";
-// @import "pages/interests_list.less";
-
-// @import "pages/tag.less";
-// @import "pages/guides.less";
 @import "pages/front.less";
-// @import "pages/notifications.less";
-// @import "pages/about.less";
 @import "pages/error.less";
-
-.qi-box {
-	width: 740px;
-	background: white;
-	position: relative;
-	margin: 40px auto;
-	display: table;
-	z-index: 1000;
-
-	.close-btn {
-		position: fixed;
-		right: 31px;
-		top: 10px;
-		font-weight: bold;
-	}
-}
 
 body {
 	background: #EEE;
 }
-
-.invisible {
-	opacity: 0 !important;
+html, body {
+    margin: 0;
+    height: 100%;
 }
 
-.close-btn {
-	color: #EEE;
-	font-style: normal;
-	font-size: 22px;
-	cursor: pointer;
-	color: white;
-	.transition;
+[data-page=editor-panel] {
+	padding: 30px 30px 50px;
 
-	opacity: .9;
-	&:hover {
-		opacity: 1;
+	.problem-input {
+		width: 400px;
+		.cols {
+			display: table;
+			width: 100%;
+		}
+
+		.left, .right {
+			display: table-cell;
+			width: 50%;
+		}
+		.right {
+			padding-left: 10px;
+		}
+		textarea {
+			width: 100%;
+			display: block
+		}
+		input {
+			display: block;
+		}
+		input, textarea, select {
+			padding: 5px;
+			width: 100%;
+			margin-bottom: 10px;
+		}
+		input[type=submit] {
+			.xbtn(white, #888);
+		}
 	}
-	&::before {
-		content: "×";
+
+	.problem-list {
+
+		margin-bottom: 30px;
+		border-top: 1px solid #AAA;
+
+		table {
+			display: inline-block;
+			
+			td {
+				background: white;
+				padding: 10px;
+				border: 1px solid #AAA;
+			}
+
+			.right {
+				vertical-align: top;
+				display: inline-block;
+				width: 29%;
+
+				.btn-remove {
+					.xbtn(white, mix(@COLOR4, red));
+				}
+			}
+		}
 	}
 }

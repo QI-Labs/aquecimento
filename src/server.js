@@ -10,11 +10,6 @@ require('module').Module._initPaths();
 
 var nconf = require('./config/nconf')
 
-// Import environment keys (if in development)
-if (process.env.NODE_ENV !== 'production') {
-	require('./config/env')
-}
-
 // Nodetime stats
 if (process.env.NODETIME_ACCOUNT_KEY) {
 	require('nodetime').profile({

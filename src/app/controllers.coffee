@@ -1,12 +1,19 @@
 
 mongoose = require 'mongoose'
 _ = require 'underscore'
-winston = require 'winston'
-bunyan = require 'bunyan'
 
 required = require 'src/core/required'
 
+nconf = require 'nconf'
+
 User = mongoose.model 'Player'
+Problem = mongoose.model 'Problem'
+
+
+requireIsEditor = (req, res, next) ->
+	if req.user and nconf.get('editorIds') and ''+req.user.facebook_id in nconf.get('editorIds').split(',')
+		return next()
+	return next({permission:'isEditor'})
 
 module.exports = (app) ->
 	require('./passport')(app)
@@ -16,6 +23,13 @@ module.exports = (app) ->
 	router.use (req, res, next) ->
 		req.logger.info("<#{req.user and req.user.username or 'anonymous@'+req.connection.remoteAddress}>: HTTP #{req.method} #{req.url}");
 		next()
+
+	router.get '/add', requireIsEditor, (req, res) ->
+
+		Problem.find {}, (err, docs) ->
+			res.render 'app/form', {
+				problems: docs,
+			}
 
 	router.get '/', (req, res, next) ->
 		if req.user

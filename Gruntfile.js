@@ -17,17 +17,6 @@ module.exports = function(grunt) {
 				options: { cleancss: true },
 			},
 		},
-		
-		// coffee: {
-		// 	options: {
-		// 		bare: true,
-		// 	},
-		// 	glob_to_multiple: {
-		// 		expand: true,
-		// 		src: ['src/**/*.coffee','tasks/**/*.coffee'],
-		// 		ext: '.js',
-		// 	}
-		// },
 
 		watch: {
 			options: {

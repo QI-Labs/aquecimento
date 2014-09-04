@@ -202,36 +202,6 @@ h3:first-child {
 	margin-top: 5px;
 }
 
-@COLOR_OLIMPIADAS: @COLOR4;
-@COLOR_APPLICATION: #ffa03c;
-@COLOR_OLIMPIADAS_MATEMATICA: mix(@COLOR1, @COLOR2);
-@COLOR_OLIMPIADAS_FISICA: mix(@COLOR1, #777);
-@COLOR_VESTIBULAR: @COLOR2;
-@COLOR_VESTIBULAR_MILITAR: mix(@COLOR2, #4B5320, 30%);
-@COLOR_OLIMPIADAS_QUIMICA: mix(@COLOR3, @COLOR4, 25%);
-@COLOR_OLIMPIADAS_INFORMATICA: @COLOR1;
-@COLOR_VOLUNTARIADO: desaturate(mix(yellow, @COLOR3, 80%), 5%);
-
-.tagBg () {
-	&[data-tag=olimpiadas] { background: @COLOR_OLIMPIADAS; }
-	&[data-tag=application] { background: @COLOR_APPLICATION; }
-	&[data-tag=olimpiadas-matematica] { background: @COLOR_OLIMPIADAS_MATEMATICA; }
-	&[data-tag=olimpiadas-fisica] { background: @COLOR_OLIMPIADAS_FISICA; }
-	&[data-tag=vestibular] { background: @COLOR_VESTIBULAR; }
-	&[data-tag=vestibular-militar] { background: @COLOR_VESTIBULAR_MILITAR; }
-	&[data-tag=olimpiadas-quimica] { background: @COLOR_OLIMPIADAS_QUIMICA; }
-}
-
-[data-tag-bg=voluntariado] { background: @COLOR1; }
-[data-tag-bg=application] { background: @COLOR2; }
-[data-tag-bg=vestibular] { background: @COLOR3; }
-[data-tag-bg=olimpiada] { background: @COLOR4; }
-
-.popover {
-	position: absolute;
-	z-index: 10;
-}
-
 .modal {
 	color: #444;
 }

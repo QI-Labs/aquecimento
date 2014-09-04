@@ -1,7 +1,6 @@
 {% extends '../stdbody.html' %}
 {% set dataPage="main" %}
 
-{% import '../macros/tags.html' as tagMacros %}
 {% import '../macros/metaTags.html' as metaTagMacros %}
 
 {% block pageTitle %}{{ pageTitle|"Aquecimento QI Labs" }}{% endblock %}
@@ -23,7 +22,7 @@
 	}) }}
 	{% endblock %}
 	{% if user %}
-	<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}', following_pages: {{user.preferences.interests|json|safe}}}</script>
+	<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}'}</script>
 	{% else %}
 	<script>window.user={}</script>
 	{% endif %}

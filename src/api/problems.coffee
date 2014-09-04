@@ -10,18 +10,16 @@ User = mongoose.model 'Player'
 Problem = mongoose.model 'Problem'
 
 createProblem = (self, data, cb) ->
-	please.args({$isModel:User},
-		{$contains:['content','topics'],content:{$contains:['title','body','answer']}}, '$isCb')
+	please.args({$isModel:'Player'},
+		{$contains:['content'],content:{$contains:['title','body','answer']}}, '$isCb')
 	problem = new Problem {
 		author: User.toAuthorObject(self)
+		topic: data.topic,
+		level: data.level,
 		content: {
 			title: data.content.title
 			body: data.content.body
-			answer: {
-				options: data.content.answer.options
-				value: data.content.answer.value
-				is_mc: data.content.answer.is_mc
-			}
+			answer: data.content.answer
 		}
 		tags: data.tags
 	}
@@ -35,7 +33,7 @@ createProblem = (self, data, cb) ->
 nconf = require 'nconf'
 
 requireIsEditor = (req, res, next) ->
-	if req.user and ''+req.user.facebook_id in nconf.editorIds.split(',')
+	if req.user and ''+req.user.facebook_id in nconf.get('editorIds').split(',')
 		return next()
 	return next({permission:'isEditor'})
 
@@ -55,25 +53,34 @@ module.exports = (app) ->
 			next()
 	)
 
-	router.post '/novo', requireIsEditor, (req, res) ->
-		req.parse ProblemRules, (err, reqBody) ->
-			body = sanitizeBody(reqBody.content.body)
-			console.log reqBody, reqBody.content.answer
-			createProblem req.user, {
-				subject: 'mathematics'
-				topics: ['combinatorics']
-				content: {
-					title: reqBody.content.title
-					body: body
-					source: reqBody.content.source
-					answer: {
-						is_mc: true
-						options: reqBody.content.answer.options
-						value: 0
-					}
+	router.get '/:problemId/delete', requireIsEditor, (req, res) ->
+		req.problem.remove (err, num) ->
+			res.endJSON(err:err, num:num)
+
+	router.post '/add', requireIsEditor, (req, res) ->
+		# req.parse ProblemRules, (err, reqBody) ->
+		body = req.body.body
+		console.log req.body
+
+		createProblem req.user, {
+			topic: req.body.topic,
+			level: req.body.level,
+			content: {
+				title: req.body.title
+				body: req.body.body
+				source: req.body.source
+				answer: {
+					options: [
+						req.body.opcao_1,
+						req.body.opcao_2,
+						req.body.opcao_3,
+						req.body.opcao_4,
+						req.body.opcao_5,
+					]
 				}
-			}, req.handleErrResult (doc) ->
-				res.endJSON doc
+			}
+		}, req.handleErrResult (doc) ->
+			res.endJSON doc
 
 	router.route('/:problemId')
 		.get (req, res) ->

@@ -1,5 +1,6 @@
 
 passport = require 'passport'
+nconf = require 'nconf'
 
 module.exports = (app) ->
 	logger = app.get("logger")
@@ -16,13 +17,12 @@ module.exports = (app) ->
 		}))
 
 	passport.use new (require("passport-facebook").Strategy)({
-		clientID: process.env.facebook_app_id
-		clientSecret: process.env.facebook_secret
+		clientID: nconf.get('facebook_app_id')
+		clientSecret: nconf.get('facebook_secret')
 		callbackURL: "/auth/facebook/callback"
 		passReqToCallback: true
 	}, (req, accessToken, refreshToken, profile, done) ->
 		User = require("mongoose").model("Player")
-		logger.info('tô aque, querido')
 
 		User.findOne(facebook_id: profile.id).exec (err, user) ->
 			if err

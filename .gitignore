@@ -6,6 +6,7 @@ ignore
 node_modules
 bower_components
 env.js
+env.json
 s3.json
 libpeerconnection.log
 .DS_Store

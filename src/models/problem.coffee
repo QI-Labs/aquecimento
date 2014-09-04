@@ -26,8 +26,7 @@ ProblemSchema = new mongoose.Schema {
 	updated_at:	{ type: Date }
 	created_at:	{ type: Date, indexed: 1, default: Date.now }
 
-	subject:	{ type: String }
-	topics:		{ type: [{ type: String }] }
+	topic:	{ type: String }
 	content: {
 		title:	{ type: String }
 		body:	{ type: String, required: true }
@@ -39,6 +38,7 @@ ProblemSchema = new mongoose.Schema {
 			is_mc: { type: Boolean, default: true },
 		}
 	}
+	level: 		{ type: Number, enum: [1,2,3] }
 
 	counts: {
 		# votes: 		{ type: Number, default: 0 }

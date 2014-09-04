@@ -27,7 +27,6 @@ module.exports = (app) ->
 
 	api.use (req, res, next) ->
 		req.logger = logger
-		req.logger.info("<#{req.user and req.user.username or 'anonymous@'+req.connection.remoteAddress}>: HTTP #{req.method} #{req.url}")
 		req.isAPICall = true
 		next()
 

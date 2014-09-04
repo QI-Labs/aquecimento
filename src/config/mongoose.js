@@ -1,7 +1,9 @@
 
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGOLAB_URI
-	|| process.env.MONGOHQ_URL
+var nconf = require('nconf');
+
+mongoose.connect(nconf.get('MONGOLAB_URI')
+	|| nconf.get('MONGOHQ_URL')
 	|| 'mongodb://localhost/madb');
 
 module.exports = function () {
