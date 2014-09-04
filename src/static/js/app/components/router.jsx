@@ -25,6 +25,16 @@ function eraseCookie(name) {
 	createCookie(name,'',-1);
 }
 
+marked = require('marked');
+var renderer = new marked.Renderer();
+renderer.codespan = function (html) {	
+	// Don't consider codespans in markdown (they're actually 'latex')
+	return '`'+html+'`';
+}
+marked.setOptions({
+	renderer: renderer
+})
+
 window.$ = require('jquery')
 var Backbone = require('backbone')
 var _ = require('underscore')
@@ -59,94 +69,40 @@ var ProblemView = React.createClass({
 		});
 	},
 
+	componentDidMount: function () {
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+	},
+
 	render: function () {
 		var post = this.props.model.attributes;
-		var userIsAuthor = window.user && post.author.id===window.user.id;
 
-		console.log(post.content.answer);
 		var source = post.content.source;
 		var isAdaptado = source && (!!source.match(/(^\[adaptado\])|(adaptado)/));
 
-		var rightCol;
-		if (userIsAuthor) {
-			rightCol = (
-				<div className="rightCol alternative">
-					<h3>Você criou esse problema.</h3>
-				</div>
-			)
-		} else if (post._meta && post._meta.userAnswered) {
-			rightCol = (
-				<div className="rightCol alternative">
-					<h3>Você respondeu essa pergunta.</h3>
-				</div>
-			);
-		} else {
-			rightCol = (
-				<div className="rightCol">
-					<div className="answer-col-mc">
-						<ul>
-							<li>
-								<button onClick={this.tryAnswer} data-index="0" className="right-ans">{post.content.answer.options[0]}</button>
-							</li>
-							<li>
-								<button onClick={this.tryAnswer} data-index="1" className="wrong-ans">{post.content.answer.options[1]}</button>
-							</li>
-							<li>
-								<button onClick={this.tryAnswer} data-index="2" className="wrong-ans">{post.content.answer.options[2]}</button>
-							</li>
-							<li>
-								<button onClick={this.tryAnswer} data-index="3" className="wrong-ans">{post.content.answer.options[3]}</button>
-							</li>
-							<li>
-								<button onClick={this.tryAnswer} data-index="4" className="wrong-ans">{post.content.answer.options[4]}</button>
-							</li>
-						</ul>
-					</div>
-				</div>
-			);
-		}
-
-						// <time>
-						// 	&nbsp;publicado&nbsp;
-						// 	<span data-time-count={1*new Date(post.created_at)}>
-						// 		{window.calcTimeFrom(post.created_at)}
-						// 	</span>
-						// 	{(post.updated_at && 1*new Date(post.updated_at) > 1*new Date(post.created_at))?
-						// 		(<span>
-						// 			,&nbsp;<span data-toggle="tooltip" title={window.calcTimeFrom(post.updated_at)}>editado</span>
-						// 		</span>
-						// 		)
-						// 		:null
-						// 	}
-						// </time>
+		var rightCol = (
+			<div className="right-col">
+				<span className="question">Qual é a resposta para o enunciado?</span>
+				<input type="text" ref="answer" className="answer" name="answer"/>
+			</div>
+		);
+		var html = marked(post.content.body);
 
 		return (
-			<div className="postCol question">
-				<div className="contentCol">
+			<div className="question-box">
+				<div className="content-col">
 					<div className="body-window">
 						<div className="breadcrumbs">
 						</div>
 						<div className="body-window-content">
-							<div className="title">
-								{post.content.title}
-							</div>
-							<div className="postBody" dangerouslySetInnerHTML={{__html: this.props.model.get('content').body}}></div>
-						</div>
-						<div className="sauce">
-							{isAdaptado?<span className="detail">adaptado</span>:null}
-							{source?source:null}
+							<div className="postBody" dangerouslySetInnerHTML={{__html: html}}></div>
 						</div>
 					</div>
 					<div className="fixed-footer">
-						<div className="user-avatar">
-							<div className="avatar" style={ { background: 'url('+post.author.avatarUrl+')' } }></div>
-						</div>
-						<div className="info">
-							Por <a href={post.author.path}>{post.author.name}</a>, 14 anos, Brazil
+						<div className="info source">
+							{source?source:null}
 						</div>
 						<div className="actions">
-							<button className=""><i className="icon-thumbsup"></i> 23</button>
-							<button className=""><i className="icon-retweet2"></i> 5</button>
+							<button className="flag"><i className="icon-flag"></i></button>
 						</div>
 					</div>
 				</div>
@@ -170,8 +126,11 @@ var ProblemItem = Backbone.Model.extend({
 
 	initialize: function () {
 		var children = this.get('children') || [];
-		this.answers = new ChildrenCollections.Answer(children.Answer);
 	},
+});
+
+var ProblemList = Backbone.Collection.extend({
+	model: ProblemItem,
 });
 // Central functionality of the app.
 var WorkspaceRouter = Backbone.Router.extend({
@@ -194,30 +153,22 @@ var WorkspaceRouter = Backbone.Router.extend({
 
 	components: {
 		viewProblem: function (data) {
-			this.closePages();
 			var postId = data.id;
 			$.getJSON('/api/problems/'+postId)
 				.done(function (response) {
-					if (response.data.parent) {
-						return app.navigate('/problems/'+response.data.parent, {trigger:true});
-					}
-					console.log('response, data', response);
-					var postItem = new models.problemItem(response.data);
-					var p = new Page(<FullItem type="Problem" model={postItem} />, 'post', {
-						title: postItem.get('content').title,
-						crop: true,
-						onClose: function () {
-							window.history.back();
-						}
-					});
-					this.pages.push(p);
+					var postItem = new ProblemItem(response.data);
+					React.renderComponent(<ProblemView type="Problem" model={postItem} />,
+						document.querySelector("#question"),
+						function(){});
 				}.bind(this))
 				.fail(function (response) {
-					app.flash.alert('Ops! Não conseguimos encontrar essa publicação. Ela pode ter sido excluída.');
+					app.flash.alert('Ops! Não conseguimos encontrar esse problema. Ele pode ter sido excluído.');
 				}.bind(this));
 		},
 	},
 });
+
+WorkspaceRouter
 
 module.exports = {
 	initialize: function () {

@@ -56,7 +56,6 @@
     "helmet": "^0.2.1",
     "sanitize-html": "^1.1.5",
     "mtrace": "^1.0.3",
-    "showdown": "^0.3.1",
     "kue": "^0.8.5",
     "method-override": "^2.0.2",
     "body-parser": "^1.4.3",
@@ -109,6 +108,7 @@
     "bootstrap.tooltip": "./src/static/js/vendor/bootstrap/tooltip.js",
     "bootstrap.button": "./src/static/js/vendor/bootstrap/button.js",
     "bootstrap.dropdown": "./src/static/js/vendor/bootstrap/dropdown.js",
-    "bootstrap.popover": "./src/static/js/vendor/bootstrap/popover.js"
+    "bootstrap.popover": "./src/static/js/vendor/bootstrap/popover.js",
+    "marked": "./src/static/js/vendor/marked.min.js"
   }
 }

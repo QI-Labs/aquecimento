@@ -1,11 +1,11 @@
 
 [data-page="front"] {
 
-	background: #EEE;
+	background: #F7F7F4;
 
 	.wallterfall-screen {
 		.blackout {
-			.blackout(.1);
+			.blackout(.05);
 		}
 	}
 
@@ -18,28 +18,58 @@
 		top: 50%; margin-top: -250px;
 		text-align: center;
 
-		.btn-facebook {
-			.high-xbtn(white, mix(@COLOR1, #2b4b90, 10%));
-		}
+		section {
+			display: table;
+			width: 100%;
+			text-align: left;
+			
+			.right, .left {
+				display: table-cell;
+			}
 
-		.top {
-			margin: auto;
-			max-width: 360px;
-			a:not(.button) {
-				color: #444;
-				text-decoration: none;
-				display: block;
-				i {
-					display: inline-block;
-					font-size: 115px;
-					outline: none;
-					margin-bottom: 20px;
-					.transition(color);
+			.left {
+				border: 1px solid #DDD;
+				padding: 20px;
+				background: white;
+				p {
+					font-size: 15px;
 				}
 			}
-			.message {
-				font: 22px museo-sans;
+
+			.right {
+				width: 30%;
+				padding-left: 20px;
 			}
 		}
+
+		.btn-facebook {
+			.high-xbtn(white, mix(@COLOR1, #2b4b90, 10%));
+			font-size: 14px;
+			width: 100%;
+		}
+
+		a:not(.button) {
+			color: #222;
+			text-decoration: none;
+			display: block;
+		}
+		.us {
+			text-align: center;
+			i {
+				display: inline-block;
+				font-size: 115px;
+				outline: none;
+				margin-bottom: 20px;
+				.transition(color);
+			}
+		}
+	}
+
+	footer {
+		width: 500px;
+		max-width: 100%;
+		text-align: center;
+		margin: 20px auto 20px;
+		font: 15px museo-sans;
 	}
 }

@@ -14,7 +14,7 @@
 			var manyW = Math.floor((window.innerWidth+300)/(234+30)), manyH = Math.floor(window.innerHeight/200);
 			for (var i=0; i<(manyW*5-1)+((manyH+1)*manyW); i++) {
 				var nc = cv.cloneNode(true);
-				if (Math.random() > 0.45) {
+				if (Math.random() > 0.85) {
 					var icon = icons[Math.floor(Math.random()*icons.length)];
 					nc.querySelector('i').className += ' '+icon;
 				}

@@ -1,0 +1,141 @@
+{% extends '../stdbody.html' %}
+{% set dataPage="editor-panel" %}
+
+{% block head %}
+{% parent %}
+	<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}'}</script>
+	<link rel="stylesheet" href="{{ assetUrl('css/bundle.css') }}">
+	<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700|PT+Serif:400,400i,700,700i'>
+{% endblock %}
+
+{% block body %}
+
+	{% block preBody %}{% endblock %}
+		
+	{% if pproblem %}
+		<a href="/add" class="btn">Descartar &amp; Criar problema</a>
+		<form class="problem-input" method="POST" action="/api/problems/{{ pproblem._id }}">
+			<h1>Editando problema id={{ pproblem._id }}</h1>
+			<input type="hidden" name="_csrf" value="{{ token }}" />
+			<div class="cols">
+				<div class="left">
+					<select name="level">
+						<option value="2">Nível 2</option>
+						<option value="3">Nível 3</option>
+					</select>
+					<select name="topic">
+						<option value="combinatorics">Combinatória</option>
+						<option value="number-theory">Teoria dos Números</option>
+						<option value="algebra">Algebra</option>
+						<option value="geometry">Geometria</option>
+					</select>
+					<textarea class="body" name="body" placeholder="Problema">{{ pproblem.content.body }}</textarea>
+					<textarea class="solution" name="solution" placeholder="Solução">{{ pproblem.content.solution }}</textarea>
+					<input type="text" name="source" value="{{ pproblem.content.source }}" placeholder="Fonte" class="source" />
+					<input type="text" name="image" value="{{ pproblem.content.image }}" placeholder="Imagem" class="image" />
+				</div>
+				{% set options = pproblem.content.answer.options || ['','','','',''] %}
+				<div class="right">
+					<input type="text" name="opcao_0" value="{{ pproblem.content.answer.options[0] }}" placeholder="Opção CERTA" class="opcao" />
+					<input type="text" name="opcao_1" value="{{ pproblem.content.answer.options[1] }}" placeholder="Opcao 2" class="opcao" />
+					<input type="text" name="opcao_2" value="{{ pproblem.content.answer.options[2] }}" placeholder="Opcao 3" class="opcao" />
+					<input type="text" name="opcao_3" value="{{ pproblem.content.answer.options[3] }}" placeholder="Opcao 4" class="opcao" />
+					<input type="text" name="opcao_4" value="{{ pproblem.content.answer.options[4] }}" placeholder="Opcao 5" class="opcao" />
+				</div>
+			</div>
+			<div>
+				<input type="submit" name="Weak" />
+			</div>
+		</form>
+	{% else %}
+		<form class="problem-input" method="POST" action="/api/problems/add">
+			<h1>Envie um novo problema</h1>
+			<input type="hidden" name="_csrf" value="{{ token }}" />
+			<div class="cols">
+				<div class="left">
+					<select name="level">
+						<option value="2">Nível 2</option>
+						<option value="3">Nível 3</option>
+					</select>
+					<select name="topic">
+						<option value="combinatorics">Combinatória</option>
+						<option value="number-theory">Teoria dos Números</option>
+						<option value="algebra">Algebra</option>
+						<option value="geometry">Geometria</option>
+					</select>
+					<textarea class="body" name="body" placeholder="Problema"></textarea>
+					<textarea class="solution" name="solution" placeholder="Solução"></textarea>
+					<input type="text" name="source" placeholder="Fonte" class="source" />
+					<input type="text" name="image" placeholder="Imagem" class="image" />
+				</div>
+				<div class="right">
+					<input type="text" name="opcao_0" placeholder="Opção CERTA" class="opcao" />
+					<input type="text" name="opcao_1" placeholder="Opcao 2" class="opcao" />
+					<input type="text" name="opcao_2" placeholder="Opcao 3" class="opcao" />
+					<input type="text" name="opcao_3" placeholder="Opcao 4" class="opcao" />
+					<input type="text" name="opcao_4" placeholder="Opcao 5" class="opcao" />
+				</div>
+			</div>
+			<div>
+				<input type="submit" name="Weak" />
+			</div>
+		</form>
+	{% endif %}
+
+	<div class="problem-list">
+		<h1>Problema registrados</h1>
+
+		<table>
+			<thead>
+			<tr>
+				<th>Body</th>
+				<th>Solução</th>
+				<th>Fonte</th>
+				<th>Nível</th>
+				<th>Tópico</th>
+				<th>Resp. Certa</th>
+				<th>Resp. Errada</th>
+				<th>Resp. Errada</th>
+				<th>Resp. Errada</th>
+				<th>Resp. Errada</th>
+			</tr>
+			</thead>
+
+			{% for problem in problems %}
+			{% if pproblem %}
+				<tr {% if pproblem._id === problem._id %}class="active"{% endif %}>
+			{% else %}
+				<tr>
+			{% endif %}
+					<td>{{ problem.content.body }}</td>
+					<td>{{ problem.content.solution }}</td>
+					<td>{{ problem.content.source }}</td>
+					<td>
+						<span class="label label-default">{{ problem.level }}</span>
+					</td>
+					<td>
+						<span class="label label-default">{{ problem.topic }}</span>
+					</td>
+					<td>{{ problem.content.answer.options[0] }}</td>
+					<td>{{ problem.content.answer.options[1] }}</td>
+					<td>{{ problem.content.answer.options[2] }}</td>
+					<td>{{ problem.content.answer.options[3] }}</td>
+					<td>{{ problem.content.answer.options[4] }}</td>
+					<td>
+						<div class="right">
+							<a class="button btn-remove" target="_blank" href="{{ problem.apiPath+'/delete' }}">
+								Remover
+							</a>
+							<a class="button btn-edit" target="_blank" href="{{ '/add/'+problem.id }}">
+								Editar
+							</a>
+						</div>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+
+	<script src="/static/js/bundle.js"></script>
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+{% endblock %}

@@ -32,7 +32,7 @@ ProblemSchema = new mongoose.Schema {
 		body:	{ type: String, required: true }
 		source:	{ type: String }
 		image:  { type: String }
-		solution: { type: String }
+		solution: {}
 
 		answer: {
 			value: 0,

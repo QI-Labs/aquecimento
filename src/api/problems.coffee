@@ -39,11 +39,8 @@ requireIsEditor = (req, res, next) ->
 	return next({permission:'isEditor'})
 
 module.exports = (app) ->
-
 	router = require('express').Router()
-
 	router.use required.login
-
 	router.param('problemId', (req, res, next, problemId) ->
 		try
 			id = mongoose.Types.ObjectId.createFromHexString(problemId);
@@ -54,15 +51,7 @@ module.exports = (app) ->
 			next()
 	)
 
-	router.get '/:problemId/delete', requireIsEditor, (req, res) ->
-		req.problem.remove (err, num) ->
-			res.endJSON(err:err, num:num)
-
 	router.post '/add', requireIsEditor, (req, res) ->
-		# req.parse ProblemRules, (err, reqBody) ->
-		body = req.body.body
-		console.log req.body
-
 		createProblem req.user, {
 			topic: req.body.topic,
 			level: req.body.level,
@@ -72,16 +61,43 @@ module.exports = (app) ->
 				source: req.body.source
 				answer: {
 					options: [
+						req.body.opcao_0,
 						req.body.opcao_1,
 						req.body.opcao_2,
 						req.body.opcao_3,
 						req.body.opcao_4,
-						req.body.opcao_5,
 					]
 				}
 			}
 		}, req.handleErrResult (doc) ->
 			res.endJSON doc
+
+	router.get '/:problemId/delete', requireIsEditor, (req, res) ->
+		req.problem.remove (err, num) ->
+			res.endJSON(err:err, num:num)
+
+	router.post '/:problemId', requireIsEditor, (req, res) ->
+		req.problem.topic = req.body.topic
+		req.problem.level = req.body.level
+		req.problem.content = {
+			solution: req.body.solution
+			body: req.body.body
+			source: req.body.source
+			answer: {
+				options: [
+					req.body.opcao_0
+					req.body.opcao_1
+					req.body.opcao_2
+					req.body.opcao_3
+					req.body.opcao_4
+				]
+			}
+		}
+		req.problem.save (err, doc) ->
+			res.endJSON(errror:err, doc:doc)
+
+	router.get '/:problemId', requireIsEditor, (req, res) ->
+		res.endJSON(errror:false, data:req.problem)
 
 	router.route('/:problemId')
 		.get (req, res) ->
