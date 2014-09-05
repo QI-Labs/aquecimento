@@ -27,7 +27,7 @@ function eraseCookie(name) {
 
 marked = require('marked');
 var renderer = new marked.Renderer();
-renderer.codespan = function (html) {	
+renderer.codespan = function (html) {
 	// Don't consider codespans in markdown (they're actually 'latex')
 	return '`'+html+'`';
 }
@@ -85,17 +85,20 @@ var ProblemView = React.createClass({
 				<input type="text" ref="answer" className="answer" name="answer"/>
 			</div>
 		);
-		var html = marked(post.content.body);
+		var html = marked(post.content.body)+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+		var level = "3";
+		var number = 5;
+		var total = 10;
 
 		return (
 			<div className="question-box">
+				<div className="breadcrumbs">
+					Nível {level} &raquo; Questão {number} de {total}
+				</div>
 				<div className="content-col">
 					<div className="body-window">
-						<div className="breadcrumbs">
-						</div>
-						<div className="body-window-content">
-							<div className="postBody" dangerouslySetInnerHTML={{__html: html}}></div>
-						</div>
+						<div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
 					</div>
 					<div className="fixed-footer">
 						<div className="info source">

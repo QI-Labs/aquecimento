@@ -109,6 +109,7 @@
     "bootstrap.button": "./src/static/js/vendor/bootstrap/button.js",
     "bootstrap.dropdown": "./src/static/js/vendor/bootstrap/dropdown.js",
     "bootstrap.popover": "./src/static/js/vendor/bootstrap/popover.js",
+    "perfect-scrollbar": "./src/static/js/vendor/perfect-scrollbar.min.js",
     "marked": "./src/static/js/vendor/marked.min.js"
   }
 }

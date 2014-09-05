@@ -179,7 +179,7 @@ function eraseCookie(name) {
 
 marked = require('marked');
 var renderer = new marked.Renderer();
-renderer.codespan = function (html) {	
+renderer.codespan = function (html) {
 	// Don't consider codespans in markdown (they're actually 'latex')
 	return '`'+html+'`';
 }
@@ -237,17 +237,20 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 				React.DOM.input( {type:"text", ref:"answer", className:"answer", name:"answer"})
 			)
 		);
-		var html = marked(post.content.body);
+		var html = marked(post.content.body)+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+		var level = "3";
+		var number = 5;
+		var total = 10;
 
 		return (
 			React.DOM.div( {className:"question-box"}, 
+				React.DOM.div( {className:"breadcrumbs"}, 
+					"Nível ", level, " » Questão ", number, " de ", total
+				),
 				React.DOM.div( {className:"content-col"}, 
 					React.DOM.div( {className:"body-window"}, 
-						React.DOM.div( {className:"breadcrumbs"}
-						),
-						React.DOM.div( {className:"body-window-content"}, 
-							React.DOM.div( {className:"postBody", dangerouslySetInnerHTML:{__html: html}})
-						)
+						React.DOM.div( {className:"content", dangerouslySetInnerHTML:{__html: html}})
 					),
 					React.DOM.div( {className:"fixed-footer"}, 
 						React.DOM.div( {className:"info source"}, 

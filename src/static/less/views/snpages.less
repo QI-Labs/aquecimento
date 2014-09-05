@@ -113,10 +113,18 @@ html, body {
 
 	background: white;
 	font-family: museo-sans;
-	.box-shadow(0,0,5px,.1);
+	border: 1px solid #DDD;
+
+	.breadcrumbs {
+		// font: 15px Georgia;
+		padding: 30px 20px 0;
+		color: #666;
+		position: absolute;
+		top: -57px;
+	}
 
 	.content-col {
-		width: 650px;
+		width: 550px;
 		display: table-cell;
 		vertical-align: top;
 
@@ -137,6 +145,7 @@ html, body {
 		}
 
 		.body-window {
+			width: 550px;
 			height: 350px;
 			overflow-y: auto;
 
@@ -144,13 +153,25 @@ html, body {
 				font: 23px museo-sans; 
 			}
 
-			.body-window-content {
+			.content {
 				padding: 30px;
 				font-size: 16px;
-
-				.postBody {
-					padding: 0;
+				word-break: break-word;
+				ul {
+					margin-left: 20px;
 				}
+			}
+		}
+
+		::-webkit-scrollbar {
+			width: 10px;
+		} 
+
+		::-webkit-scrollbar-thumb {
+			background-color: rgba(0,0,0,.1);
+			.transition;
+			&:hover {
+				background-color: rgba(0,0,0,.2);
 			}
 		}
 
@@ -204,9 +225,9 @@ html, body {
 		display: table-cell;
 		padding: 30px;
 		border-left: 1px solid #DDD;
-		// color: white;
+		color: white;
 		background: #DDD;
-		// background: mix(@COLOR1, @COLOR2);
+		background: #39CCCC; // desaturate(mix(@COLOR1, @COLOR2),10%);
 
 		span.question {
 			font: 18px/1.7 "PT Serif";
@@ -219,7 +240,7 @@ html, body {
 			outline: 0;
 			padding: 10px;
 			width: 100%;
-			border: 2px solid #AAA;
+			border: 2px solid #777777;
 			.transition;
 			&:focus {
 				border-color: mix(@COLOR1, @COLOR2);
@@ -232,7 +253,7 @@ html, body {
 
 }
 
-.gcontainer > footer {
+.xfooter {
 	margin: 30px 0 30px;
 	text-align: center;
 
