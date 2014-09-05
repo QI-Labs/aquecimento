@@ -56,7 +56,7 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 			data: { test: index }
 		}).done(function (response) {
 			if (response.error) {
-				app.flash.alert(response.message || 'Erro!');
+				alert(response.message || 'Erro!');
 			} else {
 				if (response.result) {
 					app.flash.info("Because you know me so well.");
@@ -65,7 +65,7 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 				}
 			}
 		}).fail(function (xhr) {
-			app.flash.alert(xhr.responseJSON && xhr.responseJSON.message || 'Erro!');
+			alert(xhr.responseJSON && xhr.responseJSON.message || 'Erro!');
 		});
 	},
 
@@ -85,14 +85,27 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 		var number = 5;
 		var total = 10;
 
+							// <img src={post.content.image} />
+							// <span dangerouslySetInnerHTML={{__html: html}}></span>
 		return (
 			React.DOM.div( {className:"question-box"}, 
-				React.DOM.div( {className:"breadcrumbs"}, 
-					"Nível ", post.level, " » ", React.DOM.a( {href:"/#"+post.topic}, "#",post.translated_topic)
+				React.DOM.header(null, 
+					React.DOM.div( {className:"breadcrumbs"}, 
+						"Maratona OBM » Nível ", post.level, " » ", React.DOM.a( {href:"/#"+post.topic}, "#",post.translated_topic)
+					),
+					React.DOM.div( {className:"right"}, 
+						"Logado como ", React.DOM.span( {className:"username"}, window.user.name),", ",
+						React.DOM.a( {href:"#", 'data-ajax-post-href':"/api/me/logout", 'data-redirect-href':"/"}, 
+							"sair"
+						)
+					)
 				),
 				React.DOM.div( {className:"content-col"}, 
 					React.DOM.div( {className:"body-window"}, 
-						React.DOM.div( {className:"content", dangerouslySetInnerHTML:{__html: html}})
+						React.DOM.div( {className:"content"}, 
+						React.DOM.span(null, "Na figura abaixo temos um pentágono regular, um quadrado e um triângulo equilátero, todos com a mesma medida de lado. Determine `_/_ _|_ root(3 22) ` a medida em graus do ângulo é `QCE`."),
+							React.DOM.img( {src:"http://i.imgur.com/18SQrpS.png"} )
+						)
 					),
 					React.DOM.div( {className:"fixed-footer"}, 
 						React.DOM.div( {className:"info source"}, 
@@ -166,11 +179,11 @@ var WorkspaceRouter = Backbone.Router.extend({
 				.done(function (response) {
 					var postItem = new ProblemItem(response.data);
 					React.renderComponent(ProblemView( {type:"Problem", model:postItem} ),
-						document.querySelector("#question"),
+						document.querySelector("#problem-wrapper"),
 						function(){});
 				}.bind(this))
 				.fail(function (response) {
-					app.flash.alert('Ops! Não conseguimos encontrar esse problema. Ele pode ter sido excluído.');
+					alert('Ops! Não conseguimos encontrar esse problema. Ele pode ter sido excluído.');
 				}.bind(this));
 		},
 	},

@@ -1,0 +1,129 @@
+
+/*
+** dialog.less
+** for qilabs.org, by @f03lipe
+*/
+
+.dialog {
+	position: fixed;
+	display: none;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 300;
+
+	text-align: center;
+
+	[data-action=close-dialog] {
+		outline: none;
+	}
+
+	.box {
+		position: relative;
+		display: table;
+		z-index: 5;
+		.box-shadow(5px, .5);
+		top: 50px;
+		margin: 0 auto;
+		background: white;
+		border: 1px solid white;
+		padding: 20px 24px;
+
+		input[type=text] {
+			width: 300px;
+			border: 1px solid #DDD;
+			padding: 9px;
+			vertical-align: middle;
+			outline-color: #CCC;
+		}
+
+		button, a[class*=btn] {
+			vertical-align: middle;
+			border-radius: 0;
+		}
+	}
+
+	.box-blackout {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: black;
+		opacity: .5;
+
+		.transition(all, .5s, linear);
+	}
+
+	/* Display when redered directly. */
+	&:target {
+		display: block;
+		z-index: 30;
+	}
+
+	&.active {
+		display: block;
+		.box {
+	-webkit-animation: bounceInDown .6s;
+			animation: bounceInDown .6s;
+		}
+		.box-blackout {
+			opacity: .5;
+		}
+	}
+}
+
+
+// from Animate.css
+@-webkit-keyframes bounceInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-2000px);
+    transform: translateY(-2000px);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: translateY(30px);
+    transform: translateY(30px);
+  }
+
+  80% {
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-2000px);
+    -ms-transform: translateY(-2000px);
+    transform: translateY(-2000px);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: translateY(30px);
+    -ms-transform: translateY(30px);
+    transform: translateY(30px);
+  }
+
+  80% {
+    -webkit-transform: translateY(-10px);
+    -ms-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+
+  100% {
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+}

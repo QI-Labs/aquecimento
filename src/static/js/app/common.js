@@ -89,9 +89,10 @@ $('body').on('click', '[data-trigger=component]', function (e) {
 
 // GOSTAVA TANTO DE NUTELLA
 	
-$("a[data-ajax-post-href],button[data-ajax-post-href]").click(function () {
+$('body').on('click', "a[data-ajax-post-href],button[data-ajax-post-href]", function () {
 	var href = this.dataset['ajaxPostHref'],
 		redirect = this.dataset['redirectHref'];
+	console.log('oiem', href, this)
 	$.post(href, function () {
 		if (redirect)
 			window.location.href = redirect;

@@ -1,0 +1,442 @@
+
+@navbar-height: 50px;
+
+nav.bar {
+	@compColor: #666;
+
+	position: relative;
+	z-index: 20;
+	background: white;
+	height: @navbar-height;
+	&:extend(.clearfix all); // Prevent floats from breaking the navbar
+
+	.navcontent {
+		width: 100%;
+		margin: auto;
+		& > .right { float: right !important; }
+		& > .left { float: left !important; }
+	}
+
+	.center {
+		position: absolute;
+		right: 50%;
+		width: 160px;
+		margin-right: -80px;
+		line-height: (@navbar-height - 1);
+		text-align: center;
+		vertical-align: middle;
+		.user-select(none);
+
+		.brand {
+			text-transform: uppercase;
+			font-family: "museo-sans";
+			color: #444;
+			font-size: 21px;
+			position: relative;
+
+			.icon-bulb2,
+			.icon-lightbulb2 {
+				font-size: 18px;
+				margin: -4px 2px 0 2px;
+			}
+
+			sup {
+
+			}
+			.alpha, .beta {
+				width: 0;
+				position: absolute;
+				top: 5px;
+				font-size: 13px;
+				text-transform: none;
+				color: @COLOR2;
+			}
+			.alhpa {
+				color: @COLOR1;
+			}
+		}
+		a.brand {			
+			outline: none !important;
+			&:focus, &:hover {
+				text-decoration: none;
+			}
+		}
+	}
+
+	.navcontent > ul {
+		float: left;
+
+		& > li {
+			display: inline-block;
+			vertical-align: top;
+			list-style: none;
+			line-height: @navbar-height;
+			height: @navbar-height;
+
+			.icon-btn,
+			.nav-btn {
+ 				.navbar-vertical-align(@input-height-base);
+				vertical-align: middle;
+				outline: none;
+				box-shadow: none;
+				border-radius: 0;
+				background: none;
+				border-bottom: 1px solid transparent;
+				display: table-cell;
+				margin: 0;
+				// End defaults reset
+
+				color: @compColor;
+				height: @navbar-height+1;
+				font-weight: 700;
+				padding: 8px 17px;
+
+				.transition(font-size, .2s, linear);
+				.transition(border-bottom, .2s, linear);
+
+				&:hover, &:active {
+					box-shadow: none;
+				}
+
+				i {
+					font-size: 17px;
+					vertical-align: middle;
+				}
+			}
+
+			.icon-btn {
+				position: relative;
+				width: 44px !important;
+				padding: 0;
+				margin: 0;
+				border-bottom-width: 3px;
+
+				sup {
+					font-size: 13px;
+					color: inherit;
+					top: -3px;
+				}
+
+				i {
+					vertical-align: top;
+					font-size: 23px;
+				}
+			}
+
+			.nav-btn {
+				height: @navbar-height;
+				background: white;
+				padding: 0;
+				min-width: 43px;
+				color: #666;
+				line-height: (@navbar-height - 1);
+
+				&:hover {
+					background: white;
+				}
+			}
+
+			.iconBtn (@color) {
+				// background: desaturate(@color, 5%);
+				.transition;
+				color: white;
+				color: @color;
+				height: @navbar-height+3;
+				border-color: @color;
+				&:hover {
+					background: @color;
+					color: white !important;
+				}
+				&.active {
+					color: @color;
+				}
+			}
+
+			.calendar { .iconBtn(@COLOR2); }
+			.chat { .iconBtn(#ffcf2c); }
+			.pencil { .iconBtn(mix(@COLOR3,@COLOR4)); }
+			.bell {
+				.iconBtn(desaturate(@COLOR1, 10%));
+				i {
+					display: none;
+				}
+				sup {
+					font-size: 16px;
+					color: inherit;
+					line-height: 15px;
+					display: inline-block;
+					vertical-align: middle;
+					top: 0;
+				}
+			}
+
+			&.nav-dropdown {
+
+				.avatar-btn {
+					.reset-button;
+					cursor: pointer;
+					position: relative;
+					display: inline-block;
+					.avatarDd {
+						display: inline-block;
+						width: 40px;
+						height: 40px;
+						border-radius: 40px;
+						margin: 5px;
+						vertical-align: top;
+						.background-size(cover);
+						position: relative;
+						&:after {
+							// border: 2px solid #F4F4F4;
+							border-width: 0 0 3px 0;
+							content: '';
+							position: absolute;
+							top: 0; right: 0; bottom: 0; left: 0;
+						}
+					}
+				}
+
+				.dropdown-menu {
+					left: auto;
+					right: 2px;
+					margin-top: 6px;
+					padding: 6px 0px;
+					border-radius: 3px;
+					background: #222;
+					min-width: 0;
+
+					&::before {
+						content: ' ';
+						border: 5px solid transparent;
+						border-bottom-color: #222;
+						position: absolute;
+						top: -11px;
+						left: 100px; // Na mão
+						// left: 82px !important;
+					}
+
+					li {
+						font-family: museo-sans;
+						background: transparent;
+						a {
+							outline: none;
+							cursor: pointer;
+							color: white;
+							border-radius: 1px;
+							padding: 5px 20px;
+							font-size: 12px;
+							font-weight: bold;
+							font-family: museo-sans;
+
+							.transition(all, .2s, linear);
+
+							&:focus, &:hover, &:active { background: #222; }
+
+							&:hover {
+								background: darken(desaturate(@COLOR1,10%),3%);
+								color: white;
+							}
+							&:active {
+								.inner-shadow(3px, .3);
+							}
+
+							i {
+								display: none;
+								font-size: 13px;
+								width: 12px;
+							}
+						}
+					}
+				}
+			}
+
+		}
+	}
+
+	.tooltip {
+		// margin-top: -5px;
+		.tooltip-arrow {
+			border-bottom-color: #111;
+		}
+
+		.tooltip-inner {
+			border-radius: 0;
+			font-size: 12px;
+			background: #111;
+		}
+	}
+
+	.nav-menu {
+		& > li {
+			&.active {
+				border-bottom: 3px solid #08c;
+				height: @navbar-height+3;
+			}
+			&.nav-menu-label {
+				padding: 0 10px 0;
+				a {
+					color: #222;
+					display: inline-block;
+				}
+				span {
+					text-transform: uppercase;
+				}
+				sup {
+					background: @COLOR4;
+					color: #fff;
+					padding: 0 5px;
+					display: inline-block;
+					border-radius: 8px;
+					line-height: 17px;
+				}
+				&:hover:not(.active):not(.standout) {
+					height: (@navbar-height + 3);
+					border-bottom: 3px solid #CCC;
+				}
+			}
+			&.active:last-child {
+				// height: (@navbar-height + 3);
+				border-bottom: 3px solid #08c;
+			}
+			&.standout {
+				background: #F8F8F5;
+				border-bottom: 1px solid #DDD;
+				border-left: 1px solid #EEE;
+				border-right: 1px solid #EEE;
+			}
+		}
+		& > i {
+			vertical-align: middle;
+			display: inline-block;
+			line-height: @navbar-height;
+		}
+		.tooltip {
+			top: 0 !important;
+			margin-top: 0 !important;
+
+			.tooltip-arrow {
+				top: 50% !important;
+			}
+
+			.tooltip-inner {
+				padding: 0 10px;
+				line-height: @navbar-height;
+			}
+		}
+	}
+
+	[data-action=login] {
+		.xbtn(white, mix(@COLOR3, @COLOR4, 85%));
+		margin-right: 3px;
+	}
+}
+
+.popover {
+	margin-right: 3px;
+	border-radius: 0;
+	max-width: 30000px;
+	margin-top: -3px !important;
+	border: none;
+	background: transparent;
+	border-top: 3px solid @COLOR1;
+
+	.arrow {
+		border: none !important;
+ 		&:after {
+			border-bottom-color: #222 !important;
+			border-width: 5px;
+			margin-left: 7px !important;
+			top: 6px !important;
+		}
+	}
+
+	.popover-content {
+		// margin: 5px 5px 0 0;
+	}
+
+	.notificationList {
+		background: #222;
+		margin: -10px -15px;
+		// border-radius: 3px;
+		overflow: hidden;
+
+		& > li {
+			list-style: none;
+			display: table;
+			width: 280px;
+			cursor: pointer;
+			color: white;
+			min-height: 50px;
+			position: relative;
+			font-size: 12px;
+			font-family: museo-sans;
+			.transition(all, .2s, linear);
+		
+			&:not(:last-child) {
+				// border-bottom: 1px solid #1A1A1A;
+			}
+
+			&[data-accessed=false]::before {
+				content: " ";
+				position: absolute;
+				left: 50px;
+				top: 0;
+				bottom: 0;
+				width: 3px;
+				z-index: 1;
+				background: #08C;
+			}
+
+			&[data-seen=true] {
+				// color: #DDD;
+				// background: rgba(255, 255, 255, .1); // #F9FAFF;
+			}
+
+			time {
+				font-weight: normal;
+				font-style: normal;
+				float: right;
+				font-size: 11px;
+				margin-top: 4px;
+				opacity: .8;
+			}
+
+			.thumbnail {
+				border-radius: 0px;
+				margin-right: 10px;
+				width: 50px;
+				.background-size(cover);
+				
+				position: absolute;
+				top: 0;
+				bottom: 0;
+			}
+			
+			.notificationItemBody {
+				padding: 10px;
+				margin-left: 50px;
+			}
+		}
+
+		li.action {
+			text-align: center;
+			height: 40px;
+			min-height: 0;
+			font: bold 12px/40px museo-sans;
+			text-transform: uppercase;
+			color: #ccc;
+
+			&:hover {
+				color: #EEE;
+			}
+		}
+	}
+
+}
+
+@media (max-width: @screen-sm-max) {
+	nav.bar .icon-btn.calendar,
+	nav.bar .icon-btn.chat {
+		display: none !important;
+	}
+}

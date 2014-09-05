@@ -1,0 +1,71 @@
+<nav class="bar" role="navigation" id="navbar">
+<div class="navcontent">
+	<div class="center">
+		<a class="brand" href="/" tabindex="-1">QI<i class="icon-lightbulb2"></i>Labs<sup class="alpha">alpha</sup></a>
+	</div>
+	<ul class="nav-menu">
+	{#
+		{% if user %}
+			<li>
+				<a class="button nav-btn" href="/">
+					<i class="icon-home"></i>
+				</a>
+			</li><li class="nav-menu-label streamSetter" data-stream-source="inbox">
+			</li><li class="nav-menu-label streamSetter" data-stream-source="problems">
+				<button class="nav-btn" data-stream-source="global">
+					<span>
+						Problemas
+					</span>
+					<sup class="sup">3</sup>
+				</button>
+			</li><li>
+				<button class="nav-btn" onClick="$('#srry').fadeIn()">
+					<i class="icon-search3"></i>
+				</button>
+			</li>
+		{% endif %}
+	#}
+	</ul>
+	{% if user %}
+	<ul class="right">
+		<li class="nav-dropdown">
+		 	<div id="drop3" data-toggle="dropdown" role="button" class="avatar-btn dropdown-toggle">
+				<div class="avatarDd" style="background-image: url('{{ user.avatarUrl }}')">
+				</div>
+			</div>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+				<li role="presentation">
+					<a role="menuitem" tabindex="-1" href="{{ getPageUrl('about') }}">
+						<i class="icon-question"></i> Sobre
+					</a>
+				</li>
+				<li role="presentation">
+					<a role="menuitem" tabindex="-1" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
+						<i class="icon-sign-out"></i> Sair
+					</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	{% else %}
+	<ul class="right">
+		{% switch pageId %}
+			<li>
+				<a href="/" class="button" data-action="login">
+					ENTRAR
+				</a>
+			</li>
+		{% endswitch %}
+	</ul>
+	{% endif %}
+</div>
+</nav>
+
+<div class="dialog" id="srry">
+	<div class="box-blackout" onClick="$(this.parentElement).fadeOut();" data-action="close-dialog"></div>
+	<div class="box">
+		<h2>Esse recurso não está disponível ainda. :(</h2>
+		<img src="/static/images/gatinho.jpg" height="400">
+		<h4>(clique fora da caixa e deixe o gatinho voltar ao trabalho)</h4>
+	</div>
+</div>

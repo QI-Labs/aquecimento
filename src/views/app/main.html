@@ -33,45 +33,97 @@
 
 {% block body %}
 
-	{% block preBody %}{% endblock %}
+{% block preBody %}{% endblock %}
 
-	<div class="cContainer gcontainer" id="global-container">
-		<header>
-			<div class="user-avatar">
-				<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')"></div>
-			</div>
-		</header>
-
-		<div id="question">
-		</div>
-		<footer class="">
-			<a href="http://qilabs.org"><i class="xbulb icon-bulb2"></i></a>
-		</footer>
+<div class="container">
+	<div class="header">
+		<ul class="nav nav-pills pull-right">
+			<li class="active"><a href="/">Maratonas</a></li>
+			<li><a href="http://qilabs.org">QI Labs.org</a></li>
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<div class="user-avatar">
+					<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')">
+					</div>
+				</div>
+				<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu" role="menu">
+					<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
+						Logout
+					</a>
+				</ul>
+			</li>
+		</ul>
+		<h3 class="text-muted brand">QI <i class="icon-bulb2"></i> Labs</h3>
 	</div>
 
-	{% if user %}
-		<!-- User Voice -->
-		<script src="/static/js/bundle.js"></script>
-		<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
-		<!-- End User Voice -->
-		<!-- Intercom -->
-		{#
-		<script id="IntercomSettingsScriptTag">
-		{%
-			set intercomObj = {
-				user_id: user.id,
-				email: user.email,
-				name: user.name,
-				created_at: Math.floor(user.meta.created_at/1000)-200000,
-				session_count: user.meta.sessionCount,
-				avatar: user.avatar_url,
-				app_id: "3le7gbsg"
-			}
-		%}
-		window.intercomSettings = {{ intercomObj|json|safe }};
-		</script>
-		<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://static.intercomcdn.com/intercom.v1.js';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
-		</script>
-		#}
-	{% endif %}
+	<div class="jumbotron">
+		<h1>Maratonas QI Labs</h1>
+		<p class="lead">Resolva os problemas de olimpíadas passadas, </p>
+		<!-- <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p> -->
+	</div>
+
+	<div class="row marketing">
+		<div class="col-lg-4">
+			<h3>Nível 1</h3>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2013
+			</a>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2012
+			</a>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2011
+			</a>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2010
+			</a>
+		</div>
+		<div class="col-lg-4">
+			<h3>Nível 2</h3>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2013
+			</a>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2012
+			</a>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2011
+			</a>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2010
+			</a>
+		</div>
+		<div class="col-lg-4">
+			<h3>Nível 3</h3>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2013
+			</a>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2012
+			</a>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2011
+			</a>
+			<a class="button option" href="#">
+				OBM, 2ª fase 2010
+			</a>
+		</div>
+
+	</div>
+	<div class="footer">
+		Um projeto QI Labs · 2014
+	</div>
+
+</div>
+<footer class="">
+	<a href="http://qilabs.org"><i class="xbulb icon-bulb2"></i></a>
+</footer>
+
+{% if user %}
+	<!-- User Voice -->
+	<script src="/static/js/bundle.js"></script>
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+{% endif %}
 {% endblock %}

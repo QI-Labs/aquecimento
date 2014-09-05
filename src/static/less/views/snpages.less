@@ -9,13 +9,12 @@
 
 @import "components/alerts.less";
 @import "components/wallterfall.less";
+@import "components/navbar.less";
+@import "components/dialog.less";
 
 @import "pages/front.less";
 @import "pages/error.less";
 
-body {
-	background: #e0e0e0;
-}
 html, body {
     margin: 0;
     height: 100%;
@@ -106,191 +105,251 @@ html, body {
 	width: 100%;
 }
 
-.question-box {
-	display: table;
-	margin: auto;
+header {
 	width: @postColWidth;
+	margin: auto;
+	position: relative;
 
-	background: white;
-	font-family: museo-sans;
-	border: 1px solid #CCC;
-
-	.breadcrumbs {
-		// font: 15px Georgia;
-		padding: 30px 20px 0;
-		color: #444;
+	.user-avatar {
 		position: absolute;
-		top: -57px;
-		a {
-			color: #111;
-			text-transform: uppercase;
+		right: 0;
+
+		width: 30px;
+		height: 30px;
+		border-radius: 30px;
+	}
+}
+
+.brand {
+	font-family: museo-sans;
+	i {
+		font-size: .8em;
+	}
+}
+
+[data-page=problem] {
+	background: #e0e0e0;
+
+	.question-box {
+		display: table;
+		margin: auto;
+		position: relative;
+		width: @postColWidth;
+
+		background: white;
+		font-family: museo-sans;
+		border: 1px solid #CCC;
+		
+		header {
+			// font: 15px Georgia;
+			position: relative;
+			padding: 30px 20px 0;
+			color: #22;
+			position: absolute;
+			top: -57px;
+
+			.breadcrumbs {
+				display: inline-block;
+				a {
+					color: #111;
+					text-transform: uppercase;
+				}
+			}
+
+			.right {
+				position: absolute;
+				display: inline-block;
+				right: 20px;
+			}
+		}
+
+		.content-col {
+			width: 550px;
+			display: table-cell;
+			vertical-align: top;
+
+			.header {
+				height: 50px;
+
+				& > .user-avatar {
+					width: 50px;
+				}
+
+				.title {
+					display: inline-block;
+					height: 50px;
+					line-height: 50px;
+					padding: 0 5px;
+					font: bold 23px museo-sans;
+				}
+			}
+
+			.body-window {
+				width: 550px;
+				height: 350px;
+				overflow-y: auto;
+
+				.content {
+					padding: 30px;
+					font-size: 16px;
+					word-break: break-word;
+					ul {
+						margin-left: 20px;
+					}
+				}
+				img {
+					max-width: 100%;
+				}
+			}
+
+			::-webkit-scrollbar {
+				width: 10px;
+			} 
+
+			::-webkit-scrollbar-thumb {
+				background-color: rgba(0,0,0,.1);
+				.transition;
+				&:hover {
+					background-color: rgba(0,0,0,.2);
+				}
+			}
+
+			.fixed-footer {
+				height: 60px;
+				line-height: 60px;
+				padding: 0 20px;
+				border-top: 1px solid #DDD;
+				-webkit-box-shadow: 0 -33px 20px -35px rgba(0,0,0,.5); 
+				-moz-box-shadow: 0 -33px 20px -35px rgba(0,0,0,.5);
+				box-shadow: 0 -33px 20px -35px rgba(0,0,0,.5); 
+
+				.info {
+					display: inline-block;
+					color: #444;
+					font-size: 15px;
+					a {
+						color: mix(#444, blue, 95%);
+						text-decoration: underline;
+					}
+				}
+
+				.user-avatar {
+					width: 30px;
+					height: 30px;
+					border-radius: 30px;
+					margin-right: 10px;
+				}
+
+				.actions {
+					display: inline-block;
+					float: right;
+					.flag {
+						background: 0;
+						outline: 0;
+						.no-box-shadow;
+						.transition;
+						&:hover {
+							background: #EEE;
+						}
+						i {
+							font-size: 20px;
+							color: mix(yellow, @COLOR3);
+						}
+					}
+					.info {
+						background: 0;
+						outline: 0;
+						.no-box-shadow;
+						.transition;
+						&:hover {
+							background: #EEE;
+						}
+						i {
+							font-size: 18px;
+							color: @COLOR1;
+							width: 10px;
+						}
+					}
+				}
+			}
+		}
+
+		.right-col {
+			width: 350px;
+			display: table-cell;
+			padding: 20px;
+			border-left: 1px solid #CCC;
+			color: white;
+			position: relative;
+			background: #39CCCC; // desaturate(mix(@COLOR1, @COLOR2),10%);
+			color: #222;
+			background: #f3f3f1;
+
+			span.question {
+				font: 18px/1.7 "PT Serif";
+				display: block;
+				margin-bottom: 15px;
+			}
+
+			input.answer {
+				border: 0;
+				outline: 0;
+				padding: 10px;
+				width: 100%;
+				.transition;
+				&:focus {
+					// border-color: mix(@COLOR1, @COLOR2);
+				}
+				font-size: 17px;
+				font-family: "Georgia";
+				color: #444;
+				border: 2px solid @COLOR3;
+			}
+
+			tr td .send {
+				margin-left: 10px;
+			}
+
+			.send {
+				.high-xbtn(white, @COLOR3);
+				margin: 0;
+				padding: 0;
+				width: 50px;
+				height: 40px;
+				width: 100%;
+				margin-top: 10px;
+			}
+
+			.skip {
+				.xbtn(white, @COLOR4);
+				position: absolute;
+				bottom: 10px;
+				right: 10px;
+				border-radius: 15px;
+				font-weight: normal;
+			}
 		}
 	}
+}
 
-	.content-col {
-		width: 550px;
-		display: table-cell;
-		vertical-align: top;
+[data-page=main] {
+    background: #f8f8f5;
 
-		.header {
-			height: 50px;
+	.option {
+		.xbtn(white, @COLOR3);
+		margin-bottom: 10px;
+	}
 
-			& > .user-avatar {
-				width: 50px;
-			}
-
-			.title {
-				display: inline-block;
-				height: 50px;
-				line-height: 50px;
-				padding: 0 5px;
-				font: bold 23px museo-sans;
-			}
-		}
-
-		.body-window {
-			width: 550px;
-			height: 350px;
-			overflow-y: auto;
-
-			.content {
-				padding: 30px;
-				font-size: 16px;
-				word-break: break-word;
-				ul {
-					margin-left: 20px;
-				}
-			}
-		}
-
-		::-webkit-scrollbar {
-			width: 10px;
-		} 
-
-		::-webkit-scrollbar-thumb {
-			background-color: rgba(0,0,0,.1);
-			.transition;
-			&:hover {
-				background-color: rgba(0,0,0,.2);
-			}
-		}
-
-		.fixed-footer {
-			height: 60px;
-			line-height: 60px;
-			padding: 0 20px;
-			border-top: 1px solid #DDD;
-			-webkit-box-shadow: 0 -33px 20px -35px rgba(0,0,0,.5); 
-			-moz-box-shadow: 0 -33px 20px -35px rgba(0,0,0,.5);
-			box-shadow: 0 -33px 20px -35px rgba(0,0,0,.5); 
-
-			.info {
-				display: inline-block;
-				color: #444;
-				font-size: 15px;
-				a {
-					color: mix(#444, blue, 95%);
-					text-decoration: underline;
-				}
-			}
-
+	.header {
+		.nav {
 			.user-avatar {
 				width: 30px;
 				height: 30px;
 				border-radius: 30px;
-				margin-right: 10px;
-			}
-
-			.actions {
 				display: inline-block;
-				float: right;
-				.flag {
-					background: 0;
-					outline: 0;
-					.no-box-shadow;
-					.transition;
-					&:hover {
-						background: #EEE;
-					}
-					i {
-						font-size: 20px;
-						color: mix(yellow, @COLOR3);
-					}
-				}
-				.info {
-					background: 0;
-					outline: 0;
-					.no-box-shadow;
-					.transition;
-					&:hover {
-						background: #EEE;
-					}
-					i {
-						font-size: 18px;
-						color: @COLOR1;
-						width: 10px;
-					}
-				}
 			}
 		}
 	}
-
-	.right-col {
-		width: 350px;
-		display: table-cell;
-		padding: 20px;
-		border-left: 1px solid #CCC;
-		color: white;
-		position: relative;
-		background: #39CCCC; // desaturate(mix(@COLOR1, @COLOR2),10%);
-		color: #222;
-		background: #f3f3f1;
-
-		span.question {
-			font: 18px/1.7 "PT Serif";
-			display: block;
-			margin-bottom: 15px;
-		}
-
-		input.answer {
-			border: 0;
-			outline: 0;
-			padding: 10px;
-			width: 100%;
-			.transition;
-			&:focus {
-				// border-color: mix(@COLOR1, @COLOR2);
-			}
-			font-size: 17px;
-			font-family: "Georgia";
-			color: #444;
-			border: 2px solid @COLOR3;
-		}
-
-		tr td .send {
-			margin-left: 10px;
-		}
-
-		.send {
-			.high-xbtn(white, @COLOR3);
-			margin: 0;
-			padding: 0;
-			width: 50px;
-			height: 40px;
-			width: 100%;
-			margin-top: 10px;
-		}
-
-		.skip {
-			.xbtn(white, @COLOR4);
-			position: absolute;
-			bottom: 10px;
-			right: 10px;
-			border-radius: 15px;
-			font-weight: normal;
-		}
-	}
-
 }
 
 .xbulb {
@@ -308,4 +367,51 @@ html, body {
 	// border: 1px solid #ddd;
 	color: #AAA;
 	text-shadow: 0 0 1px rgba(0,0,0,0)
+}
+
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
 }

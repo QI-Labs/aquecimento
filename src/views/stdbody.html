@@ -13,12 +13,6 @@
 {% block meta %}{% endblock %}
 {% block head %}{% endblock %}
 <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lato|Open+Sans:300,600,700,800' />
-<script>_flash_msgs={{ JSON.stringify(messages) }}</script>
-<!--[if lt IE 6]><script type="text/javascript"> window.ieversion = -1;</script><![endif]-->
-<!--[if IE 6]><script type="text/javascript"> window.ieversion = 6;</script><![endif]-->
-<!--[if IE 7]><script type="text/javascript"> window.ieversion = 7;</script><![endif]-->
-<!--[if IE 8]><script type="text/javascript"> window.ieversion = 8;</script><![endif]-->
-<!--[if IE 9]><script type="text/javascript"> window.ieversion = 9;</script><![endif]-->
 </head>
 <body data-page="{{ dataPage }}" class="{% if user %}loggedIn{% endif %}">
 {% block body %}

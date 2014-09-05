@@ -18,6 +18,7 @@ createProblem = (self, data, cb) ->
 		level: data.level,
 		content: {
 			solution: data.content.solution
+			image: data.content.image
 			source: data.content.source
 			body: data.content.body
 			answer: data.content.answer
@@ -59,6 +60,7 @@ module.exports = (app) ->
 				solution: req.body.solution
 				body: req.body.body
 				source: req.body.source
+				image: req.body.image
 				answer: {
 					options: [
 						req.body.opcao_0,
@@ -83,6 +85,7 @@ module.exports = (app) ->
 			solution: req.body.solution
 			body: req.body.body
 			source: req.body.source
+			image: req.body.image
 			answer: {
 				options: [
 					req.body.opcao_0

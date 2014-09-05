@@ -56,7 +56,7 @@ var ProblemView = React.createClass({
 			data: { test: index }
 		}).done(function (response) {
 			if (response.error) {
-				app.flash.alert(response.message || 'Erro!');
+				alert(response.message || 'Erro!');
 			} else {
 				if (response.result) {
 					app.flash.info("Because you know me so well.");
@@ -65,7 +65,7 @@ var ProblemView = React.createClass({
 				}
 			}
 		}).fail(function (xhr) {
-			app.flash.alert(xhr.responseJSON && xhr.responseJSON.message || 'Erro!');
+			alert(xhr.responseJSON && xhr.responseJSON.message || 'Erro!');
 		});
 	},
 
@@ -85,14 +85,27 @@ var ProblemView = React.createClass({
 		var number = 5;
 		var total = 10;
 
+							// <img src={post.content.image} />
+							// <span dangerouslySetInnerHTML={{__html: html}}></span>
 		return (
 			<div className="question-box">
-				<div className="breadcrumbs">
-					Nível {post.level} &raquo; <a href={"/#"+post.topic}>#{post.translated_topic}</a>
-				</div>
+				<header>
+					<div className="breadcrumbs">
+						Maratona OBM &raquo; Nível {post.level} &raquo; <a href={"/#"+post.topic}>#{post.translated_topic}</a>
+					</div>
+					<div className="right">
+						Logado como <span className="username">{window.user.name}</span>,&nbsp;
+						<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
+							sair
+						</a>
+					</div>
+				</header>
 				<div className="content-col">
 					<div className="body-window">
-						<div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
+						<div className="content">
+						<span>Na figura abaixo temos um pentágono regular, um quadrado e um triângulo equilátero, todos com a mesma medida de lado. Determine `_/_ _|_ root(3 22) ` a medida em graus do ângulo é `QCE`.</span>
+							<img src="http://i.imgur.com/18SQrpS.png" />
+						</div>
 					</div>
 					<div className="fixed-footer">
 						<div className="info source">
@@ -166,11 +179,11 @@ var WorkspaceRouter = Backbone.Router.extend({
 				.done(function (response) {
 					var postItem = new ProblemItem(response.data);
 					React.renderComponent(<ProblemView type="Problem" model={postItem} />,
-						document.querySelector("#question"),
+						document.querySelector("#problem-wrapper"),
 						function(){});
 				}.bind(this))
 				.fail(function (response) {
-					app.flash.alert('Ops! Não conseguimos encontrar esse problema. Ele pode ter sido excluído.');
+					alert('Ops! Não conseguimos encontrar esse problema. Ele pode ter sido excluído.');
 				}.bind(this));
 		},
 	},

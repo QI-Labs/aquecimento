@@ -25,7 +25,7 @@ module.exports = (app) ->
 			}
 
 	for n in ['/problems/:problemId']
-		router.get n, required.login, (req, res, next) -> res.render('app/main')
+		router.get n, required.login, (req, res, next) -> res.render('app/problem')
 
 	router.get '/add/:problemId', requireIsEditor, (req, res) ->
 		console.log req.params.problemId

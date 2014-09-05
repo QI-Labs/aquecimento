@@ -32,5 +32,5 @@ module.exports = (app) ->
 
 	api.use '/session', require('./session')(app)
 	api.use '/problems', require('./problems')(app)
-	# api.use '/me', require('./me')(app)
+	api.use '/me', require('./me')(app)
 	api
