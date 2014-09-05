@@ -14,7 +14,7 @@
 @import "pages/error.less";
 
 body {
-	background: #EEE;
+	background: #e0e0e0;
 }
 html, body {
     margin: 0;
@@ -113,14 +113,18 @@ html, body {
 
 	background: white;
 	font-family: museo-sans;
-	border: 1px solid #DDD;
+	border: 1px solid #CCC;
 
 	.breadcrumbs {
 		// font: 15px Georgia;
 		padding: 30px 20px 0;
-		color: #666;
+		color: #444;
 		position: absolute;
 		top: -57px;
+		a {
+			color: #111;
+			text-transform: uppercase;
+		}
 	}
 
 	.content-col {
@@ -148,10 +152,6 @@ html, body {
 			width: 550px;
 			height: 350px;
 			overflow-y: auto;
-
-			.title {
-				font: 23px museo-sans; 
-			}
 
 			.content {
 				padding: 30px;
@@ -186,7 +186,7 @@ html, body {
 
 			.info {
 				display: inline-block;
-				color: #555;
+				color: #444;
 				font-size: 15px;
 				a {
 					color: mix(#444, blue, 95%);
@@ -200,6 +200,7 @@ html, body {
 				border-radius: 30px;
 				margin-right: 10px;
 			}
+
 			.actions {
 				display: inline-block;
 				float: right;
@@ -216,6 +217,20 @@ html, body {
 						color: mix(yellow, @COLOR3);
 					}
 				}
+				.info {
+					background: 0;
+					outline: 0;
+					.no-box-shadow;
+					.transition;
+					&:hover {
+						background: #EEE;
+					}
+					i {
+						font-size: 18px;
+						color: @COLOR1;
+						width: 10px;
+					}
+				}
 			}
 		}
 	}
@@ -223,11 +238,13 @@ html, body {
 	.right-col {
 		width: 350px;
 		display: table-cell;
-		padding: 30px;
-		border-left: 1px solid #DDD;
+		padding: 20px;
+		border-left: 1px solid #CCC;
 		color: white;
-		background: #DDD;
+		position: relative;
 		background: #39CCCC; // desaturate(mix(@COLOR1, @COLOR2),10%);
+		color: #222;
+		background: #f3f3f1;
 
 		span.question {
 			font: 18px/1.7 "PT Serif";
@@ -240,35 +257,55 @@ html, body {
 			outline: 0;
 			padding: 10px;
 			width: 100%;
-			border: 2px solid #777777;
 			.transition;
 			&:focus {
-				border-color: mix(@COLOR1, @COLOR2);
+				// border-color: mix(@COLOR1, @COLOR2);
 			}
-			font-size: 16px;
-
+			font-size: 17px;
+			font-family: "Georgia";
 			color: #444;
+			border: 2px solid @COLOR3;
+		}
+
+		tr td .send {
+			margin-left: 10px;
+		}
+
+		.send {
+			.high-xbtn(white, @COLOR3);
+			margin: 0;
+			padding: 0;
+			width: 50px;
+			height: 40px;
+			width: 100%;
+			margin-top: 10px;
+		}
+
+		.skip {
+			.xbtn(white, @COLOR4);
+			position: absolute;
+			bottom: 10px;
+			right: 10px;
+			border-radius: 15px;
+			font-weight: normal;
 		}
 	}
 
 }
 
-.xfooter {
-	margin: 30px 0 30px;
+.xbulb {
+	// line-height: 18px;
+	display: block;
+	margin: 30px auto 30px;
+	font-size: 37px;
+	background: white;
+	padding: 10px;
+	height: 60px;
+	line-height: 40px;
+	width: 60px;
 	text-align: center;
-
-	font-size: 13px;
-	color: #555;
-	line-height: 18px;
-	font-family: museo-sans;
-
-	& > i {
-		font-size: 37px;
-		background: white;
-		padding: 10px;
-		border-radius: 40px;
-		// border: 1px solid #ddd;
-		color: #AAA;
-		text-shadow: 0 0 1px rgba(0,0,0,0)
-	}
+	border-radius: 40px;
+	// border: 1px solid #ddd;
+	color: #AAA;
+	text-shadow: 0 0 1px rgba(0,0,0,0)
 }

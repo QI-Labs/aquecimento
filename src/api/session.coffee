@@ -10,7 +10,7 @@ Problem = mongoose.model 'Problem'
 module.exports = (app) ->
 	router = express.Router()
 	router.use required.login
-	router.use required.isStaff
+	router.use required.isMe
 	router.get '/', (req, res) ->
 		models = [Player, Problem]
 

@@ -3,6 +3,7 @@
 
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var nconf = require('nconf');
 
 function extendErr (err, label) {
 	return _.extend(err,{required:(err.required||[]).concat(label)});
@@ -11,7 +12,7 @@ function extendErr (err, label) {
 var permissions = {
 	resources: {
 		selfOwns: function (docId, req, res, callback) {
-			if (''+req.user.facebook_id === process.env.facebook_me) {
+			if (''+req.user.facebook_id === nconf.get('facebook_me')) {
 				callback();
 				return;
 			}
@@ -49,7 +50,7 @@ module.exports = required = {
 		}
 	},
 	isStaff: function (req, res, next) {
-		// if (process.env == "production" && (!req.user || !req.user.profile.isStaff))
+		// if (nconf.get('env') === "production" && (!req.user || !req.user.profile.isStaff))
 		if (req.user && req.user.profile && req.user.profile.isStaff)
 			next();
 		else
@@ -57,8 +58,9 @@ module.exports = required = {
 	},
 	// Require user to be me. :D
 	isMe: function (req, res, next) {
-		if (process.env == "production" && (!req.user || req.user.facebook_id !== process.env.facebook_me))
-			next({permission:'isMe', args:[process.env.facebook_me, req.user && req.user.facebook_id]});
+		console.log(nconf.get('facebook_me'))
+		if (nconf.get('env') === "production" && (!req.user || req.user.facebook_id !== nconf.get('facebook_me')))
+			next({permission:'isMe', args:[nconf.get('facebook_me'), req.user && req.user.facebook_id]});
 		else
 			next();
 	},

@@ -36,10 +36,16 @@
 	{% block preBody %}{% endblock %}
 
 	<div class="cContainer gcontainer" id="global-container">
+		<header>
+			<div class="user-avatar">
+				<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')"></div>
+			</div>
+		</header>
+
 		<div id="question">
 		</div>
-		<footer class="xfooter">
-			<i class="icon-bulb2"></i>
+		<footer class="">
+			<a href="http://qilabs.org"><i class="xbulb icon-bulb2"></i></a>
 		</footer>
 	</div>
 

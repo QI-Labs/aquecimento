@@ -79,13 +79,7 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 		var source = post.content.source;
 		var isAdaptado = source && (!!source.match(/(^\[adaptado\])|(adaptado)/));
 
-		var rightCol = (
-			React.DOM.div( {className:"right-col"}, 
-				React.DOM.span( {className:"question"}, "Qual é a resposta para o enunciado?"),
-				React.DOM.input( {type:"text", ref:"answer", className:"answer", name:"answer"})
-			)
-		);
-		var html = marked(post.content.body)+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		var html = marked(post.content.body);
 
 		var level = "3";
 		var number = 5;
@@ -94,7 +88,7 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 		return (
 			React.DOM.div( {className:"question-box"}, 
 				React.DOM.div( {className:"breadcrumbs"}, 
-					"Nível ", level, " » Questão ", number, " de ", total
+					"Nível ", post.level, " » ", React.DOM.a( {href:"/#"+post.topic}, "#",post.translated_topic)
 				),
 				React.DOM.div( {className:"content-col"}, 
 					React.DOM.div( {className:"body-window"}, 
@@ -105,11 +99,22 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 							source?source:null
 						),
 						React.DOM.div( {className:"actions"}, 
+							React.DOM.button( {className:"info"}, React.DOM.i( {className:"icon-info"})),
 							React.DOM.button( {className:"flag"}, React.DOM.i( {className:"icon-flag"}))
 						)
 					)
 				),
-				rightCol
+				React.DOM.div( {className:"right-col"}, 
+					React.DOM.span( {className:"question"}, "Qual é a resposta para o enunciado?"),
+					React.DOM.input( {type:"text", ref:"answer", placeholder:"Resultado", className:"answer", name:"answer"}),
+					React.DOM.button( {className:"send"}, 
+						"Responder"
+					),
+
+					React.DOM.button( {className:"skip"}, 
+						"Pular Problema"
+					)
+				)
 			)
 		);
 	},

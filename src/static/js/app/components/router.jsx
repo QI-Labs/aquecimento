@@ -79,13 +79,7 @@ var ProblemView = React.createClass({
 		var source = post.content.source;
 		var isAdaptado = source && (!!source.match(/(^\[adaptado\])|(adaptado)/));
 
-		var rightCol = (
-			<div className="right-col">
-				<span className="question">Qual é a resposta para o enunciado?</span>
-				<input type="text" ref="answer" className="answer" name="answer"/>
-			</div>
-		);
-		var html = marked(post.content.body)+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		var html = marked(post.content.body);
 
 		var level = "3";
 		var number = 5;
@@ -94,7 +88,7 @@ var ProblemView = React.createClass({
 		return (
 			<div className="question-box">
 				<div className="breadcrumbs">
-					Nível {level} &raquo; Questão {number} de {total}
+					Nível {post.level} &raquo; <a href={"/#"+post.topic}>#{post.translated_topic}</a>
 				</div>
 				<div className="content-col">
 					<div className="body-window">
@@ -105,11 +99,22 @@ var ProblemView = React.createClass({
 							{source?source:null}
 						</div>
 						<div className="actions">
+							<button className="info"><i className="icon-info"></i></button>
 							<button className="flag"><i className="icon-flag"></i></button>
 						</div>
 					</div>
 				</div>
-				{rightCol}
+				<div className="right-col">
+					<span className="question">Qual é a resposta para o enunciado?</span>
+					<input type="text" ref="answer" placeholder="Resultado" className="answer" name="answer"/>
+					<button className="send">
+						Responder
+					</button>
+
+					<button className="skip">
+						Pular Problema
+					</button>
+				</div>
 			</div>
 		);
 	},

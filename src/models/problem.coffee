@@ -14,6 +14,13 @@ please.args.extend(require('./lib/pleaseModels.js'))
 
 ObjectId = mongoose.Schema.ObjectId
 
+TranslatedTopics = {
+	'combinatorics': 'Combinatória'
+	'number-theory': 'Teoria dos Números'
+	'algebra': 'Álgebra'
+	'geometry': 'Geometria'
+}
+
 ProblemSchema = new mongoose.Schema {
 	author: {
 		id: String
@@ -62,6 +69,9 @@ ProblemSchema.statics.APISelect = '-hasAnswered -canSeeAnswers -hasSeenAnswers -
 
 # ProblemSchema.virtual('path').get ->
 # 	"/problems/{id}".replace(/{id}/, @id)
+
+ProblemSchema.virtual('translated_topic').get ->
+	TranslatedTopics[@topic]
 
 ProblemSchema.virtual('apiPath').get ->
 	"/api/problems/{id}".replace(/{id}/, @id)
