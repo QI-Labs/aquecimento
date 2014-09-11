@@ -48,7 +48,6 @@ requireIsEditor = (req, res, next) ->
 module.exports = (app) ->
 	router = require('express').Router()
 
-	router.use requireIsEditor
 	logger = app.get('logger').child({child:'API',dir:'posts'})
 
 	##########################################################################################################
@@ -85,14 +84,14 @@ module.exports = (app) ->
 	##########################################################################################################
 	##########################################################################################################
 
-	router.post '/:psetId', (req, res) ->
+	router.post '/:psetId', requireIsEditor, (req, res) ->
 		console.log('name', req.body)
 		if req.body.name
 			req.pset.name = validator.trim(req.body.name)
 		req.pset.save (err, pset) ->
 			res.endJSON(err: err?)
 
-	router.post '/:psetId/problems', (req, res) ->
+	router.post '/:psetId/problems', requireIsEditor, (req, res) ->
 		req.parse Problem.ParseRules, (err, data) ->
 			addProblemToSet req.user, req.pset, data, (err, problem) ->
 				res.endJSON({ err: err, data: problem })
@@ -100,7 +99,7 @@ module.exports = (app) ->
 	router.route '/:psetId/problems/:problemId'
 		.get (req, res) ->
 			res.endJSON({ err: false, data: req.problem })
-		.put (req, res) ->
+		.put requireIsEditor, (req, res) ->
 			req.parse Problem.ParseRules, (err, data) ->
 				ProblemSet.findOneAndUpdate {
 						_id: req.params.psetId,
@@ -124,12 +123,14 @@ module.exports = (app) ->
 						problem = new Problem(pset.docs.id(req.params.problemId2))
 						res.endJSON(problem)
 
-	router.post '/:psetId/delete', (req, res) ->
+	router.post '/:psetId/delete', requireIsEditor, (req, res) ->
 		req.pset.remove (err, num) ->
 			res.endJSON(err:err, success: !err, num:num)
 
-	router.get '/:problemId', (req, res) ->
-		res.endJSON(errror:false, data:req.problem)
+	router.post '/:psetId/problems/:problemId/delete', requireIsEditor, (req, res) ->
+		req.pset.docs.pull(req.params.problemId)
+		req.pset.save (err, num) ->
+			res.endJSON(err:err)
 
 	# router.route('/:problemId')
 	# 	.get (req, res) ->
@@ -170,8 +171,8 @@ module.exports = (app) ->
 	# 			}
 	# 		}
 
-	# router.post '/:problemId/try', requireIsEditor, (req, res) ->
-		# Is this nuclear enough?
+	router.post '/:problemId/try', (req, res) ->
+		Is this nuclear enough?
 		doc = req.problem
 		correct = req.body.test is '0'
 		userTries = _.findWhere(doc.userTries, { user: ''+req.user.id })

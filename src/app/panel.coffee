@@ -76,7 +76,10 @@ module.exports = (app) ->
 			res.endJSON({ error: err? })
 
 	router.get '/sets/:psetId', (req, res) ->
-		res.render 'panel/set', { set: req.pset }
+		res.render 'panel/set', {
+			set: req.pset
+			set_problems: _.map(req.pset.docs, (i) -> new Problem(i))
+		}
 
 
 	return router
