@@ -43,6 +43,12 @@ var React = require('react')
 var Flasher = require('./flash.js')
 Backbone.$ = window.$
 
+$(".latex-test").on('submit', function (e) {
+	e.preventDefault();
+	$(this).find('.latex-test-output').html($(this).find('textarea').val());
+	MathJax.Hub.Queue(['Typeset',MathJax.Hub]);
+});
+
 var ProblemView = React.createClass({displayName: 'ProblemView',
 	tryAnswer: function (e) {
 		var index = parseInt(e.target.dataset.index);
@@ -85,8 +91,8 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 		var number = 5;
 		var total = 10;
 
-							// <img src={post.content.image} />
-							// <span dangerouslySetInnerHTML={{__html: html}}></span>
+		// <img src={post.content.image} />
+		// <span dangerouslySetInnerHTML={{__html: html}}></span>
 		return (
 			React.DOM.div( {className:"question-box"}, 
 				React.DOM.header(null, 

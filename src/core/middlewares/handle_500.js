@@ -19,7 +19,7 @@ module.exports = function(err, req, res, next) {
 	else if (res.statusCode < 400)
 		res.status(500);
 
-	if (err.permission === 'not_on_list') {
+	if (err.permission === 'isEditor') {
 		req.res.render404({msg: "Você não está autorizado a continuar."})
 		return;
 	}
