@@ -104,7 +104,6 @@ module.exports = (app) ->
 				ProblemSet.findOneAndUpdate {
 						_id: req.params.psetId,
 						'docs._id': req.params.problemId,
-						'docs.author.id': req.user._id
 					},
 					{
 						$set: {
@@ -120,6 +119,8 @@ module.exports = (app) ->
 					}, (err, pset) ->
 						if err
 							throw err
+						if not pset
+							return res.status(404).endJSON({ error: true, message: 'Problema não encontrado. '})
 						problem = new Problem(pset.docs.id(req.params.problemId2))
 						res.endJSON(problem)
 
@@ -131,6 +132,35 @@ module.exports = (app) ->
 		req.pset.docs.pull(req.params.problemId)
 		req.pset.save (err, num) ->
 			res.endJSON(err:err)
+
+	router.post '/:problemId/try', (req, res) ->
+		Is this nuclear enough?
+		doc = req.problem
+		correct = req.body.test is '0'
+		userTries = _.findWhere(doc.userTries, { user: ''+req.user.id })
+		console.log typeof req.body.test, correct, req.body.test
+		if userTries?
+			if userTries.tries >= 3 # No. of tried exceeded
+				return res.status(403).endJSON({ error: true, message: "Número de tentativas excedido."})
+		else # First try from user
+			userTries = { user: req.user.id, tries: 0 }
+			doc.userTries.push(userTries)
+
+		if correct
+			# User is correct
+			doc.hasAnswered.push(req.user.id)
+			doc.save()
+			doc.getFilledAnswers (err, answers) ->
+				if err
+					console.error "error", err
+					res.endJSON({ error: true })
+				else
+					res.endJSON({ result: true, answers: answers })
+			return
+		else
+			Problem.findOneAndUpdate { _id: ''+doc.id, 'userTries.user': ''+req.user.id}, {$inc:{'userTries.$.tries': 1}}, (err, docs) ->
+				console.log arguments
+			res.endJSON({ result: false })
 
 	# router.route('/:problemId')
 	# 	.get (req, res) ->
@@ -170,34 +200,5 @@ module.exports = (app) ->
 	# 				body: req.body.content.body
 	# 			}
 	# 		}
-
-	router.post '/:problemId/try', (req, res) ->
-		Is this nuclear enough?
-		doc = req.problem
-		correct = req.body.test is '0'
-		userTries = _.findWhere(doc.userTries, { user: ''+req.user.id })
-		console.log typeof req.body.test, correct, req.body.test
-		if userTries?
-			if userTries.tries >= 3 # No. of tried exceeded
-				return res.status(403).endJSON({ error: true, message: "Número de tentativas excedido."})
-		else # First try from user
-			userTries = { user: req.user.id, tries: 0 }
-			doc.userTries.push(userTries)
-
-		if correct
-			# User is correct
-			doc.hasAnswered.push(req.user.id)
-			doc.save()
-			doc.getFilledAnswers (err, answers) ->
-				if err
-					console.error "error", err
-					res.endJSON({ error: true })
-				else
-					res.endJSON({ result: true, answers: answers })
-			return
-		else
-			Problem.findOneAndUpdate { _id: ''+doc.id, 'userTries.user': ''+req.user.id}, {$inc:{'userTries.$.tries': 1}}, (err, docs) ->
-				console.log arguments
-			res.endJSON({ result: false })
 
 	return router

@@ -88,7 +88,6 @@ PlayerSchema.virtual('path').get ->
 ################################################################################
 ## Middlewares #################################################################
 
-
 PlayerSchema.statics.toAuthorObject = (user) ->
 	{
 		id: user.id,

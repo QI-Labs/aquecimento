@@ -19,28 +19,17 @@ module.exports = (app) ->
 		req.logger.info("<#{req.user and req.user.username or 'anonymous@'+req.connection.remoteAddress}>: HTTP #{req.method} #{req.url}");
 		next()
 
-	router.use '/panel', require('./panel')(app)
-
-	router.get '/add', requireIsEditor, (req, res) ->
-		Problem.find {}, (err, docs) ->
-			res.render 'app/panel', {
-				problems: docs
-			}
-
-	for n in ['/problems/:problemId']
-		router.get n, required.login, (req, res, next) -> res.render('app/problem')
-
 	router.get '/', (req, res, next) ->
 		if req.user
 			res.render 'app/main'
 		else
 			res.render 'app/front'
 
-	router.get '/p/:psetId', (req, res, next) ->
-		ProblemSet.findOne { _id: req.params.psetId }, req.handleErr404 (doc) ->
-			res.render 'app/simulado', {
-				pset: doc
-			}
+	router.use '/panel', require('./panel')(app)
+	router.use '/p', require('./sets')(app)
+
+	for n in ['/problems/:problemId']
+		router.get n, required.login, (req, res, next) -> res.render('app/problem')
 
 	router.get '/logout', (req, res, next) ->
 		req.logout()

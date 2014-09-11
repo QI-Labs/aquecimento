@@ -86,16 +86,16 @@ ProblemSchema.statics.ParseRules = {
 
 	content:
 		body:
-			$valid: (str) -> validator.isLength(str, 10, 1000)
+			$valid: (str) -> true # validator.isLength(str, 10, 1000)
 			$clean: (str) -> _.escape(validator.trim(str))
 		solution:
-			$valid: (str) -> validator.isLength(str, 10, 1000)
+			$valid: (str) -> true # validator.isLength(str, 10, 1000)
 			$clean: (str) -> _.escape(validator.trim(str))
 		source:
-			$valid: (str) -> validator.isLength(str, 10, 1000)
+			$valid: (str) -> true # validator.isLength(str, 10, 1000)
 			$clean: (str) -> _.escape(validator.trim(str))
 		answer: 
-			$valid: (str) -> true
+			$valid: (str) -> not isNaN(parseInt(str))
 			$clean: (str) -> parseInt(str)
 		image:
 			$valid: (str) -> true
@@ -107,9 +107,6 @@ ProblemSchema.statics.ParseRules = {
 
 ################################################################################
 ## Virtuals ####################################################################
-
-# ProblemSchema.virtual('path').get ->
-# 	"/problems/{id}".replace(/{id}/, @id)
 
 ProblemSchema.virtual('translated_topic').get ->
 	TranslatedTopics[@topic]
@@ -128,7 +125,7 @@ ProblemSetSchema.virtual('apiPath').get ->
 	"/api/sets/{id}".replace(/{id}/, @id)
 
 ProblemSetSchema.virtual('path').get ->
-	"/panel/sets/{id}".replace(/{id}/, @id)
+	"/p/{id}".replace(/{id}/, @id)
 
 ProblemSetSchema.virtual('editorPath').get ->
 	"/panel/sets/{id}".replace(/{id}/, @id)
