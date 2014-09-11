@@ -226,7 +226,6 @@ var ProblemView = React.createClass({
 		var total = 10;
 
 		// <img src={post.content.image} />
-		// <span dangerouslySetInnerHTML={{__html: html}}></span>
 		return (
 			<div className="question-box">
 				<header>
@@ -243,8 +242,7 @@ var ProblemView = React.createClass({
 				<div className="content-col">
 					<div className="body-window">
 						<div className="content">
-						<span>Na figura abaixo temos um pentágono regular, um quadrado e um triângulo equilátero, todos com a mesma medida de lado. Determine `_/_ _|_ root(3 22) ` a medida em graus do ângulo é `QCE`.</span>
-							<img src="http://i.imgur.com/18SQrpS.png" />
+						<span dangerouslySetInnerHTML={{__html: html}}></span>
 						</div>
 					</div>
 					<div className="fixed-footer">
@@ -377,18 +375,14 @@ var WorkspaceRouter = Backbone.Router.extend({
 	},
 
 	routes: {
-		'problems/:problemId':
-			function (problemId) {
-				this.triggerComponent(this.components.viewProblem,{id:problemId});
-			},
 		'panel':
 			function () {
 			},
-		'panel/sets/:pset/:pid':
-			function (pset, pid) {
-				console.log('ok?', pset, pid)
-
-			},
+		'p/:pset/:num':
+			function (pset, num) {
+				if (!isNaN(parseInt(num)))
+					this.triggerComponent(this.components['view-problem'], {pset:pset, num:num})
+			}
 	},
 
 	components: {
@@ -422,9 +416,8 @@ var WorkspaceRouter = Backbone.Router.extend({
 					this.pages.push(p);
 				}.bind(this));
 		},
-		viewProblem: function (data) {
-			var postId = data.id;
-			$.getJSON('/api/problems/'+postId)
+		'view-problem': function (data) {
+			$.getJSON('/api/sets/'+data.pset+'/'+data.num)
 				.done(function (response) {
 					var postItem = new ProblemItem(response.data);
 					React.renderComponent(<ProblemView type="Problem" model={postItem} />,

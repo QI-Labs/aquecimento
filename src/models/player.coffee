@@ -46,9 +46,9 @@ PlayerSchema = new mongoose.Schema {
 	pset_play: [{
 		pset: 	{ type: String, ref: 'ProblemSet' }
 		start: 	{ type: Date }
-		last_index: { type: Number }
 		moves: 	[{
 			correct: { type: Boolean }
+			skipped: { type: Boolean }
 		}]
 	}]
 

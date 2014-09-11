@@ -96,6 +96,12 @@ module.exports = (app) ->
 			addProblemToSet req.user, req.pset, data, (err, problem) ->
 				res.endJSON({ err: err, data: problem })
 
+	router.route '/:psetId/:pnum'
+		.get (req, res) ->
+			if isNaN(parseInt(req.params.pnum))
+				return res.status(402).endJSON({ err: true })
+			res.endJSON({ err: false, data: new Problem(req.pset.docs[parseInt(req.params.pnum)]) })
+
 	router.route '/:psetId/problems/:problemId'
 		.get (req, res) ->
 			res.endJSON({ err: false, data: req.problem })

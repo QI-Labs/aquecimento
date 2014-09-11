@@ -41,18 +41,19 @@ module.exports = (app) ->
 
 	router.get '/:psetId/start', (req, res, next) ->
 		play = _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.pset.id)
-		console.log play
-		
-		# res.render 'app/problem', {
-		# 	# problem: req.pset
-		# 	play: _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.pset.id)
-		# }
+		if not play
+			req.user.pset_play.push({
+				pset: req.pset._id
+				start: new Date()
+			})
+		req.user.save (err) ->
+			console.log(err, req.user.pset_play)
+			if err
+				return next(err)
+			res.redirect('/p/'+req.pset.id+'/0')
 
-	router.get '/psetId/0', (req, res) ->
-		res.render 'panel/set', {
-			set: req.pset
-			set_problems: _.map(req.pset.docs, (i) -> new Problem(i))
-		}
+	router.get '/:psetId/:num', (req, res) ->
+		res.render 'app/problem', {}
 
 
 	return router
