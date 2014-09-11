@@ -2,6 +2,7 @@
 mongoose = require 'mongoose'
 User = mongoose.model 'Player'
 Problem = mongoose.model 'Problem'
+ProblemSet = mongoose.model 'ProblemSet'
 
 requireIsEditor = (req, res, next) ->
 	nconf = require 'nconf'
@@ -18,6 +19,8 @@ module.exports = (app) ->
 		req.logger.info("<#{req.user and req.user.username or 'anonymous@'+req.connection.remoteAddress}>: HTTP #{req.method} #{req.url}");
 		next()
 
+	router.use '/panel', require('./panel')(app)
+
 	router.get '/add', requireIsEditor, (req, res) ->
 		Problem.find {}, (err, docs) ->
 			res.render 'app/panel', {
@@ -27,24 +30,17 @@ module.exports = (app) ->
 	for n in ['/problems/:problemId']
 		router.get n, required.login, (req, res, next) -> res.render('app/problem')
 
-	router.get '/add/:problemId', requireIsEditor, (req, res) ->
-		console.log req.params.problemId
-		Problem.findOne { _id: ''+req.params.problemId }, (err, doc) ->
-			if err
-				return req.renderJSON(error:err)
-			if not doc
-				return res.redirect('/add')
-			Problem.find {}, (err, docs) ->
-				res.render 'app/panel', {
-					problems: docs
-					pproblem: doc
-				}
-
 	router.get '/', (req, res, next) ->
 		if req.user
 			res.render 'app/main'
 		else
 			res.render 'app/front'
+
+	router.get '/simulados/obmep2014', (req, res, next) ->
+		# ProblemSet.find { _id: }
+		res.render 'app/simulado', {
+			pset: null # pset
+		}
 
 	router.get '/logout', (req, res, next) ->
 		req.logout()

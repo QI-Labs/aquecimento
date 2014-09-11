@@ -6,13 +6,14 @@ async = require 'async'
 
 Player = mongoose.model 'Player'
 Problem = mongoose.model 'Problem'
+ProblemSet = mongoose.model 'ProblemSet'
 
 module.exports = (app) ->
 	router = express.Router()
 	router.use required.login
 	router.use required.isMe
 	router.get '/', (req, res) ->
-		models = [Player, Problem]
+		models = [Player, Problem, ProblemSet]
 
 		if req.query.session?
 			return res.endJSON { ip: req.ip, session: req.session }

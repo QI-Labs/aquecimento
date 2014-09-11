@@ -1,0 +1,80 @@
+{% extends '../stdbody.html' %}
+{% set dataPage="main" %}
+
+{% import '../macros/metaTags.html' as metaTagMacros %}
+
+{% block pageTitle %}{{ pageTitle|"Aquecimento QI Labs" }}{% endblock %}
+
+{% block head %}
+{% parent %}
+	{% block meta %}
+	{{ metaTagMacros.facebook({
+		title: "Aquecimento Qi Labs · OBM",
+		description: 'Aquecimento para a segunda fase da OBM 2014.',
+	}) }}
+	{{ metaTagMacros.meta({
+		title: "Aquecimento Qi Labs · OBM",
+		description: 'Aquecimento para a segunda fase da OBM 2014.',
+	}) }}
+	{{ metaTagMacros.twitter({
+		title: "Aquecimento Qi Labs · OBM",
+		description: 'Aquecimento para a segunda fase da OBM 2014.',
+	}) }}
+	{% endblock %}
+	{% if user %}
+	<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}'}</script>
+	{% else %}
+	<script>window.user={}</script>
+	{% endif %}
+	<link rel="stylesheet" href="{{ assetUrl('css/bundle.css') }}">
+	<link rel="stylesheet" href="//brick.a.ssl.fastly.net/Clear+Sans:400,500,700/Bitter:400,700/Merriweather:400,400i,700">
+	<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700|PT+Serif:400,400i,700,700i'>
+{% endblock %}
+
+{% block body %}
+
+{% block preBody %}{% endblock %}
+
+<div class="container">
+	<div class="header">
+		<ul class="nav nav-pills pull-right">
+			<li class="active"><a href="/">Maratonas</a></li>
+			<li><a href="http://qilabs.org">QI Labs.org</a></li>
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<div class="user-avatar">
+					<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')">
+					</div>
+				</div>
+				<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu" role="menu">
+					<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
+						Logout
+					</a>
+				</ul>
+			</li>
+		</ul>
+		<h3 class="text-muted brand">QI <i class="icon-bulb2"></i> Labs</h3>
+	</div>
+
+	<div class="jumbotron">
+		<h1>Maratonas QI Labs</h1>
+		<p class="lead">Resolva os problemas de olimpíadas passadas, </p>
+		<!-- <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p> -->
+	</div>
+
+	<div class="row marketing">
+	</div>
+</div>
+
+<footer class="">
+	<a data-toggle="title" title="Um projeto QI Labs · 2014" href="http://qilabs.org"><i class="xbulb icon-bulb2"></i></a>
+</footer>
+
+{% if user %}
+	<!-- User Voice -->
+	<script src="/static/js/bundle.js"></script>
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+{% endif %}
+{% endblock %}

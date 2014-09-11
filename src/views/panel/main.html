@@ -1,0 +1,105 @@
+{% extends '../stdbody.html' %}
+{% set dataPage="panel" %}
+
+{% block head %}
+{% parent %}
+	<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}'}</script>
+	<link rel="stylesheet" href="{{ assetUrl('css/bundle.css') }}">
+	<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700|PT+Serif:400,400i,700,700i'>
+{% endblock %}
+
+{% block body %}
+
+	{% block preBody %}{% endblock %}
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">QI Labs Maratona · <strong>Painel</strong></a>
+			</div>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						Logado como <strong>{{ user.name }}</strong>
+						<div class="user-avatar">
+							<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')">
+							</div>
+						</div>
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">Sair do Painel</a></li>
+						<li class="divider"></li>
+						<li><a href="#" href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">Logout</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	
+	<div class="container">
+
+		<div class="problem-list">
+			<h3>Simulados registrados: <span class="badge">{{ sets.length }}</span></h3>
+			<a href="#" data-ajax-post-href="/panel/novo-simulado" data-redirect-href="/panel" class="btn btn-default">
+				Criar Novo Simulado
+			</a>
+
+			<table class="table">
+				<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Criado Em</th>
+					<th>Tamanho</th>
+					<th>Ações</th>
+				</tr>
+				</thead>
+
+				{% for pset in sets %}
+					<tr>
+						<td>{{ pset.name }}</td>
+						<td>{{ pset.created_at }}</td>
+						<td><span class="badge badge-default">{{ pset.docs.length|default(0) }}</span> problemas</td>
+						<td>
+							<div class="right">
+								<a class="button btn-warning btn-edit" target="_blank" href="{{ pset.editorPath }}">
+									Editar
+								</a>
+								<a class="button btn-danger btn-remove"
+									data-ask-continue="true"
+									data-ajax-post-href="{{ pset.apiPath+'/delete' }}"
+									data-redirect-href="/panel">
+									Remover
+								</a>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+		
+	</div>
+
+	<div class="container">
+		<hr />
+
+		<form class="teste-latex" role="form">
+			<h4>Teste de fórmulas Latex</h4>
+			<div class="form-group">
+				<textarea class="form-control" rows="3" placeholder="Teste o latex aqui, Michelle Malher."></textarea>
+				<div class="output"></div>
+			</div>
+			<input class="btn" type="submit" name="Testar" value="Testar Latex">
+		</form>
+
+	</div>
+
+	<script src="/static/js/bundle.js"></script>
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+{% endblock %}

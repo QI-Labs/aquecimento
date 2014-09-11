@@ -6,10 +6,17 @@
 express = require('express')
 bunyan = require('bunyan')
 required = require('src/core/required')
+limiter = require('connect-ratelimit')
 
 module.exports = (app) ->
 	api = express.Router()
 	logger = app.get('logger').child({child: 'API'})
+
+	api.use (req, res, next) ->
+		req.logger = logger
+		req.logger.info("<#{req.user and req.user.username or 'anonymous@'+req.connection.remoteAddress}>: HTTP #{req.method} #{req.url}")
+		req.isAPICall = true
+		next()
 
 	# A little backdoor for debugging purposes.
 	api.get '/logmein/:userId', required.isMe, (req, res) ->
@@ -25,6 +32,19 @@ module.exports = (app) ->
 				logger.info 'Success??'
 				res.endJSON(error:false)
 
+	api.use(limiter({
+		whitelist: ['127.0.0.1'],
+		categories: {
+			normal: {
+				totalRequests: 20,
+				every: 60 * 1000,
+			}
+		}
+	})).use (req, res, next) ->
+		if res.ratelimit.exceeded
+			return res.status(429).endJSON({error:true,message:'Limite de requisições exceedido.'})
+		next()
+
 	api.use (req, res, next) ->
 		req.logger = logger
 		req.isAPICall = true
@@ -32,5 +52,6 @@ module.exports = (app) ->
 
 	api.use '/session', require('./session')(app)
 	api.use '/problems', require('./problems')(app)
+	api.use '/sets', require('./sets')(app)
 	api.use '/me', require('./me')(app)
 	api

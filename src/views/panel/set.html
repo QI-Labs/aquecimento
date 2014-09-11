@@ -1,0 +1,139 @@
+{% extends '../stdbody.html' %}
+{% set dataPage="panel" %}
+
+{% block head %}
+{% parent %}
+	<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}'}</script>
+	<link rel="stylesheet" href="{{ assetUrl('css/bundle.css') }}">
+	<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700|PT+Serif:400,400i,700,700i'>
+{% endblock %}
+
+{% block body %}
+
+	{% block preBody %}{% endblock %}
+	<nav class="navbar navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/panel">QI Labs Maratona · <strong>Painel</strong></a>
+			</div>
+
+			<ul class="nav navbar-nav">
+				<li class="active"><a href=" {{ set.path }}" >PSET {{ set.name }}</a></li>
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						Logado como <strong>{{ user.name }}</strong>
+						<div class="user-avatar">
+							<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')">
+							</div>
+						</div>
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">Sair do Painel</a></li>
+						<li class="divider"></li>
+						<li><a href="#" href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">Logout</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	
+	<div class="container">
+
+		<h3>Problem Set <strong>{{ set.name }}</strong></h3>
+		<br />
+
+		<div class="row-fluid">
+			<form class="set-form form-horizontal" role="form" action="{{ set.apiPath }}">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">Nome</label>
+					<div class="col-sm-5">
+						<input class="form-control" type="text" name="name" placeholder="Nome para a maratona" value="{{ set.name }}" />
+					</div>
+				</div>
+				{#
+				<div class="form-group">
+					<label class="col-sm-1 control-label">Contribuidores</label>
+					<div class="col-sm-5">
+						<input class="form-control" type="text" name="name" placeholder="Ids dos contribuidores dessa maratona, separados por vírgula" value="{{ set.contributors }}" />
+					</div>
+				</div>
+				#}
+				<input class="btn btn-default" type="submit" value="Alterar" />
+			</form>
+		</div>
+		<br />
+
+		<div class="problem-list">
+			<h3>Questões registradas: <span class="badge">{{ set.docs.length }}</span></h3>
+			<a href="#" data-trigger="component" data-component="create-problem" data-args='{"pset":"{{ set.id }}"}' class="btn btn-success">
+				Criar Nova Questão
+			</a>
+
+			<table class="table">
+				<thead>
+				<tr>
+					<th>Corpo</th>
+					<th>Source</th>
+					<th>Resposta</th>
+					<th>Solução</th>
+					<th>Imagem</th>
+					<th>Tópico</th>
+					<th>Ações</th>
+				</tr>
+				</thead>
+
+				{% for problem in set.docs %}
+					<tr>
+						<td><div class="delimiter">{{ problem.content.body }}</div></td>
+						<td>{{ problem.content.source }}</td>
+						<td>{{ problem.content.answer }}</td>
+						<td><div class="delimiter">{{ problem.content.solution }}</div></td>
+						<td>
+							<a href="{{ problem.content.image }}">
+								<img src="{{ problem.content.image }}" width="60"/>
+							</a>
+						</td>
+						<td>
+							<span class="label label-default">{{ problem.topic }}</span>
+						</td>
+						<td>
+							<a class="button btn-edit btn-warning" target="_blank"
+								data-trigger="component" data-component="edit-problem"
+								data-args='{"pset":"{{ set._id }}", "id":"{{ ''+problem._id }}"}'>
+								Editar
+							</a>
+							<a class="button btn-danger btn-remove"
+								data-ask-continue="true"
+								data-ajax-post-href="{{ problem.apiPath+'/delete' }}"
+								data-redirect-href="{{ pset.editorPath }}">
+								Remover
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+		
+	</div>
+
+	<div class="container">
+		<hr />
+
+		<form class="teste-latex" role="form">
+			<h4>Teste de fórmulas Latex</h4>
+			<div class="form-group">
+				<textarea class="form-control" rows="3" placeholder="Teste o latex aqui, Michelle Malher."></textarea>
+				<div class="output"></div>
+			</div>
+			<input class="btn" type="submit" name="Testar" value="Testar Latex">
+		</form>
+
+	</div>
+
+	<script src="/static/js/bundle.js"></script>
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+{% endblock %}

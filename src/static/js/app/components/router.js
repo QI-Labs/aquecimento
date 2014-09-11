@@ -25,6 +25,25 @@ function eraseCookie(name) {
 	createCookie(name,'',-1);
 }
 
+
+var backboneModel = {
+	componentWillMount: function () {
+		var update = function () {
+			this.forceUpdate(function(){});
+		}
+		this.props.model.on('add reset remove change', update.bind(this));
+	},
+};
+
+
+window.$ = require('jquery')
+var Backbone = require('backbone')
+var _ = require('underscore')
+var React = require('react')
+
+var Flasher = require('./flash.js')
+Backbone.$ = window.$;
+
 marked = require('marked');
 var renderer = new marked.Renderer();
 renderer.codespan = function (html) {
@@ -35,19 +54,132 @@ marked.setOptions({
 	renderer: renderer
 })
 
-window.$ = require('jquery')
-var Backbone = require('backbone')
-var _ = require('underscore')
-var React = require('react')
+var ProblemForm = React.createClass({displayName: 'ProblemForm',
+	mixins: [backboneModel],
 
-var Flasher = require('./flash.js')
-Backbone.$ = window.$
+	onClickSave: function (evt) {
+		evt.preventDefault();
 
-$(".latex-test").on('submit', function (e) {
-	e.preventDefault();
-	$(this).find('.latex-test-output').html($(this).find('textarea').val());
-	MathJax.Hub.Queue(['Typeset',MathJax.Hub]);
-});
+		this.props.model.set('topic', this.refs.topicSelect.getDOMNode().value);
+		// this.props.model.set('subject', this.refs.subjectSelect.getDOMNode().value);
+		this.props.model.attributes.content.body = this.refs.bodyTextarea.getDOMNode().value;
+		this.props.model.attributes.content.answer = this.refs.answerInput.getDOMNode().value;
+		this.props.model.attributes.content.solution = this.refs.solutionTextarea.getDOMNode().value;
+		this.props.model.attributes.content.source = this.refs.sourceInput.getDOMNode().value;
+		this.props.model.attributes.content.image = this.refs.bodyimgInput.getDOMNode().value;
+		this.props.model.attributes.content.solimg = this.refs.solimgInput.getDOMNode().value;
+
+		this.props.model.save(undefined, {
+			url: this.props.model.url() || ('/api/sets/'+this.props.model.get('pset')+'/problems'),
+			success: function (model) {
+				// window.location.href = model.get('editorPath');
+				app.flash.info("Problema salvo! :)");
+			},
+			error: function (model, xhr, options) {
+				var data = xhr.responseJSON;
+				if (data && data.message) {
+					app.flash.alert(data.message);
+				} else {
+					app.flash.alert('Milton Friedman.');
+				}
+			}
+		});
+	},
+
+	close: function () {
+		this.props.page.destroy();
+	},
+
+	componentDidMount: function () {
+		// Close when user clicks directly on element (meaning the faded black background)
+		var self = this;
+		$(this.getDOMNode().parentElement).on('click', function onClickOut (e) {
+			if (e.target === this || e.target === self.getDOMNode()) {
+				self.close();
+				$(this).unbind('click', onClickOut);
+			}
+		});
+	},
+
+	render: function () {
+		var doc = this.props.model.attributes;
+
+		return (
+			React.DOM.div( {className:"box"}, 
+				React.DOM.i( {className:"close-btn", 'data-action':"close-page", onClick:this.close}),
+				React.DOM.form( {className:"form-horizontal", role:"form"}, 
+					React.DOM.h3(null, "Editando Problema"),
+					React.DOM.div( {className:"form-group"}, 
+						React.DOM.label( {className:"col-sm-4 control-label"}, "Tópico"),
+						React.DOM.div( {className:"col-sm-8"}, 
+							React.DOM.select( {ref:"topicSelect", name:"topic", defaultValue: doc.topic }, 
+								React.DOM.option( {value:"combinatorics"}, "Combinatória"),
+								React.DOM.option( {value:"number-theory"}, "Teoria dos Números"),
+								React.DOM.option( {value:"algebra"}, "Algebra"),
+								React.DOM.option( {value:"geometry"}, "Geometria")
+							)
+						)
+					),
+					React.DOM.div( {className:"form-group"}, 
+						React.DOM.label( {className:"col-sm-4 control-label"}, "Corpo do Problema"),
+						React.DOM.div( {className:"col-sm-8"}, 
+							React.DOM.textarea( {className:"solution form-control", ref:"bodyTextarea",
+								name:"solution", defaultValue: doc.content.body, 
+								placeholder:"Solução"})
+						)
+					),
+					React.DOM.div( {className:"form-group"}, 
+						React.DOM.label( {className:"col-sm-4 control-label"}, "Gabarito"),
+						React.DOM.div( {className:"col-sm-8"}, 
+							React.DOM.input( {type:"text", className:"form-control", ref:"answerInput",
+								placeholder:"Um Número Inteiro",
+								defaultValue: doc.content.answer } )
+						)
+					),
+					React.DOM.div( {className:"form-group"}, 
+						React.DOM.label( {className:"col-sm-4 control-label"}, "Desenvolvimento da Resolução"),
+						React.DOM.div( {className:"col-sm-8"}, 
+							React.DOM.textarea( {className:"solution form-control", ref:"solutionTextarea",
+								name:"solution", defaultValue: doc.content.solution, 
+								placeholder:"Bonitchenho."})
+						)
+					),
+					React.DOM.div( {className:"form-group"}, 
+						React.DOM.label( {className:"col-sm-4 control-label"}, "Fonte"),
+						React.DOM.div( {className:"col-sm-8"}, 
+							React.DOM.input( {type:"text", className:"form-control", ref:"sourceInput",
+								placeholder:"Formatadinho?",
+								defaultValue: doc.content.source } )
+						)
+					),
+					React.DOM.div( {className:"form-group"}, 
+						React.DOM.label( {className:"col-sm-4 control-label"}, "Imagem no Corpo do Problema"),
+						React.DOM.div( {className:"col-sm-8"}, 
+							React.DOM.input( {type:"text", className:"form-control", ref:"bodyimgInput",
+								placeholder:"Uma url",
+								defaultValue: doc.content.image } )
+						)
+					),
+					React.DOM.div( {className:"form-group"}, 
+						React.DOM.label( {className:"col-sm-4 control-label"}, "Imagem no Corpo da Solução"),
+						React.DOM.div( {className:"col-sm-8"}, 
+							React.DOM.input( {type:"text", className:"form-control", ref:"solimgInput",
+								placeholder:"Uma url",
+								defaultValue: doc.content.solimg } )
+						)
+					),
+					React.DOM.button( {type:"submit", onClick:this.onClickSave, className:"btn btn-success"}, "Salvar"),
+					React.DOM.button( {type:"submit", onClick:this.onClickDelete, className:"btn btn-danger"}, "Remover")
+				)
+			)
+		);
+		// <input type="text" name="opcao_0" value="{{ pproblem.content.answer.options[0] }}" placeholder="Opção CERTA" class="opcao" />
+		// <input type="text" name="opcao_1" value="{{ pproblem.content.answer.options[1] }}" placeholder="Opcao 2" class="opcao" />
+		// <input type="text" name="opcao_2" value="{{ pproblem.content.answer.options[2] }}" placeholder="Opcao 3" class="opcao" />
+		// <input type="text" name="opcao_3" value="{{ pproblem.content.answer.options[3] }}" placeholder="Opcao 4" class="opcao" />
+		// <input type="text" name="opcao_4" value="{{ pproblem.content.answer.options[4] }}" placeholder="Opcao 5" class="opcao" />
+	}
+})
 
 var ProblemView = React.createClass({displayName: 'ProblemView',
 	tryAnswer: function (e) {
@@ -146,6 +278,45 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 // 	setTimeout(updateCounters, 1000);
 // }, 1000);
 
+var Page = function (component, dataPage, opts) {
+
+	var opts = _.extend({}, opts || {
+		onClose: function () {}
+	});
+
+	component.props.page = this;
+	var e = document.createElement('div');
+	this.e = e;
+	this.c = component;
+	if (!opts.navbar)
+		$(e).addClass('pContainer');
+	$(e).addClass((opts && opts.class) || '');
+	$(e).addClass('invisible').hide().appendTo('body');
+	if (dataPage)
+		e.dataset.page = dataPage;
+	var oldTitle = document.title;
+	if (opts.title) {
+		document.title = opts.title;
+	}
+	$('html').addClass(opts.crop?'crop':'place-crop');
+
+	React.renderComponent(component, e, function () {
+		$(e).show().removeClass('invisible');
+	});
+
+	this.destroy = function (navigate) {
+		$(e).addClass('invisible');
+		React.unmountComponentAtNode(e);
+		$(e).remove();
+		document.title = oldTitle;
+		$('html').removeClass(opts.crop?'crop':'place-crop');
+		if (opts.onClose) {
+			opts.onClose();
+			opts.onClose = undefined; // Prevent calling twice
+		}
+	};
+};
+
 var ProblemItem = Backbone.Model.extend({
 	url: function () {
 		return this.get('apiPath');
@@ -159,10 +330,35 @@ var ProblemItem = Backbone.Model.extend({
 var ProblemList = Backbone.Collection.extend({
 	model: ProblemItem,
 });
+
+if ($(".teste-latex")[0]) {
+	$(".teste-latex").on('submit', function (e) {
+		e.preventDefault();
+		$(this).find('.output').html($(this).find('textarea').val());
+		MathJax.Hub.Queue(['Typeset',MathJax.Hub]);
+	});
+}
+if ($(".set-form")[0]) {
+	$(".set-form").on('submit', function (e) {
+		e.preventDefault();
+		$.ajax({
+			type: 'post',
+			dataType: 'json',
+			url: $(this).attr('action'),
+			data: {
+				name: $(this).find('[name=name]').val(),
+			}
+		}).done(function (response) {
+			location.reload();
+		});
+	});
+}
+
 // Central functionality of the app.
 var WorkspaceRouter = Backbone.Router.extend({
 	initialize: function () {
 		console.log('initialized')
+		this.pages = [];
 	},
 
 	flash: new Flasher,
@@ -171,14 +367,59 @@ var WorkspaceRouter = Backbone.Router.extend({
 		comp.call(this, args);
 	},
 
+	closePages: function () {
+		for (var i=0; i<this.pages.length; i++) {
+			this.pages[i].destroy();
+		}
+		this.pages = [];
+	},
+
 	routes: {
 		'problems/:problemId':
 			function (problemId) {
 				this.triggerComponent(this.components.viewProblem,{id:problemId});
 			},
+		'panel':
+			function () {
+			},
+		'panel/sets/:pset/:pid':
+			function (pset, pid) {
+				console.log('ok?', pset, pid)
+
+			},
 	},
 
 	components: {
+		'create-problem': function (data) {
+			this.closePages();
+
+			var problemItem = new ProblemItem({ pset: '541139e2431f7a650104d0de', content: {} });
+			
+			var p = new Page(ProblemForm( {model:problemItem} ), 'problem-form', {
+				title: "Criando novo problema.",
+				crop: true,
+				onClose: function () {
+					// app.navigate('/');
+				}
+			});
+			this.pages.push(p);
+		},
+		'edit-problem': function (data) {
+			this.closePages();
+
+			$.getJSON('/api/sets/'+data.pset+'/problems/'+data.id)
+				.done(function (response) {
+					var problemItem = new ProblemItem(response.data);
+					var p = new Page(ProblemForm( {model:problemItem} ), 'problem-form', {
+						title: "Editando problema.",
+						crop: true,
+						onClose: function () {
+							// app.navigate('/');
+						}
+					});
+					this.pages.push(p);
+				}.bind(this));
+		},
 		viewProblem: function (data) {
 			var postId = data.id;
 			$.getJSON('/api/problems/'+postId)
@@ -195,11 +436,9 @@ var WorkspaceRouter = Backbone.Router.extend({
 	},
 });
 
-WorkspaceRouter
-
 module.exports = {
 	initialize: function () {
-		new WorkspaceRouter;
+		window.app = new WorkspaceRouter;
 		// Backbone.history.start({ pushState:false, hashChange:true });
 		Backbone.history.start({ pushState:true, hashChange: false });
 	},

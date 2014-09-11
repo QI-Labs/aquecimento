@@ -67,7 +67,7 @@ $('body').on('click', '[data-trigger=component]', function (e) {
 			if (dataset.href)
 				window.location.href = dataset.href;
 			else
-				console.error("Can't trigger component "+app.page+" in unexistent app object.");
+				console.error("Can't trigger component "+dataset.component+" in unexistent app object.");
 			return;
 		}
 		if (dataset.component in app.components) {
@@ -92,7 +92,10 @@ $('body').on('click', '[data-trigger=component]', function (e) {
 $('body').on('click', "a[data-ajax-post-href],button[data-ajax-post-href]", function () {
 	var href = this.dataset['ajaxPostHref'],
 		redirect = this.dataset['redirectHref'];
-	console.log('oiem', href, this)
+	if (this.dataset['ask-continue']) {
+		if (!confirm(this.dataset['ask-string'] || "Tem certeza que deseja realizar essa ação?"))
+			return;
+	}
 	$.post(href, function () {
 		if (redirect)
 			window.location.href = redirect;

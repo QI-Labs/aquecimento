@@ -47,7 +47,7 @@ module.exports = (app) ->
 			id = mongoose.Types.ObjectId.createFromHexString(problemId);
 		catch e
 			return next({ type: "InvalidId", args:'problemId', value:problemId});
-		Problem.findOne { _id:problemId }, req.handleErrResult (problem) ->
+		Problem.findOne { _id:problemId }, req.handleErr404 (problem) ->
 			req.problem = problem
 			next()
 	)

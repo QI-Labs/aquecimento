@@ -5,6 +5,7 @@ mongoose = require 'mongoose'
 assert = require 'assert'
 _ = require 'underscore'
 async = require 'async'
+validator = require 'validator'
 
 please = require 'src/lib/please.js'
 please.args.extend(require('./lib/pleaseModels.js'))
@@ -29,29 +30,21 @@ ProblemSchema = new mongoose.Schema {
 		avatarUrl: String
 		name: String
 	}
+
+	pset: 		{ type: String }
+	topic:		{ type: String }
 	
 	updated_at:	{ type: Date }
 	created_at:	{ type: Date, indexed: 1, default: Date.now }
 
-	topic:	{ type: String }
 	content: {
-		title:	{ type: String }
 		body:	{ type: String, required: true }
 		source:	{ type: String }
 		image:  { type: String }
-		solution: {}
+		solution: { type: String }
+		solimg: { type: String }
 
-		answer: {
-			value: 0,
-			options: [],
-			is_mc: { type: Boolean, default: true },
-		}
-	}
-	level: 		{ type: Number, enum: [1,2,3] }
-
-	counts: {
-		# votes: 		{ type: Number, default: 0 }
-		children:	{ type: Number, default: 0 }
+		answer: { type: Number }
 	}
 
 	hasAnswered: [],
@@ -64,6 +57,54 @@ ProblemSchema = new mongoose.Schema {
 
 ProblemSchema.statics.APISelect = '-hasAnswered -canSeeAnswers -hasSeenAnswers -watching -userTries'
 
+ProblemSetSchema = new mongoose.Schema {
+	name: 		{ type: String, required: true }
+	updated_at:	{ type: Date }
+	created_at:	{ type: Date, indexed: 1, default: Date.now }
+
+	level: 		{ type: Number, enum: [1,2,3] }
+
+	docs: [ProblemSchema]
+
+	contributors: [{
+		id: String
+		username: String
+		path: String
+		avatarUrl: String
+		name: String
+	}]
+}, {
+	toObject:	{ virtuals: true }
+	toJSON: 	{ virtuals: true }
+}
+
+ProblemSchema.statics.ParseRules = {
+	topic:
+		$valid: (str) ->
+			console.log(''+str)
+			str in ['combinatorics', 'algebra', 'number-theory', 'geometry']
+
+	content:
+		body:
+			$valid: (str) -> validator.isLength(str, 10, 1000)
+			$clean: (str) -> _.escape(validator.trim(str))
+		solution:
+			$valid: (str) -> validator.isLength(str, 10, 1000)
+			$clean: (str) -> _.escape(validator.trim(str))
+		source:
+			$valid: (str) -> validator.isLength(str, 10, 1000)
+			$clean: (str) -> _.escape(validator.trim(str))
+		answer: 
+			$valid: (str) -> true
+			$clean: (str) -> parseInt(str)
+		image:
+			$valid: (str) -> true
+			$clean: (str) -> validator.trim(str)
+		solimg:
+			$valid: (str) -> true
+			$clean: (str) -> validator.trim(str)
+}
+
 ################################################################################
 ## Virtuals ####################################################################
 
@@ -74,28 +115,26 @@ ProblemSchema.virtual('translated_topic').get ->
 	TranslatedTopics[@topic]
 
 ProblemSchema.virtual('apiPath').get ->
-	"/api/problems/{id}".replace(/{id}/, @id)
+	"/api/sets/{pset}/problems/{id}"
+		.replace(/{pset}/, @pset)
+		.replace(/{id}/, @id)
+
+ProblemSchema.virtual('editorPath').get ->
+	"/panel/sets/{pset}/problems/{id}"
+		.replace(/{pset}/, @pset)
+		.replace(/{id}/, @id)
+
+ProblemSetSchema.virtual('apiPath').get ->
+	"/api/sets/{id}".replace(/{id}/, @id)
+
+ProblemSetSchema.virtual('path').get ->
+	"/panel/sets/{id}".replace(/{id}/, @id)
+
+ProblemSetSchema.virtual('editorPath').get ->
+	"/panel/sets/{id}".replace(/{id}/, @id)
 
 ################################################################################
 ## Middlewares #################################################################
-
-# ProblemSchema.pre 'remove', (next) ->
-# 	next()
-# 	Notification.find { resources: @ }, (err, docs) =>
-# 		console.log "Removing #{err} #{docs.length} notifications of Problem #{@id}"
-# 		docs.forEach (doc) ->
-# 			doc.remove()
-
-# ProblemSchema.pre 'remove', (next) ->
-# 	next()
-# 	Answer.find { problem: @ }, (err, docs) ->
-# 		docs.forEach (doc) ->
-# 			doc.remove()
-
-# ProblemSchema.pre 'remove', (next) ->
-# 	next()
-# 	Inbox.remove { resource: @id }, (err, doc) =>
-# 		console.log "Removing #{err} #{doc} inbox of Problem #{@id}"
 
 # ProblemSchema.pre 'remove', (next) ->
 # 	next()
@@ -125,4 +164,7 @@ ProblemSchema.statics.fromObject = (object) ->
 
 ProblemSchema.plugin(require('./lib/selectiveJSON'), ProblemSchema.statics.APISelect)
 
-module.exports = Problem = mongoose.model('Problem', ProblemSchema)
+Problem = mongoose.model('Problem', ProblemSchema)
+ProblemSet = mongoose.model('ProblemSet', ProblemSetSchema)
+
+module.exports = () ->

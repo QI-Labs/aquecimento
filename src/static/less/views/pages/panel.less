@@ -1,0 +1,103 @@
+
+.navbar {
+	.rounded(0);
+
+	.navbar-text img {
+		max-height: 20px;
+		width: auto;
+		vertical-align: middle;
+	}
+
+	.navbar-nav > li > a {
+		height: 50px !important;
+		padding-top: 15px;
+		padding-bottom: 15px;
+	}
+
+	.dropdown {
+		.user-avatar {
+			width: 30px;
+			height: 30px;
+			vertical-align: middle;
+		}
+	}
+
+	.navbar-nav > li.dropdown > a {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+}
+
+
+[data-page=panel] {
+
+	padding: 0;
+
+	.teste-latex {
+		width: 400px;
+
+		label {
+			font: 15px Arial;
+		}
+	}
+
+	.output {
+		&::before {
+			content: "Output:";
+			text-transform: uppercase;
+			color: #444;
+			font: bold 11px Arial;
+			position: absolute;
+			top: 5px;
+			left: 5px;
+		}
+
+		position: relative;
+		margin-top: 10px;
+		padding: 15px 5px 5px;
+		width: 100%;
+		min-height: 70px;
+		background: #CCC;
+		display: inline-block;
+	}
+
+	table {
+		tr {
+			.delimiter {
+				max-height: 100px;
+				overflow-y: scroll;
+			}
+		}
+	}
+	
+	.set-form {
+		font-size: 12px;
+	}
+}
+
+
+[data-page=problem-form] {
+
+	background: fadeout(black, 30%);
+	z-index: 60 !important;
+	.close-btn {
+		position: fixed;
+		right: 31px;
+		top: 10px;
+		font-weight: bold;
+	}
+
+	.box {
+		width: 740px;
+		background: white;
+		position: relative;
+		margin: 40px auto;
+		display: table;
+		z-index: 1000;
+		padding: 30px;
+
+	}
+	.form-group label {
+		font-size: 12px;
+	}
+}

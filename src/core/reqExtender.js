@@ -1,11 +1,12 @@
 
 mongoose = require('mongoose')
-_ = require('underscore')
+_ = require('lodash')
 async = require('async')
 
 module.exports = function (req, res, next) {
 
-	req.handleErrResult = function (callback, options) {
+	// Expects not-null as second argument, throws 404 otherwise.
+	req.handleErr404 = function (callback, options) {
 		var self = this;
 		return function (err, result) {
 			if (err) {
@@ -18,7 +19,7 @@ module.exports = function (req, res, next) {
 		}
 	};
 	
-	req.handleErrValue = function (callback, options) {
+	req.handleErr = function (callback, options) {
 		var self = this;
 		return function (err, result) {
 			if (err) {
@@ -56,6 +57,10 @@ module.exports = function (req, res, next) {
 	};
 
 	req.parse = function (rules, cb) {
+
+		if (!rules)
+			throw "Null object passed as rules to req.parse.";
+
 		function flattenObjList (list) {
 			if (list.length)
 				return _.reduce(list, function (a, b) { return _.extend({}, a, b); });
@@ -76,12 +81,7 @@ module.exports = function (req, res, next) {
 				cb("Attribute '"+key+"' is required.");
 				return;
 			} else if (rule.$valid) {
-				try {
-					if (!rule.$valid(obj)) {
-						cb("Attribute '"+key+"' fails validation function: "+JSON.stringify(obj));
-						return;
-					}
-				} catch (e) { // OPS, let's say it's invalid...
+				if (!rule.$valid(obj)) {
 					cb("Attribute '"+key+"' fails validation function: "+JSON.stringify(obj));
 					return;
 				}

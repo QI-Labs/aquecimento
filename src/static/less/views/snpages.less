@@ -13,6 +13,7 @@
 @import "components/dialog.less";
 
 @import "pages/front.less";
+@import "pages/panel.less";
 @import "pages/error.less";
 
 html, body {
@@ -352,31 +353,65 @@ header {
 	}
 }
 
+.close-btn {
+	color: #EEE;
+	font-style: normal;
+	font-size: 22px;
+	cursor: pointer;
+	color: white;
+	.transition;
+
+	opacity: .9;
+	&:hover {
+		opacity: 1;
+	}
+	&::before {
+		content: "×";
+	}
+}
+
+
+.pContainer {
+	position: absolute;
+	top: 0; bottom: 0;
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	z-index: 20;
+
+	& > .close-btn {
+		position: absolute;
+		top: 10px;
+		right: 20px;
+	}
+}
+
+
 .xbulb {
 	// line-height: 18px;
 	display: block;
 	margin: 30px auto 30px;
 	font-size: 37px;
-	background: white;
 	padding: 10px;
 	height: 60px;
 	line-height: 40px;
 	width: 60px;
+	position: relative;
 	text-align: center;
 	border-radius: 40px;
 	// border: 1px solid #ddd;
-	color: #AAA;
-	text-shadow: 0 0 1px rgba(0,0,0,0)
-}
-
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
-}
-.container-narrow > hr {
-  margin: 30px 0;
+	text-shadow: 0 0 1px rgba(0,0,0,0);
+	background: #CCC;
+	color: white;
+	&.inverse {
+		color: #AAA;
+		background: white;
+	}
+	& > a {
+		position: absolute;
+		top: 0; right: 0; bottom: 0; left: 0;
+	}
 }
 
 /* Main marketing message and sign up button */
