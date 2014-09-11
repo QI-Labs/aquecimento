@@ -43,6 +43,15 @@ PlayerSchema = new mongoose.Schema {
 		following:	{ type: Number, default: 0 }
 	},
 
+	pset_play: [{
+		pset: 	{ type: String, ref: 'ProblemSet' }
+		start: 	{ type: Date }
+		last_index: { type: Number }
+		moves: 	[{
+			correct: { type: Boolean }
+		}]
+	}]
+
 	meta: {
 		sessionCount: { type: Number, default: 0 }
 		created_at: { type: Date, default: Date.now }

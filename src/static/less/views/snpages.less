@@ -98,6 +98,68 @@ html, body {
 	}
 }
 
+[data-page=main] {
+
+	.main-container {
+		position: relative;
+		top: 20%;
+		width: 960px;
+	}
+
+	.container.smaller {
+		width: 700px;
+	}
+
+	.access-set:nth-of-type(1) {
+		.high-xbtn(white, @COLOR1, 3px, 10px, 15px);
+		font-size: 20px;
+	}
+	.access-set:nth-of-type(2) {
+		.high-xbtn(white, @COLOR3, 3px, 10px, 15px);
+		font-size: 20px;
+	}
+
+	.start {
+		.high-xbtn(white, @COLOR1, 3px, 10px, 15px);
+		margin: auto;
+		font-size: 20px;
+		display: block;
+		width: 120px;
+	}
+
+	.box {
+		background: #FFF;
+		position: relative;
+		display: table;
+		padding: 10px;
+		border-radius: 10px;
+
+		.box-header {
+			position: absolute;
+			padding: 0 20px;
+			width: 100%;
+			top: -30px;
+			left: 0px;
+
+			.breadcrumbs {
+				line-height: 33px;
+			}
+
+			& > div {
+				display: inline-block;
+			}
+			& > .right {
+				float: right;
+				line-height: 33px;
+			}
+		}
+
+		.almofada {
+			padding: 30px;
+		}
+	}
+}
+
 @postColWidth: 830px;
 
 .gcontainer {

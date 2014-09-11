@@ -36,11 +36,11 @@ module.exports = (app) ->
 		else
 			res.render 'app/front'
 
-	router.get '/simulados/obmep2014', (req, res, next) ->
-		# ProblemSet.find { _id: }
-		res.render 'app/simulado', {
-			pset: null # pset
-		}
+	router.get '/p/:psetId', (req, res, next) ->
+		ProblemSet.findOne { _id: req.params.psetId }, req.handleErr404 (doc) ->
+			res.render 'app/simulado', {
+				pset: doc
+			}
 
 	router.get '/logout', (req, res, next) ->
 		req.logout()

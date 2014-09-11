@@ -35,91 +35,43 @@
 
 {% block preBody %}{% endblock %}
 
-<div class="container">
-	<div class="header">
-		<ul class="nav nav-pills pull-right">
-			<li class="active"><a href="/">Maratonas</a></li>
-			<li><a href="http://qilabs.org">QI Labs.org</a></li>
-			<li class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-				<div class="user-avatar">
-					<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')">
-					</div>
+<div class="container main-container">
+
+	<div class="row">
+		<div class="box">
+			<div class="box-header">
+				<div class="breadcrumbs">
+					Maratonas QI Labs
 				</div>
-				<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu" role="menu">
+				<div class="right">
+					Logado como <span class="username">{{ user.name }}</span>,&nbsp;
 					<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
-						Logout
+						sair
 					</a>
-				</ul>
-			</li>
-		</ul>
-		<h3 class="text-muted brand">QI <i class="icon-bulb2"></i> Labs</h3>
-	</div>
-
-	<div class="jumbotron">
-		<h1>Maratonas QI Labs</h1>
-		<p class="lead">Resolva os problemas de olimpíadas passadas, </p>
-		<!-- <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p> -->
-	</div>
-
-	<div class="row marketing">
-		<div class="col-lg-4">
-			<h3>Nível 1</h3>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2013
-			</a>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2012
-			</a>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2011
-			</a>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2010
-			</a>
+				</div>
+			</div>
+			<div class="almofada col-md-8">
+				<p class="lead">
+					Bem-vindo ao Maratonas QI Labs, <strong>{{ user.name }}</strong>.
+					Aqui você pode resolver problemas adaptados de olimpíadas passadas, receber estatísticas sobre o seu desempenho, e compartilhe sua pontuação com seus amigos.
+				</p>
+			</div>
+			<div class="col-md-4">
+				<h4>Aquecimentos abertos:</h4>
+				<a class="button access-set" href="/p/obmep2014nivel2">
+					2ª Fase OBMEP Nível 2
+				</a>
+				<a class="button access-set" href="/p/obmep2014nivel3">
+					2ª Fase OBMEP Nível 3
+				</a>
+			</div>
 		</div>
-		<div class="col-lg-4">
-			<h3>Nível 2</h3>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2013
-			</a>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2012
-			</a>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2011
-			</a>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2010
-			</a>
-		</div>
-		<div class="col-lg-4">
-			<h3>Nível 3</h3>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2013
-			</a>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2012
-			</a>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2011
-			</a>
-			<a class="button option" href="#">
-				OBM, 2ª fase 2010
-			</a>
-		</div>
-
 	</div>
-	<div class="footer">
-		Um projeto QI Labs · 2014
-	</div>
-
+	<footer class="">
+		<i class="xbulb icon-bulb2"><a data-toggle="title" title="Um projeto QI Labs · 2014" href="http://qilabs.org"></a></i>
+	</footer>
 </div>
-<footer class="">
-	<a href="http://qilabs.org"><i class="xbulb icon-bulb2"></i></a>
-</footer>
+
 
 {% if user %}
 	<!-- User Voice -->

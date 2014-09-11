@@ -225,11 +225,13 @@ var ProblemForm = React.createClass({displayName: 'ProblemForm',
 		this.props.model.attributes.content.image = this.refs.bodyimgInput.getDOMNode().value;
 		this.props.model.attributes.content.solimg = this.refs.solimgInput.getDOMNode().value;
 
+		var self = this;
 		this.props.model.save(undefined, {
 			url: this.props.model.url() || ('/api/sets/'+this.props.model.get('pset')+'/problems'),
 			success: function (model) {
 				// window.location.href = model.get('editorPath');
 				app.flash.info("Problema salvo! :)");
+				self.close();
 			},
 			error: function (model, xhr, options) {
 				var data = xhr.responseJSON;
@@ -549,7 +551,7 @@ var WorkspaceRouter = Backbone.Router.extend({
 		'create-problem': function (data) {
 			this.closePages();
 
-			var problemItem = new ProblemItem({ pset: '541139e2431f7a650104d0de', content: {} });
+			var problemItem = new ProblemItem({ pset: data.pset, content: {} });
 			
 			var p = new Page(ProblemForm( {model:problemItem} ), 'problem-form', {
 				title: "Criando novo problema.",

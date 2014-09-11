@@ -35,42 +35,38 @@
 
 {% block preBody %}{% endblock %}
 
-<div class="container">
-	<div class="header">
-		<ul class="nav nav-pills pull-right">
-			<li class="active"><a href="/">Maratonas</a></li>
-			<li><a href="http://qilabs.org">QI Labs.org</a></li>
-			<li class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-				<div class="user-avatar">
-					<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')">
-					</div>
+<div class="container main-container smaller">
+
+	<div class="row">
+		<div class="box">
+			<div class="box-header">
+				<div class="breadcrumbs">
+					<a href="/">Maratonas QI Labs</a> &raquo; <strong>{{ pset.name }}</strong>
 				</div>
-				<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu" role="menu">
+				<div class="right">
+					Logado como <span class="username">{{ user.name }}</span>,&nbsp;
 					<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
-						Logout
+						sair
 					</a>
-				</ul>
-			</li>
-		</ul>
-		<h3 class="text-muted brand">QI <i class="icon-bulb2"></i> Labs</h3>
+				</div>
+			</div>
+			<div class="almofada col-md-12">
+				<p class="lead">
+					Esse aquecimento é composto de <strong>10 problemas</strong> adaptados, que testam conhecimento de teoria dos números, análise combinatória, álgebra e geometria, em dificuldade equivalente à encontrada nas provas de OBMEP desse nível.
+					<br />
+					Boa sorte!
+				</p>
+				<a class="button start" href="{{ pset.path }}/start">
+					Começar!
+				</a>
+			</div>
+		</div>
 	</div>
-
-	<div class="jumbotron">
-		<h1>Maratonas QI Labs</h1>
-		<p class="lead">Resolva os problemas de olimpíadas passadas, </p>
-		<!-- <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p> -->
-	</div>
-
-	<div class="row marketing">
-	</div>
+	<footer class="">
+		<i class="xbulb icon-bulb2"><a data-toggle="title" title="Um projeto QI Labs · 2014" href="http://qilabs.org"></a></i>
+	</footer>
 </div>
 
-<footer class="">
-	<a data-toggle="title" title="Um projeto QI Labs · 2014" href="http://qilabs.org"><i class="xbulb icon-bulb2"></i></a>
-</footer>
 
 {% if user %}
 	<!-- User Voice -->
