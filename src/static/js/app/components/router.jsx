@@ -520,7 +520,7 @@ var ProblemSetView = React.createClass({
 				<div className="content-col">
 					<h1>{ this.props.model.get('name') }</h1>
 					<p className="lead">
-						Esse simulado é composto por { this.props.collection.length } questões de matemática, que os tópicos: <span className="label label-info">geometria</span>, <span className="label label-success">teoria dos números</span>, <span className="label label-warning">análise combinatória</span> e <span className="label label-danger">álgebra</span>. 
+						Esse simulado é composto por { this.props.collection.length } questões de matemática, abordando conhecimento em: <span className="label label-info">geometria</span>, <span className="label label-success">teoria dos números</span>, <span className="label label-warning">análise combinatória</span> e <span className="label label-danger">álgebra</span>. 
 					</p>
 					<h3>Boa sorte!</h3>
 					<div className="contributors">

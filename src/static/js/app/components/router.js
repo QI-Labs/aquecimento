@@ -520,7 +520,7 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 				React.DOM.div( {className:"content-col"}, 
 					React.DOM.h1(null,  this.props.model.get('name') ),
 					React.DOM.p( {className:"lead"}, 
-						"Esse simulado é composto por ",  this.props.collection.length,  " questões de matemática, que os tópicos: ", React.DOM.span( {className:"label label-info"}, "geometria"),", ", React.DOM.span( {className:"label label-success"}, "teoria dos números"),", ", React.DOM.span( {className:"label label-warning"}, "análise combinatória"), " e ", React.DOM.span( {className:"label label-danger"}, "álgebra"),"." 
+						"Esse simulado é composto por ",  this.props.collection.length,  " questões de matemática, abordando conhecimento em: ", React.DOM.span( {className:"label label-info"}, "geometria"),", ", React.DOM.span( {className:"label label-success"}, "teoria dos números"),", ", React.DOM.span( {className:"label label-warning"}, "análise combinatória"), " e ", React.DOM.span( {className:"label label-danger"}, "álgebra"),"." 
 					),
 					React.DOM.h3(null, "Boa sorte!"),
 					React.DOM.div( {className:"contributors"}, 
