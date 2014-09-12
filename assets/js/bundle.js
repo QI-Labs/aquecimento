@@ -444,7 +444,8 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 
 	onClickNext: function () {
 		if (this.props.index === this.props.set.get('docs').length-1) { // This was the last one.
-			app.navigate(this.props.set.get('path'), { trigger: true });
+			location.href = this.props.set.get('path'); // , { trigger: true });
+
 		} else {
 			app.navigate(this.props.set.get('path')+'/'+(this.props.index+1), { trigger: true });
 		}
