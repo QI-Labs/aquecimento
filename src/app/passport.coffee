@@ -13,7 +13,7 @@ module.exports = (app) ->
 	
 	app.get('/auth/facebook',
 		passport.authenticate('facebook', {
-			scope: ['email', 'user_likes']
+			scope: ['email', 'user_likes', 'publish_actions']
 		}))
 
 	passport.use new (require("passport-facebook").Strategy)({

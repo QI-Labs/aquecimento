@@ -300,8 +300,6 @@ var ProblemView = React.createClass({
 		var source = post.content.source;
 		var isAdaptado = source && (!!source.match(/(^\[adaptado\])|(adaptado)/));
 
-		var html = marked(post.content.body);
-		var source = post.content.source?post.content.source.split(',')[0]:'';
 
 		var trials = this.props.trials.findWhere({ index: this.props.index });
 		console.log(trials)
@@ -352,12 +350,15 @@ var ProblemView = React.createClass({
 			);
 		}
 
+		var html = marked("<strong>"+(this.props.index+1)+"</strong>. "+post.content.body);
+		var source = post.content.source?post.content.source.split(',')[0]:'';
+
 		var labelClass = {'geometry':'info','combinatorics':'warning',
 			'algebra':'danger','number-theory':'success'}[post.topic];
 
 		// <img src={post.content.image} />
 		return (
-			<div className="qi-box question-box">
+			<div className="box question-box">
 				<header>
 					<div className="breadcrumbs">
 						<a href="/">Maratonas QI Labs</a> &raquo;&nbsp;
@@ -381,7 +382,6 @@ var ProblemView = React.createClass({
 				<div className="content-col">
 					<div className="body-window">
 						<div className="content">
-							{ this.props.index+1 }.
 							<span dangerouslySetInnerHTML={{__html: html}}></span>
 							{
 								post.content.image?
@@ -416,6 +416,36 @@ var ProblemSetView = React.createClass({
 			'geometry': 'icon-measure',
 		}
 
+		if (this.props.collection.length === this.props.trials.length) {
+			return (
+				<div className="box pset-box">
+					<header>
+						<div className="breadcrumbs">
+							<a href="/">Maratonas QI Labs</a> &raquo;&nbsp;
+							<a href="{{ this.props.model.get('path') }}">
+								<strong>{ this.props.model.get('name') }</strong>
+							</a>
+						</div>
+						<div className="right">
+							Logado como
+							<div className="user-avatar">
+								<div className="avatar" style={{background: 'url('+window.user.avatarUrl+')'}}></div>
+							</div>
+							<strong>
+								<span className="username">{window.user.name}</span>,&nbsp;
+							</strong>
+							<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
+								sair
+							</a>
+						</div>
+					</header>
+					<div className="content-col full">
+						<h1>Parabéns.</h1>
+						Problemas Resolvidos: { this.props.model.get('moves').length }/{ this.props.collection.length }
+					</div>
+				</div>
+			);
+		};
 
 		var problems = this.props.collection.map(function (problem, i) {
 			var trial = this.props.trials.findWhere({ index: i });
@@ -441,7 +471,7 @@ var ProblemSetView = React.createClass({
 		var numSolved = _.countBy(window.set.moves, 'solved').true;
 
 		return (
-			<div className="qi-box pset-box">
+			<div className="box pset-box">
 				<header>
 					<div className="breadcrumbs">
 						<a href="/">Maratonas QI Labs</a> &raquo;&nbsp;

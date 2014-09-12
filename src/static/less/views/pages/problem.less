@@ -1,0 +1,270 @@
+
+[data-page=problem] {
+	background: #efefec;
+
+	.box {
+		// display: table;
+		// border: 0;
+		padding: 0;
+
+		.content-col.full {
+			width: 100%;
+		}
+
+		.content-col {
+			width: 580px;
+			display: table-cell;
+			vertical-align: top;
+
+			.header {
+				height: 50px;
+
+				& > .user-avatar {
+					width: 50px;
+				}
+
+				.title {
+					display: inline-block;
+					height: 50px;
+					line-height: 50px;
+					padding: 0 5px;
+					font: bold 23px museo-sans;
+				}
+			}
+
+			.body-window {
+				width: 580px;
+				height: 350px;
+				overflow-y: auto;
+
+				.content {
+					padding: 30px;
+					font-size: 16px;
+					word-break: break-word;
+					ul {
+						margin-left: 20px;
+					}
+				}
+				img {
+					max-width: 100%;
+				}
+			}
+
+			::-webkit-scrollbar {
+				width: 10px;
+			} 
+
+			::-webkit-scrollbar-thumb {
+				background-color: rgba(0,0,0,.1);
+				.transition;
+				&:hover {
+					background-color: rgba(0,0,0,.2);
+				}
+			}
+
+			.fixed-footer {
+				height: 60px;
+				line-height: 60px;
+				padding: 0 20px;
+				border-top: 1px solid #DDD;
+				-webkit-box-shadow: 0 -33px 20px -35px rgba(0,0,0,.5); 
+				-moz-box-shadow: 0 -33px 20px -35px rgba(0,0,0,.5);
+				box-shadow: 0 -33px 20px -35px rgba(0,0,0,.5); 
+
+				.info {
+					display: inline-block;
+					color: #444;
+					font-size: 15px;
+					a {
+						color: mix(#444, blue, 95%);
+						text-decoration: underline;
+					}
+				}
+
+				.user-avatar {
+					width: 30px;
+					height: 30px;
+					border-radius: 30px;
+					margin-right: 10px;
+				}
+
+				.actions {
+					display: inline-block;
+					float: right;
+					.flag {
+						background: 0;
+						outline: 0;
+						.no-box-shadow;
+						.transition;
+						&:hover {
+							background: #EEE;
+						}
+						i {
+							font-size: 20px;
+							color: mix(yellow, @COLOR3);
+						}
+					}
+					.info {
+						background: 0;
+						outline: 0;
+						.no-box-shadow;
+						.transition;
+						&:hover {
+							background: #EEE;
+						}
+						i {
+							font-size: 18px;
+							color: @COLOR1;
+							width: 10px;
+						}
+					}
+				}
+			}
+		}
+
+		.right-col {
+			min-width: 250px;
+			width: 248px;
+			display: table-cell;
+			padding: 20px;
+			border-left: 1px solid #DDD;
+			color: white;
+			position: relative;
+			background: #39CCCC; // desaturate(mix(@COLOR1, @COLOR2),10%);
+			color: #222;
+			background: #f3f3f1;
+
+			span.question {
+				font: 18px/1.7 "PT Serif";
+				display: block;
+				margin-bottom: 15px;
+			}
+
+			input.answer {
+				border: 0;
+				outline: 0;
+				padding: 10px;
+				width: 100%;
+				.transition;
+				&:focus {
+					// border-color: mix(@COLOR1, @COLOR2);
+				}
+				font-size: 17px;
+				font-family: "Georgia";
+				color: #444;
+				border: 2px solid @COLOR3;
+			}
+
+			tr td .send {
+				margin-left: 10px;
+			}
+
+			.send {
+				.high-xbtn(white, @COLOR3);
+				margin: 0;
+				padding: 0;
+				width: 50px;
+				height: 40px;
+				width: 100%;
+				margin-top: 10px;
+			}
+
+			.skip {
+				.xbtn(white, @COLOR4);
+				position: absolute;
+				bottom: 10px;
+				right: 10px;
+				border-radius: 15px;
+				font-weight: normal;
+			}
+		}
+	}
+
+	.box.pset-box {
+
+		.content-col {
+			padding: 20px;
+		}
+
+		.right-col {
+			background: #39CCCC; // desaturate(mix(@COLOR1, @COLOR2),10%);
+			border: 0;
+			padding: 20px;
+
+			.problem-list {
+
+				.item button {
+					.high-xbtn(#444, #F7F7F3, 2px);
+					position: relative;
+					font-weight: normal;
+					width: 100%;
+					font-size: 16px;
+					margin: 0;
+					i.indicator {
+						position: absolute;
+						font-size: 19px;
+						font-weight: normal;
+						right: 10px;
+						top: 7px;
+					}
+				}
+				.item:not(:last-child) button {
+					margin: 0 0 10px;
+				}
+				.item[data-solved=false] button {
+					i.indicator {
+						color: @COLOR4;
+					}
+				}
+				.item[data-solved=true] button {
+					// .xbtn(white, @COLOR2);
+					margin: 0 0 10px;
+					font-weight: normal;
+					width: 100%;
+					font-size: 16px;
+
+					i.indicator {
+						color: @COLOR2;
+					}
+				}
+			}
+		}
+	}
+
+	.box.question-box {
+
+		.right-col {
+			.curtain {
+				padding-top: 60px;
+				text-align: center;
+
+				i {
+					font-size: 80px;
+					display: block;
+					color: @COLOR4;
+				}
+				i.correct {
+					color: @COLOR2;
+				}
+				.message {
+					font: 23px museo-sans;
+					margin: 10px 0;
+
+					small {
+						color: #777;
+						font-size: 16px;
+					}
+				}
+
+				.next {
+					.xbtn(white, @COLOR1);
+					position: absolute;
+					bottom: 10px;
+					right: 10px;
+					border-radius: 15px;
+					font-weight: normal;
+				}
+			}
+		}
+	}
+}

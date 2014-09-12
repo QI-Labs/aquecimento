@@ -35,11 +35,11 @@
 
 {% block preBody %}{% endblock %}
 
-<div class="container main-container smaller">
+<div class="container">
 
 	<div class="row">
 		<div class="box">
-			<div class="box-header">
+			<header>
 				<div class="breadcrumbs">
 					<a href="/">Maratonas QI Labs</a>
 				</div>
@@ -53,14 +53,17 @@
 						sair
 					</a>
 				</div>
-			</div>
-			<div class="almofada col-md-7">
+			</header>
+			<div class="almofada col-md-8">
 				<p class="lead">
-					Bem-vindo ao Maratonas QI Labs, <strong>{{ user.name }}</strong>.
+					Bem-vindo ao Maratonas QI Labs!<br/>
 					Aqui você pode resolver problemas adaptados de olimpíadas passadas, receber estatísticas sobre o seu desempenho, e compartilhar sua pontuação com seus amigos.
 				</p>
+				<p>
+					<strong>Estamos em fase de testes</strong>, avise-nos de qualquer erro <a href="">por aqui</a>.
+				</p>
 			</div>
-			<div class="col-md-5">
+			<div class="col-md-4">
 				<h4>Aquecimentos abertos:</h4>
 				<a class="button access-set" href="/p/obmep2014nivel2">
 					2ª Fase OBMEP Nível 2

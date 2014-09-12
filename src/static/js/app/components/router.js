@@ -300,8 +300,6 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 		var source = post.content.source;
 		var isAdaptado = source && (!!source.match(/(^\[adaptado\])|(adaptado)/));
 
-		var html = marked(post.content.body);
-		var source = post.content.source?post.content.source.split(',')[0]:'';
 
 		var trials = this.props.trials.findWhere({ index: this.props.index });
 		console.log(trials)
@@ -352,12 +350,15 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 			);
 		}
 
+		var html = marked("<strong>"+(this.props.index+1)+"</strong>. "+post.content.body);
+		var source = post.content.source?post.content.source.split(',')[0]:'';
+
 		var labelClass = {'geometry':'info','combinatorics':'warning',
 			'algebra':'danger','number-theory':'success'}[post.topic];
 
 		// <img src={post.content.image} />
 		return (
-			React.DOM.div( {className:"qi-box question-box"}, 
+			React.DOM.div( {className:"box question-box"}, 
 				React.DOM.header(null, 
 					React.DOM.div( {className:"breadcrumbs"}, 
 						React.DOM.a( {href:"/"}, "Maratonas QI Labs"), " » ",
@@ -381,7 +382,6 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 				React.DOM.div( {className:"content-col"}, 
 					React.DOM.div( {className:"body-window"}, 
 						React.DOM.div( {className:"content"}, 
-							 this.props.index+1, ".",
 							React.DOM.span( {dangerouslySetInnerHTML:{__html: html}}),
 							
 								post.content.image?
@@ -416,6 +416,36 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 			'geometry': 'icon-measure',
 		}
 
+		if (this.props.collection.length === this.props.trials.length) {
+			return (
+				React.DOM.div( {className:"box pset-box"}, 
+					React.DOM.header(null, 
+						React.DOM.div( {className:"breadcrumbs"}, 
+							React.DOM.a( {href:"/"}, "Maratonas QI Labs"), " » ",
+							React.DOM.a( {href:"{{ this.props.model.get('path') }}"}, 
+								React.DOM.strong(null,  this.props.model.get('name') )
+							)
+						),
+						React.DOM.div( {className:"right"}, 
+							"Logado como",
+							React.DOM.div( {className:"user-avatar"}, 
+								React.DOM.div( {className:"avatar", style:{background: 'url('+window.user.avatarUrl+')'}})
+							),
+							React.DOM.strong(null, 
+								React.DOM.span( {className:"username"}, window.user.name),", "
+							),
+							React.DOM.a( {href:"#", 'data-ajax-post-href':"/api/me/logout", 'data-redirect-href':"/"}, 
+								"sair"
+							)
+						)
+					),
+					React.DOM.div( {className:"content-col full"}, 
+						React.DOM.h1(null, "Parabéns."),
+						"Problemas Resolvidos: ",  this.props.model.get('moves').length, "/", this.props.collection.length 
+					)
+				)
+			);
+		};
 
 		var problems = this.props.collection.map(function (problem, i) {
 			var trial = this.props.trials.findWhere({ index: i });
@@ -441,7 +471,7 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 		var numSolved = _.countBy(window.set.moves, 'solved').true;
 
 		return (
-			React.DOM.div( {className:"qi-box pset-box"}, 
+			React.DOM.div( {className:"box pset-box"}, 
 				React.DOM.header(null, 
 					React.DOM.div( {className:"breadcrumbs"}, 
 						React.DOM.a( {href:"/"}, "Maratonas QI Labs"), " » ",

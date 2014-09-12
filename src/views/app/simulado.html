@@ -39,7 +39,7 @@
 
 	<div class="row">
 		<div class="box">
-			<div class="box-header">
+			<header>
 				<div class="breadcrumbs">
 					<a href="/">Maratonas QI Labs</a> &raquo; <strong>{{ pset.name }}</strong>
 				</div>
@@ -48,12 +48,12 @@
 					<div class="user-avatar">
 						<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')"></div>
 					</div>
-					<strong><span class="username">{{ user.name }}</span></strong>,&nbsp;
+					<strong><span class="username">{{ user.name }}</span></strong>,
 					<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
 						sair
 					</a>
 				</div>
-			</div>
+			</header>
 			<div class="almofada col-md-12">
 				<p class="lead">
 					Esse aquecimento é composto de <strong>10 problemas</strong> adaptados, que testam conhecimento de teoria dos números, análise combinatória, álgebra e geometria, em dificuldade equivalente à encontrada nas provas de OBMEP desse nível.
@@ -70,7 +70,6 @@
 		<i class="xbulb icon-bulb2"><a data-toggle="title" title="Um projeto QI Labs · 2014" href="http://qilabs.org"></a></i>
 	</footer>
 </div>
-
 
 {% if user %}
 	<!-- User Voice -->
