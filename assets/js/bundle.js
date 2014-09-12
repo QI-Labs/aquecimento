@@ -499,7 +499,7 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 						"Responder"
 					),
 
-					React.DOM.button( {className:"skip", onClick:this.onClickNext}, 
+					React.DOM.button( {className:"skip", onClick:this.onClickNext, 'data-toggle':"tooltip", title:"Você pode voltar a ele depois."}, 
 						"Pular Problema"
 					)
 				)
@@ -553,8 +553,8 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 							React.DOM.span( {className:"label label-"+labelClass}, post.translated_topic), " ", source
 						),
 						React.DOM.div( {className:"actions"}, 
-							React.DOM.button( {className:"info"}, React.DOM.i( {className:"icon-info"})),
-							React.DOM.button( {className:"flag"}, React.DOM.i( {className:"icon-flag"}))
+							React.DOM.a( {target:"_blank", href:"https://docs.google.com/forms/d/1QAkcnK2YPB5SF2f3Ds247aHKVF055bGlo0v-pt7Jn3s/viewform",
+								className:"button flag"}, React.DOM.i( {className:"icon-flag"}))
 						)
 					)
 				),
@@ -573,12 +573,15 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 		}
 
 		if (this.props.collection.length === this.props.trials.length) {
+			var counts = this.props.trials.countBy('solved');
+			console.log(counts)
+
 			return (
-				React.DOM.div( {className:"box pset-box"}, 
+				React.DOM.div( {className:"box"}, 
 					React.DOM.header(null, 
 						React.DOM.div( {className:"breadcrumbs"}, 
 							React.DOM.a( {href:"/"}, "Maratonas QI Labs"), " » ",
-							React.DOM.a( {href:"{{ this.props.model.get('path') }}"}, 
+							React.DOM.a( {href: this.props.model.get('path') }, 
 								React.DOM.strong(null,  this.props.model.get('name') )
 							)
 						),
@@ -595,10 +598,32 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 							)
 						)
 					),
-					React.DOM.div( {className:"content-col full"}, 
-						React.DOM.h1(null, "Parabéns."),
-						"Problemas Resolvidos: ",  this.props.model.get('moves').length, "/", this.props.collection.length 
+				React.DOM.div( {className:"box-fill"}, 
+					React.DOM.div( {className:"content-col full finished"}, 
+						React.DOM.div( {className:"veil"}, 
+							React.DOM.i( {className:"icon-happy2"}),
+							React.DOM.h1(null, React.DOM.strong(null, "Você concluiu o aquecimento.")),
+
+							React.DOM.div( {className:"feedback"}, 
+								React.DOM.h2(null, React.DOM.strong(null, "Sua pontuação final: ", counts[true] || 0,"/",this.props.trials.length))
+							),
+							React.DOM.p(null
+							)
+						),
+
+						React.DOM.div( {className:"btn-group"}, 
+							React.DOM.button( {className:"share-fb"}, 
+								"Compartilhe no Facebook"
+							),
+							React.DOM.a( {href:"http://qilabs.org", className:"button sign-beta"}, 
+								"Inscreva-se para o QI Labs Beta"
+							),
+							React.DOM.a( {href:"https://docs.google.com/forms/d/1JeGj4tXNxmjubnTK4GF8JqFu9_hnkk4EK_1ZZAgzf5I/viewform", className:"button tell-us"}, 
+								"Conte-nos o que voce achou :)"
+							)
+						)
 					)
+				)
 				)
 			);
 		};
@@ -631,7 +656,7 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 				React.DOM.header(null, 
 					React.DOM.div( {className:"breadcrumbs"}, 
 						React.DOM.a( {href:"/"}, "Maratonas QI Labs"), " » ",
-						React.DOM.a( {href:"{{ this.props.model.get('path') }}"}, 
+						React.DOM.a( {href: this.props.model.get('path') }, 
 							React.DOM.strong(null,  this.props.model.get('name') )
 						)
 					),
@@ -649,7 +674,20 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 					)
 				),
 				React.DOM.div( {className:"content-col"}, 
-					"Problemas Resolvidos: ",  this.props.model.get('moves').length, "/", this.props.collection.length 
+					React.DOM.h1(null),
+					"Problemas Resolvidos: ",  this.props.model.get('moves').length, "/", this.props.collection.length, 
+					React.DOM.div( {className:"contributors"}, 
+						React.DOM.label(null, "Contribuidores:"),
+						React.DOM.div( {className:"user-avatar"}, 
+							React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100002970450567/picture?width=200&height=200)'}})
+						),
+						React.DOM.div( {className:"user-avatar"}, 
+							React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100002234680040/picture?width=200&height=200)'}})
+						),
+						React.DOM.div( {className:"user-avatar", 'data-toogle':"tooltip", title:"Luiz Fernando Leal"}, 
+							React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100001334209362/picture?width=200&height=200)'}})
+						)
+					)
 				),
 				React.DOM.div( {className:"right-col"}, 
 					React.DOM.ul( {className:"problem-list"}, 

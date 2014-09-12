@@ -343,7 +343,7 @@ var ProblemView = React.createClass({
 						Responder
 					</button>
 
-					<button className="skip" onClick={this.onClickNext}>
+					<button className="skip" onClick={this.onClickNext} data-toggle="tooltip" title="Você pode voltar a ele depois.">
 						Pular Problema
 					</button>
 				</div>
@@ -397,8 +397,8 @@ var ProblemView = React.createClass({
 							<span className={"label label-"+labelClass}>{post.translated_topic}</span> {source}
 						</div>
 						<div className="actions">
-							<button className="info"><i className="icon-info"></i></button>
-							<button className="flag"><i className="icon-flag"></i></button>
+							<a target="_blank" href="https://docs.google.com/forms/d/1QAkcnK2YPB5SF2f3Ds247aHKVF055bGlo0v-pt7Jn3s/viewform"
+								className="button flag"><i className="icon-flag"></i></a>
 						</div>
 					</div>
 				</div>
@@ -417,12 +417,15 @@ var ProblemSetView = React.createClass({
 		}
 
 		if (this.props.collection.length === this.props.trials.length) {
+			var counts = this.props.trials.countBy('solved');
+			console.log(counts)
+
 			return (
-				<div className="box pset-box">
+				<div className="box">
 					<header>
 						<div className="breadcrumbs">
 							<a href="/">Maratonas QI Labs</a> &raquo;&nbsp;
-							<a href="{{ this.props.model.get('path') }}">
+							<a href={ this.props.model.get('path') }>
 								<strong>{ this.props.model.get('name') }</strong>
 							</a>
 						</div>
@@ -439,10 +442,32 @@ var ProblemSetView = React.createClass({
 							</a>
 						</div>
 					</header>
-					<div className="content-col full">
-						<h1>Parabéns.</h1>
-						Problemas Resolvidos: { this.props.model.get('moves').length }/{ this.props.collection.length }
+				<div className="box-fill">
+					<div className="content-col full finished">
+						<div className="veil">
+							<i className="icon-happy2"></i>
+							<h1><strong>Você concluiu o aquecimento.</strong></h1>
+
+							<div className="feedback">
+								<h2><strong>Sua pontuação final: {counts[true] || 0}/{this.props.trials.length}</strong></h2>
+							</div>
+							<p>
+							</p>
+						</div>
+
+						<div className="btn-group">
+							<button className="share-fb">
+								Compartilhe no Facebook
+							</button>
+							<a href="http://qilabs.org" className="button sign-beta">
+								Inscreva-se para o QI Labs Beta
+							</a>
+							<a href="https://docs.google.com/forms/d/1JeGj4tXNxmjubnTK4GF8JqFu9_hnkk4EK_1ZZAgzf5I/viewform" className="button tell-us">
+								Conte-nos o que voce achou :)
+							</a>
+						</div>
 					</div>
+				</div>
 				</div>
 			);
 		};
@@ -475,7 +500,7 @@ var ProblemSetView = React.createClass({
 				<header>
 					<div className="breadcrumbs">
 						<a href="/">Maratonas QI Labs</a> &raquo;&nbsp;
-						<a href="{{ this.props.model.get('path') }}">
+						<a href={ this.props.model.get('path') }>
 							<strong>{ this.props.model.get('name') }</strong>
 						</a>
 					</div>
@@ -493,7 +518,20 @@ var ProblemSetView = React.createClass({
 					</div>
 				</header>
 				<div className="content-col">
+					<h1></h1>
 					Problemas Resolvidos: { this.props.model.get('moves').length }/{ this.props.collection.length }
+					<div className="contributors">
+						<label>Contribuidores:</label>
+						<div className="user-avatar">
+							<div className="avatar" style={{background: 'url(https://graph.facebook.com/100002970450567/picture?width=200&height=200)'}}></div>
+						</div>
+						<div className="user-avatar">
+							<div className="avatar" style={{background: 'url(https://graph.facebook.com/100002234680040/picture?width=200&height=200)'}}></div>
+						</div>
+						<div className="user-avatar" data-toogle="tooltip" title="Luiz Fernando Leal">
+							<div className="avatar" style={{background: 'url(https://graph.facebook.com/100001334209362/picture?width=200&height=200)'}}></div>
+						</div>
+					</div>
 				</div>
 				<div className="right-col">
 					<ul className="problem-list">

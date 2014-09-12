@@ -1,7 +1,11 @@
 
 [data-page=problem] {
-	background: #efefec;
 
+	.box-fill {
+		display: table;
+		width: 100%;
+	}
+	
 	.box {
 		// display: table;
 		// border: 0;
@@ -180,7 +184,7 @@
 		}
 	}
 
-	.box.pset-box {
+	.pset-box {
 
 		.content-col {
 			padding: 20px;
@@ -231,7 +235,7 @@
 		}
 	}
 
-	.box.question-box {
+	.question-box {
 
 		.right-col {
 			.curtain {
@@ -265,6 +269,41 @@
 					font-weight: normal;
 				}
 			}
+		}
+	}
+
+	.content-col.finished {
+		text-align: center;
+		padding: 0 !important;
+
+		.veil {
+			background: @COLOR2;
+			color: white;
+			padding: 50px;
+		}
+
+		.icon-happy2 {
+			font-size: 60px;
+		}
+
+		.btn-group {
+			padding: 10px;
+			a.button, button {
+				margin-right: 10px;
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+
+		.share-fb {
+			.high-xbtn(white, @COLOR-facebook)
+		}
+		.sign-beta {
+			.high-xbtn(white, @COLOR3);
+		}
+		.tell-us {
+			.high-xbtn(white, #AAA);			
 		}
 	}
 }
