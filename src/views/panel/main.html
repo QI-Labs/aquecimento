@@ -54,6 +54,7 @@
 			<table class="table">
 				<thead>
 				<tr>
+					<th>Id</th>
 					<th>Nome</th>
 					<th>Criado Em</th>
 					<th>Tamanho</th>
@@ -63,6 +64,7 @@
 
 				{% for pset in sets %}
 					<tr>
+						<td>{{ pset.id }}</td>
 						<td>{{ pset.name }}</td>
 						<td>{{ pset.created_at }}</td>
 						<td><span class="badge badge-default">{{ pset.docs.length|default(0) }}</span> problemas</td>
@@ -101,5 +103,5 @@
 	</div>
 
 	<script src="/static/js/bundle.js"></script>
-	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=Tex-AMS-full"></script>
 {% endblock %}

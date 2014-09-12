@@ -44,7 +44,11 @@
 					<a href="/">Maratonas QI Labs</a> &raquo; <strong>{{ pset.name }}</strong>
 				</div>
 				<div class="right">
-					Logado como <span class="username">{{ user.name }}</span>,&nbsp;
+					Logado como
+					<div class="user-avatar">
+						<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')"></div>
+					</div>
+					<strong><span class="username">{{ user.name }}</span></strong>,&nbsp;
 					<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
 						sair
 					</a>

@@ -35,7 +35,7 @@
 
 {% block preBody %}{% endblock %}
 
-<div class="container main-container">
+<div class="container main-container smaller">
 
 	<div class="row">
 		<div class="box">
@@ -44,19 +44,23 @@
 					Maratonas QI Labs
 				</div>
 				<div class="right">
-					Logado como <span class="username">{{ user.name }}</span>,&nbsp;
+					Logado como
+					<div class="user-avatar">
+						<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')"></div>
+					</div>
+					<strong><span class="username">{{ user.name }}</span></strong>,&nbsp;
 					<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
 						sair
 					</a>
 				</div>
 			</div>
-			<div class="almofada col-md-8">
+			<div class="almofada col-md-7">
 				<p class="lead">
 					Bem-vindo ao Maratonas QI Labs, <strong>{{ user.name }}</strong>.
 					Aqui você pode resolver problemas adaptados de olimpíadas passadas, receber estatísticas sobre o seu desempenho, e compartilhe sua pontuação com seus amigos.
 				</p>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-5">
 				<h4>Aquecimentos abertos:</h4>
 				<a class="button access-set" href="/p/obmep2014nivel2">
 					2ª Fase OBMEP Nível 2

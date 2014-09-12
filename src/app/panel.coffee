@@ -25,40 +25,11 @@ module.exports = (app) ->
 			next()
 	)
 
-	# router.get '/add/:problemId', requireIsEditor, (req, res) ->
-	# 	console.log req.params.problemId
-	# 	Problem.findOne { _id: ''+req.params.problemId }, (err, doc) ->
-	# 		if err
-	# 			return req.renderJSON(error:err)
-	# 		if not doc
-	# 			return res.redirect('/add')
-	# 		Problem.find {}, (err, docs) ->
-	# 			res.render 'app/panel', {
-	# 				problems: docs
-	# 				pproblem: doc
-	# 			}
-
-	# router.get '/add/:problemId', requireIsEditor, (req, res) ->
-	# 	console.log req.params.problemId
-	# 	Problem.findOne { _id: ''+req.params.problemId }, (err, doc) ->
-	# 		if err
-	# 			return req.renderJSON(error:err)
-	# 		if not doc
-	# 			return res.redirect('/add')
-	# 		Problem.find {}, (err, docs) ->
-	# 			res.render 'app/panel', {
-	# 				problems: docs
-	# 				pproblem: doc
-	# 			}
-
-	# 	Problem.findOne { _id: ''+req.params.problemId }, (err, doc) ->
-	# 		if not doc
-	# 			return res.redirect('/add')
-	# 		Problem.find {}, (err, docs) ->
-	# 			res.render 'app/panel', {
-	# 				problems: docs
-	# 				pproblem: doc
-	# 			}
+	router.param('psetSlug', (req, res, next, slug) ->
+		ProblemSet.findOne { slug:slug }, req.handleErr404 (pset) ->
+			req.pset = pset
+			next()
+	)
 
 	router.get '/', (req, res) ->
 		ProblemSet.find {}, (err, sets) ->
@@ -69,13 +40,13 @@ module.exports = (app) ->
 			}
 
 	router.post '/novo-simulado', (req, res) ->
-		p = new ProblemSet({ name: 'ProblemSet '+(new Date()).toLocaleString() })
+		p = new ProblemSet({ name: 'ProblemSet '+(new Date()).toLocaleString(), slug: 'pset'+1*(new Date()) })
 		p.save (err) ->
 			if err
 				throw err
 			res.endJSON({ error: err? })
 
-	router.get '/sets/:psetId', (req, res) ->
+	router.get '/sets/:psetSlug', (req, res) ->
 		res.render 'panel/set', {
 			set: req.pset
 			set_problems: _.map(req.pset.docs, (i) -> new Problem(i))

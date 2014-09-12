@@ -92,7 +92,7 @@ $('body').on('click', '[data-trigger=component]', function (e) {
 $('body').on('click', "a[data-ajax-post-href],button[data-ajax-post-href]", function () {
 	var href = this.dataset['ajaxPostHref'],
 		redirect = this.dataset['redirectHref'];
-	if (this.dataset['ask-continue']) {
+	if (this.dataset.askContinue) {
 		if (!confirm(this.dataset['ask-string'] || "Tem certeza que deseja realizar essa ação?"))
 			return;
 	}

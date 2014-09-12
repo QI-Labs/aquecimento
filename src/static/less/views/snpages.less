@@ -21,83 +21,6 @@ html, body {
     height: 100%;
 }
 
-[data-page=editor-panel] {
-	padding: 30px 30px 50px;
-
-	.problem-input {
-		min-width: 600px;
-		.cols {
-			display: table;
-			width: 100%;
-		}
-
-		.left, .right {
-			display: table-cell;
-			width: 50%;
-		}
-		.right {
-			padding-left: 10px;
-			width: 30%;
-		}
-		textarea {
-			width: 100%;
-			display: block;
-			height: 100px;
-		}
-		input {
-			display: block;
-		}
-		input, textarea, select {
-			padding: 5px;
-			width: 100%;
-			margin-bottom: 10px;
-		}
-		input[type=submit] {
-			.xbtn(white, #888);
-		}
-	}
-
-	.problem-list {
-		margin-bottom: 30px;
-		border-top: 1px solid #AAA;
-		max-width: 100%;
-
-		table {
-			display: inline-block;
-			max-width: 100%;
-
-			tbody {
-				tr {
-					background: white;
-					&.active {
-						background: #EEE;
-						font-weight: bold;
-					}
-				}
-			}
-
-			td {
-				padding: 10px;
-				font: 12px Arial;
-				border: 1px solid #AAA;
-			}
-
-			.right {
-				vertical-align: top;
-				display: inline-block;
-				width: 29%;
-
-				.btn-remove {
-					.xbtn(white, mix(@COLOR4, red));
-				}
-				.btn-edit {
-					.xbtn(white, mix(@COLOR3, yellow));
-				}
-			}
-		}
-	}
-}
-
 [data-page=main] {
 
 	.main-container {
@@ -132,7 +55,8 @@ html, body {
 		position: relative;
 		display: table;
 		padding: 10px;
-		border-radius: 10px;
+		// border-radius: 10px;
+		border: 1px solid #EEE;
 
 		.box-header {
 			position: absolute;
@@ -168,8 +92,8 @@ html, body {
 	width: 100%;
 }
 
-header {
-	width: @postColWidth;
+body > header {
+	width: @postColWidth+2;
 	margin: auto;
 	position: relative;
 
@@ -190,44 +114,60 @@ header {
 	}
 }
 
-[data-page=problem] {
-	background: #e0e0e0;
 
-	.question-box {
-		display: table;
+header, .box-header {
+	// font: 15px Georgia;
+	position: relative;
+	padding: 0 20px 0;
+	color: #22;
+	position: absolute;
+	width: 100%;
+	top: -25px;
+
+	.breadcrumbs {
+		display: inline-block;
+		a {
+			color: #111;
+			text-transform: uppercase;
+		}
+	}
+
+	.user-avatar {
+		margin: 0 7px;
+		width: 20px;
+		height: 20px;
+		border-radius: 20px;
+	}
+
+	.right {
+		position: absolute;
+		display: inline-block;
+		right: 20px;
+		color: #666;
+
+		strong {
+			font-weight: normal;
+			color: #333;
+		}
+	}
+}
+
+
+[data-page=problem] {
+	background: #eee;
+
+	.qi-box {
+		// display: table;
 		margin: auto;
 		position: relative;
-		width: @postColWidth;
+		width: @postColWidth+2;
 
 		background: white;
 		font-family: museo-sans;
-		border: 1px solid #CCC;
+		border: 1px solid #DDD;
 		
-		header {
-			// font: 15px Georgia;
-			position: relative;
-			padding: 30px 20px 0;
-			color: #22;
-			position: absolute;
-			top: -57px;
-
-			.breadcrumbs {
-				display: inline-block;
-				a {
-					color: #111;
-					text-transform: uppercase;
-				}
-			}
-
-			.right {
-				position: absolute;
-				display: inline-block;
-				right: 20px;
-			}
-		}
-
 		.content-col {
-			width: 550px;
+			width: 580px;
 			display: table-cell;
 			vertical-align: top;
 
@@ -248,7 +188,7 @@ header {
 			}
 
 			.body-window {
-				width: 550px;
+				width: 580px;
 				height: 350px;
 				overflow-y: auto;
 
@@ -338,10 +278,11 @@ header {
 		}
 
 		.right-col {
-			width: 350px;
+			min-width: 250px;
+			width: 248px;
 			display: table-cell;
 			padding: 20px;
-			border-left: 1px solid #CCC;
+			border-left: 1px solid #DDD;
 			color: white;
 			position: relative;
 			background: #39CCCC; // desaturate(mix(@COLOR1, @COLOR2),10%);
@@ -393,6 +334,96 @@ header {
 			}
 		}
 	}
+
+	.qi-box.pset-box {
+		border: 0;
+		.box-shadow(5px, .1);
+
+		.content-col {
+			padding: 20px;
+		}
+
+		.right-col {
+			background: #39CCCC; // desaturate(mix(@COLOR1, @COLOR2),10%);
+			border: 0;
+			padding: 20px;
+
+			.problem-list {
+
+				.item button {
+					.high-xbtn(#444, #F7F7F3, 2px);
+					position: relative;
+					font-weight: normal;
+					width: 100%;
+					font-size: 16px;
+					margin: 0;
+					i.indicator {
+						position: absolute;
+						font-size: 19px;
+						font-weight: normal;
+						right: 10px;
+						top: 7px;
+					}
+				}
+				.item:not(:last-child) button {
+					margin: 0 0 10px;
+				}
+				.item[data-solved=false] button {
+					i.indicator {
+						color: @COLOR4;
+					}
+				}
+				.item[data-solved=true] button {
+					// .xbtn(white, @COLOR2);
+					margin: 0 0 10px;
+					font-weight: normal;
+					width: 100%;
+					font-size: 16px;
+
+					i.indicator {
+						color: @COLOR2;
+					}
+				}
+			}
+		}
+	}
+
+	.qi-box.question-box {
+		.right-col {
+
+			.curtain {
+				padding-top: 60px;
+				text-align: center;
+
+				i {
+					font-size: 80px;
+					display: block;
+					color: @COLOR4;
+				}
+				i.correct {
+					color: @COLOR2;
+				}
+				.message {
+					font: 23px museo-sans;
+					margin: 10px 0;
+
+					small {
+						color: #777;
+						font-size: 16px;
+					}
+				}
+
+				.next {
+					.xbtn(white, @COLOR1);
+					position: absolute;
+					bottom: 10px;
+					right: 10px;
+					border-radius: 15px;
+					font-weight: normal;
+				}
+			}
+		}
+	}
 }
 
 [data-page=main] {
@@ -403,7 +434,7 @@ header {
 		margin-bottom: 10px;
 	}
 
-	.header {
+	.header, .box-header {
 		.nav {
 			.user-avatar {
 				width: 30px;
@@ -434,7 +465,7 @@ header {
 
 
 .pContainer {
-	position: absolute;
+	position: fixed;
 	top: 0; bottom: 0;
 	width: 100%;
 	overflow-x: hidden;

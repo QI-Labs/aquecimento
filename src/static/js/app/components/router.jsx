@@ -1,5 +1,27 @@
 /** @jsx React.DOM */
 
+var $ = require('jquery')
+
+var Backbone = require('backbone')
+var _ = require('underscore')
+var React = require('react')
+var Flasher = require('./flash.js')
+var marked = require('marked')
+
+window.$ = Backbone.$ = $;
+
+// Set up marker
+
+var renderer = new marked.Renderer()
+renderer.codespan = function (html) { // Don't consider codespans in markdown (they're actually 'latex')
+	return '`'+html+'`';
+}
+marked.setOptions({ renderer: renderer })
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+// Cookies util
+
 function createCookie(name, value, days) {
 	if (days) {
 		var date = new Date();
@@ -25,7 +47,44 @@ function eraseCookie(name) {
 	createCookie(name,'',-1);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+// Backbone
 
+var ProblemItem = Backbone.Model.extend({
+	url: function () {
+		return this.get('apiPath');
+	},
+	initialize: function () {
+	},
+});
+
+var ProblemSet = Backbone.Model.extend({
+	url: function () {
+		return this.get('apiPath');
+	},
+
+	initialize: function () {
+		this.problems = this.get('docs') || [];
+	},
+});
+
+var ProblemList = Backbone.Collection.extend({
+	model: ProblemItem,
+});
+
+var MoveItem = Backbone.Model.extend({
+});
+
+var PlayList = Backbone.Collection.extend({
+	model: MoveItem,
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+// React
+
+// Backbone mixin, that listens for changes in the model.
 var backboneModel = {
 	componentWillMount: function () {
 		var update = function () {
@@ -34,25 +93,6 @@ var backboneModel = {
 		this.props.model.on('add reset remove change', update.bind(this));
 	},
 };
-
-
-window.$ = require('jquery')
-var Backbone = require('backbone')
-var _ = require('underscore')
-var React = require('react')
-
-var Flasher = require('./flash.js')
-Backbone.$ = window.$;
-
-marked = require('marked');
-var renderer = new marked.Renderer();
-renderer.codespan = function (html) {
-	// Don't consider codespans in markdown (they're actually 'latex')
-	return '`'+html+'`';
-}
-marked.setOptions({
-	renderer: renderer
-})
 
 var ProblemForm = React.createClass({
 	mixins: [backboneModel],
@@ -70,10 +110,12 @@ var ProblemForm = React.createClass({
 		this.props.model.attributes.content.solimg = this.refs.solimgInput.getDOMNode().value;
 
 		var self = this;
+		var url = this.props.model.get('id')?
+			this.props.model.url():
+			('/api/sets/'+this.props.model.get('pset')+'/problems');
 		this.props.model.save(undefined, {
-			url: this.props.model.url() || ('/api/sets/'+this.props.model.get('pset')+'/problems'),
+			url: url,
 			success: function (model) {
-				// window.location.href = model.get('editorPath');
 				app.flash.info("Problema salvo! :)");
 				self.close();
 			},
@@ -95,6 +137,9 @@ var ProblemForm = React.createClass({
 	componentDidMount: function () {
 		// Close when user clicks directly on element (meaning the faded black background)
 		var self = this;
+		_.defer(function () {
+			$(this.getDOMNode()).find('textarea').autosize();
+		}.bind(this));
 		$(this.getDOMNode().parentElement).on('click', function onClickOut (e) {
 			if (e.target === this || e.target === self.getDOMNode()) {
 				self.close();
@@ -105,6 +150,7 @@ var ProblemForm = React.createClass({
 
 	render: function () {
 		var doc = this.props.model.attributes;
+		console.log(this.props.model.url(), this.props.model.get('id'))
 
 		return (
 			<div className="box">
@@ -126,6 +172,7 @@ var ProblemForm = React.createClass({
 						<label className="col-sm-4 control-label">Corpo do Problema</label>
 						<div className="col-sm-8">
 							<textarea className="solution form-control" ref="bodyTextarea"
+								style={ {height: '50px'} }
 								name="solution" defaultValue={ doc.content.body }
 								placeholder="Solução"></textarea>
 						</div>
@@ -142,6 +189,7 @@ var ProblemForm = React.createClass({
 						<label className="col-sm-4 control-label">Desenvolvimento da Resolução</label>
 						<div className="col-sm-8">
 							<textarea className="solution form-control" ref="solutionTextarea"
+								style={ {height: '50px'} }
 								name="solution" defaultValue={ doc.content.solution }
 								placeholder="Bonitchenho."></textarea>
 						</div>
@@ -184,33 +232,66 @@ var ProblemForm = React.createClass({
 })
 
 var ProblemView = React.createClass({
+	getInitialState: function () {
+		return {};
+	},
 	tryAnswer: function (e) {
-		var index = parseInt(e.target.dataset.index);
+		var answer = parseInt(this.refs.answer.getDOMNode().value);
 
-		console.log("User clicked", index, this.props.model.get('apiPath')+'/try')
+		if (isNaN(answer)) {
+			app.flash.warn("Resposta inválida.");
+			return;
+		}
+
+		console.log("User trying answer", answer, this.props.model.get('apiPath')+'/try')
 
 		$.ajax({
 			type: 'post',
 			dataType: 'json',
-			url: this.props.model.get('apiPath')+'/try',
-			data: { test: index }
+			url: this.props.set.get('apiPath')+'/'+this.props.index+'/try',
+			data: { 'try': answer }
 		}).done(function (response) {
 			if (response.error) {
-				alert(response.message || 'Erro!');
+				app.flash.alert(response.message || 'Erro!');
 			} else {
-				if (response.result) {
-					app.flash.info("Because you know me so well.");
+				if (response.correct) {
+					app.flash.info('<i class="icon-happy2"></i>')
 				} else {
-					app.flash.info("WROOOOOOOOOONNNG, YOU IMBECILE!");
+					app.flash.warn('<i class="icon-sad2"></i>')
 				}
+				if (response.data) {
+					this.props.trials.push(response.data);
+				}
+				this.forceUpdate();
 			}
-		}).fail(function (xhr) {
-			alert(xhr.responseJSON && xhr.responseJSON.message || 'Erro!');
+		}.bind(this)).fail(function (xhr) {
+			app.flash.alert(xhr.responseJSON && xhr.responseJSON.message || 'Erro!');
+			if (xhr.responseJSON && xhr.responseJSON.redirect) {
+				var url = xhr.responseJSON.redirect;
+				console.log('Redirecting user to '+url);
+				app.navigate(url, { trigger: true });
+			}
+		});
+	},
+
+	componentDidUpdate: function () {
+		_.defer(function () {
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 		});
 	},
 
 	componentDidMount: function () {
-		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+		_.defer(function () {
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+		});
+	},
+
+	onClickNext: function () {
+		if (this.props.index === this.props.set.get('docs').length-1) { // This was the last one.
+			app.navigate(this.props.set.get('path'), { trigger: true });
+		} else {
+			app.navigate(this.props.set.get('path')+'/'+(this.props.index+1), { trigger: true });
+		}
 	},
 
 	render: function () {
@@ -220,20 +301,78 @@ var ProblemView = React.createClass({
 		var isAdaptado = source && (!!source.match(/(^\[adaptado\])|(adaptado)/));
 
 		var html = marked(post.content.body);
+		var source = post.content.source?post.content.source.split(',')[0]:'';
 
-		var level = "3";
-		var number = 5;
-		var total = 10;
+		var tried = this.props.trials.findWhere({ index: this.props.index });
+		console.log(tried)
+		if (tried) {
+			if (tried.correct) {
+				var feedback = (
+					<div>
+						<i className="icon-check-circle correct"></i>
+						<div className="message">
+							Resposta certa!
+							<small>(parabéns)</small>
+						</div>
+					</div>
+				);
+			} else {				
+				var feedback = (
+					<div>
+						<i className="icon-times-circle"></i>
+						<div className="message">
+							Resposta errada.
+						</div>
+					</div>
+				);
+			}
+			var rightCol = (
+				<div className="right-col">
+					<div className="curtain">
+						{feedback}
+						<button className="next" onClick={this.onClickNext}>
+							Próxima Questão
+						</button>
+					</div>
+				</div>
+			);
+		} else {
+			var rightCol = (
+				<div className="right-col">
+					<span className="question">Qual é a resposta para o enunciado?</span>
+					<input type="text" ref="answer" placeholder="Resultado" className="answer" name="answer"/>
+					<button className="send" onClick={this.tryAnswer}>
+						Responder
+					</button>
+
+					<button className="skip" onClick={this.onClickNext}>
+						Pular Problema
+					</button>
+				</div>
+			);
+		}
+
+		var labelClass = {'geometry':'info','combinatorics':'warning',
+			'algebra':'danger','number-theory':'success'}[post.topic];
 
 		// <img src={post.content.image} />
 		return (
-			<div className="question-box">
+			<div className="qi-box question-box">
 				<header>
 					<div className="breadcrumbs">
-						Maratona OBM &raquo; Nível {post.level} &raquo; <a href={"/#"+post.topic}>#{post.translated_topic}</a>
+						Maratonas QI Labs &raquo;&nbsp;
+						<a href={ this.props.set.get('path') }>
+							{ this.props.set.get('name') }
+						</a>
 					</div>
 					<div className="right">
-						Logado como <span className="username">{window.user.name}</span>,&nbsp;
+						Logado como
+						<div className="user-avatar">
+							<div className="avatar" style={{background: 'url('+window.user.avatarUrl+')'}}></div>
+						</div>
+						<strong>
+						<span className="username">{window.user.name}</span>,&nbsp;
+						</strong>
 						<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
 							sair
 						</a>
@@ -242,12 +381,20 @@ var ProblemView = React.createClass({
 				<div className="content-col">
 					<div className="body-window">
 						<div className="content">
-						<span dangerouslySetInnerHTML={{__html: html}}></span>
+							{ this.props.index+1 }.
+							<span dangerouslySetInnerHTML={{__html: html}}></span>
+							{
+								post.content.image?
+								<img src={post.content.image} />
+								:null
+							}
 						</div>
 					</div>
 					<div className="fixed-footer">
 						<div className="info source">
-							{source?source:null}
+							<span className="label label-default">Matemática Olímpica</span>
+							&nbsp;
+							<span className={"label label-"+labelClass}>{post.translated_topic}</span> {source}
 						</div>
 						<div className="actions">
 							<button className="info"><i className="icon-info"></i></button>
@@ -255,28 +402,81 @@ var ProblemView = React.createClass({
 						</div>
 					</div>
 				</div>
-				<div className="right-col">
-					<span className="question">Qual é a resposta para o enunciado?</span>
-					<input type="text" ref="answer" placeholder="Resultado" className="answer" name="answer"/>
-					<button className="send">
-						Responder
-					</button>
+				{rightCol}
+			</div>
+		);
+	},
+});
 
-					<button className="skip">
-						Pular Problema
+var ProblemSetView = React.createClass({
+
+	render: function () {
+		var icons = {
+			'algebra': 'icon-plus-circle',
+			'geometry': 'icon-measure',
+		}
+
+		var problems = this.props.collection.map(function (problem, i) {
+			var solved = Math.random()>.8;
+			var tried = Math.random()>.5;
+			var path = this.props.model.get('path')+'/'+i;
+			function gotoProblem() {
+				app.navigate(path, { trigger: true });
+			}
+			return (
+				<div key={problem.id} className="item" data-solved={solved}>
+					<button className="" onClick={gotoProblem}>
+						Problema {i+1}
+						{
+							tried?
+							<i className={"indicator "+(solved?"icon-tick":"icon-times")}></i>
+							:null
+						}
 					</button>
+				</div>
+			)
+		}.bind(this));
+
+		var numSolved = _.countBy(window.set.moves, 'solved').true;
+
+		return (
+			<div className="qi-box pset-box">
+				<header>
+					<div className="breadcrumbs">
+						Maratonas QI Labs &raquo;&nbsp;
+						<a href="{{ this.props.model.get('path') }}">
+							<strong>{ this.props.model.get('name') }</strong>
+						</a>
+					</div>
+					<div className="right">
+						Logado como
+						<div className="user-avatar">
+							<div className="avatar" style={{background: 'url('+window.user.avatarUrl+')'}}></div>
+						</div>
+						<strong>
+							<span className="username">{window.user.name}</span>,&nbsp;
+						</strong>
+						<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
+							sair
+						</a>
+					</div>
+				</header>
+				<div className="content-col">
+					Problemas Resolvidos: { this.props.model.get('moves').length }/{ this.props.collection.length }
+				</div>
+				<div className="right-col">
+					<ul className="problem-list">
+						{problems}
+					</ul>
 				</div>
 			</div>
 		);
 	},
 });
 
-// setTimeout(function updateCounters () {
-// 	$('[data-time-count]').each(function () {
-// 		this.innerHTML = calcTimeFrom(parseInt(this.dataset.timeCount), this.dataset.timeLong);
-// 	});
-// 	setTimeout(updateCounters, 1000);
-// }, 1000);
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+// Router stuff
 
 var Page = function (component, dataPage, opts) {
 
@@ -317,51 +517,42 @@ var Page = function (component, dataPage, opts) {
 	};
 };
 
-var ProblemItem = Backbone.Model.extend({
-	url: function () {
-		return this.get('apiPath');
-	},
-
-	initialize: function () {
-		var children = this.get('children') || [];
-	},
-});
-
-var ProblemList = Backbone.Collection.extend({
-	model: ProblemItem,
-});
-
-if ($(".teste-latex")[0]) {
-	$(".teste-latex").on('submit', function (e) {
-		e.preventDefault();
-		$(this).find('.output').html($(this).find('textarea').val());
-		MathJax.Hub.Queue(['Typeset',MathJax.Hub]);
-	});
-}
-if ($(".set-form")[0]) {
-	$(".set-form").on('submit', function (e) {
-		e.preventDefault();
-		$.ajax({
-			type: 'post',
-			dataType: 'json',
-			url: $(this).attr('action'),
-			data: {
-				name: $(this).find('[name=name]').val(),
-			}
-		}).done(function (response) {
-			location.reload();
-		});
-	});
-}
-
 // Central functionality of the app.
 var WorkspaceRouter = Backbone.Router.extend({
 	initialize: function () {
 		console.log('initialized')
 		this.pages = [];
+		this.route('panel', this.setUpPanel.bind(this));
+		this.route('panel/sets/:pset', this.setUpPanel.bind(this));
 	},
 
 	flash: new Flasher,
+
+	setUpPanel: function () {
+		console.log('Setting up panel forms.')
+		if ($(".teste-latex")[0]) {
+			$(".teste-latex").on('submit', function (e) {
+				e.preventDefault();
+				$(this).find('.output').html($(this).find('textarea').val());
+				MathJax.Hub.Queue(['Typeset',MathJax.Hub]);
+			});
+		}
+		if ($(".set-form")[0]) {
+			$(".set-form").on('submit', function (e) {
+				e.preventDefault();
+				$.ajax({
+					type: 'post',
+					dataType: 'json'
+,					url: $(this).attr('action'),
+					data: {
+						name: $(this).find('[name=name]').val(),
+					}
+				}).done(function (response) {
+					location.reload();
+				});
+			});
+		}
+	},
 
 	triggerComponent: function (comp, args) {
 		comp.call(this, args);
@@ -375,14 +566,35 @@ var WorkspaceRouter = Backbone.Router.extend({
 	},
 
 	routes: {
-		'panel':
-			function () {
+		'p/:pset':
+			function (pset) {
+				this.pset = new ProblemSet(window.set);
+				this.psetCollection = new ProblemList(window.set.docs);
+				this.moves = new PlayList(window.set.moves);
+				React.renderComponent(<ProblemSetView model={this.pset} collection={this.psetCollection} />,
+					document.querySelector("#box-wrapper"),
+					function(){});
 			},
-		'p/:pset/:num':
-			function (pset, num) {
-				if (!isNaN(parseInt(num)))
-					this.triggerComponent(this.components['view-problem'], {pset:pset, num:num})
-			}
+		'p/:psetSlug/:num':
+			function (psetSlug, num) {
+				this.closePages();
+				if (!this.pset) {
+					this.pset = new ProblemSet(window.set);
+					this.psetCollection = new ProblemList(window.set.docs);
+					this.moves = new PlayList(window.set.moves);
+				}
+				if (!isNaN(parseInt(num))) {
+					this.triggerComponent(this.components['view-problem'], {
+						psetSlug: psetSlug,
+						num: parseInt(num)
+					});
+					_.defer(function () {
+						MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+					});
+					return;
+				}
+				console.warn('Invalid problem index.');
+			},
 	},
 
 	components: {
@@ -417,16 +629,36 @@ var WorkspaceRouter = Backbone.Router.extend({
 				}.bind(this));
 		},
 		'view-problem': function (data) {
-			$.getJSON('/api/sets/'+data.pset+'/'+data.num)
-				.done(function (response) {
-					var postItem = new ProblemItem(response.data);
-					React.renderComponent(<ProblemView type="Problem" model={postItem} />,
-						document.querySelector("#problem-wrapper"),
-						function(){});
-				}.bind(this))
-				.fail(function (response) {
-					alert('Ops! Não conseguimos encontrar esse problema. Ele pode ter sido excluído.');
-				}.bind(this));
+			if (!window.set || !window.set.docs) {
+				app.flash.alert("Erro. Conjunto de problemas não encontrado.")
+				return;
+			}
+			if (!this.psetCollection) {
+				app.flash.warn("Coleção de problemas não encontrada..")
+				return;
+			}
+			if (this.psetCollection.size() <= data.num) {
+				app.flash.warn("Problema não encontrado.")
+				return;
+			}
+
+			var postItem = this.psetCollection.at(data.num);
+
+			console.log(this.moves)
+			React.renderComponent(<ProblemView trials={this.moves} set={this.pset} index={data.num} model={postItem} />,
+				document.querySelector("#box-wrapper"),
+				function(){});
+			
+			// var set = new ProblemSet(window.set);
+			// $.getJSON('/api/sets/'+set.id+'/'+data.num)
+			// 	.done(function (response) {
+			// 		if (response.data) {
+			// 			console.log(response.data)
+			// 		}
+			// 	}.bind(this))
+			// 	.fail(function (response) {
+			// 		alert('Ops! Não conseguimos encontrar esse problema. Ele pode ter sido excluído.');
+			// 	}.bind(this));
 		},
 	},
 });

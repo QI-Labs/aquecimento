@@ -1,7 +1,7 @@
 
 mongoose = require 'mongoose'
 required = require 'src/core/required.js'
-_ = require 'underscore'
+_ = require 'lodash'
 validator = require 'validator'
 
 please = require 'src/lib/please.js'
@@ -67,7 +67,6 @@ module.exports = (app) ->
 		try
 			id = mongoose.Types.ObjectId.createFromHexString(problemId)
 		catch e
-			console.log('porra', e)
 			return next({ type: "InvalidId", args:'problemId', value:problemId})
 
 		if not 'psetId' of req.params
@@ -104,7 +103,7 @@ module.exports = (app) ->
 
 	router.route '/:psetId/problems/:problemId'
 		.get (req, res) ->
-			res.endJSON({ err: false, data: req.problem })
+			res.endJSON({ err: false, data: req.problem.toJSON({select:'',virtuals:true}) })
 		.put requireIsEditor, (req, res) ->
 			req.parse Problem.ParseRules, (err, data) ->
 				ProblemSet.findOneAndUpdate {
@@ -116,10 +115,10 @@ module.exports = (app) ->
 							'docs.$.content.body': data.content.body,
 							'docs.$.meta.updated_at': Date.now()
 							'docs.$.topic': data.topic
-							'docs.$.content.body': data.content.body
+							'docs.$.content.body': data.content.body.replace(/&#x2F;/g,'/').replace(/\/;/g,'/')
 							'docs.$.content.source': data.content.source
 							'docs.$.content.image': data.content.image
-							'docs.$.content.solution': data.content.solution
+							'docs.$.content.solution': data.content.solution.replace(/&#x2F;/g,'/').replace(/\/;/g,'/')
 							'docs.$.content.answer': data.content.answer
 						}
 					}, (err, pset) ->
@@ -139,72 +138,57 @@ module.exports = (app) ->
 		req.pset.save (err, num) ->
 			res.endJSON(err:err)
 
-	router.post '/:problemId/try', (req, res) ->
-		Is this nuclear enough?
-		doc = req.problem
-		correct = req.body.test is '0'
-		userTries = _.findWhere(doc.userTries, { user: ''+req.user.id })
-		console.log typeof req.body.test, correct, req.body.test
-		if userTries?
-			if userTries.tries >= 3 # No. of tried exceeded
-				return res.status(403).endJSON({ error: true, message: "Número de tentativas excedido."})
-		else # First try from user
-			userTries = { user: req.user.id, tries: 0 }
-			doc.userTries.push(userTries)
-
-		if correct
-			# User is correct
-			doc.hasAnswered.push(req.user.id)
-			doc.save()
-			doc.getFilledAnswers (err, answers) ->
+	router.post '/:psetId2/:num/try', (req, res) ->
+		play = _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.params.psetId2)
+		console.log(play, req.user.pset_play, req.user.pset_play.length, req.params.psetId2)
+		# Test if user's plays to this specific pset exists.
+		if not play
+			req.logger.warn("problem set not found in user's plays.")
+			return res.endJSON({ error: true })
+		# See if trying to find valid problem.
+		if not validator.isNumeric(req.params.num)
+			return res.endJSON({ error: true, message: "Número inexistente." })
+		index = parseInt(req.params.num)
+		if not validator.isNumeric(req.body.try)
+			req.logger.warn("attempted invalid answer type: %s", req.body.try)
+			return res.endJSON({ error: true, message: "Resposta inválida." })
+		# Finally, fetch pset object
+		try
+			id = mongoose.Types.ObjectId.createFromHexString(req.params.psetId2)
+		catch e
+			return next({ type: "InvalidId", args:'psetId', value:req.params.psetId2})
+		ProblemSet.findOne { _id: id }, req.handleErr404 (pset) ->
+			if index >= pset.docs.length
+				req.logger.warn("wrong length for user's plays. trying to access %s in max %s",
+					index, play.moves.length)
+				return res.endJSON({ error: true })
+			# Test if user's already tried it.
+			move = _.findWhere(play.moves, (i) -> i.index is index)
+			if move
+				return res.endJSON({ error: true, message: "Tentativas excedidas." })
+			trying = parseInt(req.body.try)
+			num = parseInt(req.params.num)
+			console.log("Trying #{trying} for answer #{pset.docs[num].content.answer}")
+			if trying is pset.docs[num].content.answer
+				play.moves.push({ index: index, solved: true })
+				req.user.save (err) ->
+					if err
+						throw err
+				return res.endJSON({
+					error: false,
+					correct: true,
+					data: { index: index, solved: true },
+					redirect: "/p/#{pset._id}/#{play.moves.length+1}"
+				})
+			# Wrong answer.
+			play.moves.push({ index: index, solved: false })
+			req.user.save (err) ->
 				if err
-					console.error "error", err
-					res.endJSON({ error: true })
-				else
-					res.endJSON({ result: true, answers: answers })
-			return
-		else
-			Problem.findOneAndUpdate { _id: ''+doc.id, 'userTries.user': ''+req.user.id}, {$inc:{'userTries.$.tries': 1}}, (err, docs) ->
-				console.log arguments
-			res.endJSON({ result: false })
-
-	# router.route('/:problemId')
-	# 	.get (req, res) ->
-	# 		jsonDoc = _.extend(req.problem.toJSON(), _meta:{})
-	# 		if err
-	# 			console.error("PQP1", err)
-	# 		if req.problem.hasAnswered.indexOf(''+req.user.id) is -1
-	# 			jsonDoc._meta.userAnswered = false
-	# 			res.endJSON({data:jsonDoc})
-	# 		else
-	# 			jsonDoc._meta.userAnswered = true
-	# 			req.problem.getFilledAnswers (err, children) ->
-	# 				if err
-	# 					console.error("PQP2", err, children)
-	# 				jsonDoc._meta.children = children
-	# 				res.endJSON({data:jsonDoc})
-
-	# 	.delete requireIsEditor, (req, res) ->
-	# 		doc = req.doc
-	# 		doc.remove (err) ->
-	# 			console.log('err?', err)
-	# 			res.endJSON(doc, error: err)
-
-	# router.post '/:problemId/answers', requireIsEditor, (req, res) ->
-	# 	doc = req.problem
-	# 	userTries = _.findWhere(doc.userTries, { user: ''+req.user.id })
-
-	# 	if doc.hasAnswered.indexOf(''+req.user.id) is -1
-	# 		return res.status(403).endJSON({ error: true, message: "Responta já enviada." })
-
-	# 	Answer.findOne { 'author.id': ''+req.user.id }, (err, doc) ->
-	# 		if doc
-	# 			return res.status(400).endJSON({ error: true, message: 'Resposta já enviada. '})
-	# 		ans = new Answer {
-	# 			author: {},
-	# 			content: {
-	# 				body: req.body.content.body
-	# 			}
-	# 		}
+					throw err
+			return res.endJSON({
+				error: false,
+				correct: false,
+				data: { index: index, solved: false },
+			})
 
 	return router

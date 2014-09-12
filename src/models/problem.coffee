@@ -16,7 +16,7 @@ please.args.extend(require('./lib/pleaseModels.js'))
 ObjectId = mongoose.Schema.ObjectId
 
 TranslatedTopics = {
-	'combinatorics': 'Combinatória'
+	'combinatorics': 'Análise Combinatória'
 	'number-theory': 'Teoria dos Números'
 	'algebra': 'Álgebra'
 	'geometry': 'Geometria'
@@ -43,22 +43,18 @@ ProblemSchema = new mongoose.Schema {
 		image:  { type: String }
 		solution: { type: String }
 		solimg: { type: String }
-
 		answer: { type: Number }
 	}
-
-	hasAnswered: [],
-	hasSeenAnswers: [],
-	userTries: [],
 }, {
 	toObject:	{ virtuals: true }
 	toJSON: 	{ virtuals: true }
 }
 
-ProblemSchema.statics.APISelect = '-hasAnswered -canSeeAnswers -hasSeenAnswers -watching -userTries'
+ProblemSchema.statics.APISelect = '-content.answer -content.solimg -content.solution -content.source -author'
 
 ProblemSetSchema = new mongoose.Schema {
 	name: 		{ type: String, required: true }
+	slug: 		{ type: String, required: true }
 	updated_at:	{ type: Date }
 	created_at:	{ type: Date, indexed: 1, default: Date.now }
 
@@ -81,19 +77,18 @@ ProblemSetSchema = new mongoose.Schema {
 ProblemSchema.statics.ParseRules = {
 	topic:
 		$valid: (str) ->
-			console.log(''+str)
 			str in ['combinatorics', 'algebra', 'number-theory', 'geometry']
 
 	content:
 		body:
 			$valid: (str) -> true # validator.isLength(str, 10, 1000)
-			$clean: (str) -> _.escape(validator.trim(str))
+			# $clean: (str) -> validator.trim(str)
 		solution:
 			$valid: (str) -> true # validator.isLength(str, 10, 1000)
-			$clean: (str) -> _.escape(validator.trim(str))
+			# $clean: (str) -> validator.trim(str)
 		source:
 			$valid: (str) -> true # validator.isLength(str, 10, 1000)
-			$clean: (str) -> _.escape(validator.trim(str))
+			# $clean: (str) -> validator.trim(str)
 		answer: 
 			$valid: (str) -> not isNaN(parseInt(str))
 			$clean: (str) -> parseInt(str)
@@ -116,27 +111,14 @@ ProblemSchema.virtual('apiPath').get ->
 		.replace(/{pset}/, @pset)
 		.replace(/{id}/, @id)
 
-ProblemSchema.virtual('editorPath').get ->
-	"/panel/sets/{pset}/problems/{id}"
-		.replace(/{pset}/, @pset)
-		.replace(/{id}/, @id)
-
 ProblemSetSchema.virtual('apiPath').get ->
 	"/api/sets/{id}".replace(/{id}/, @id)
 
 ProblemSetSchema.virtual('path').get ->
-	"/p/{id}".replace(/{id}/, @id)
+	"/p/{slug}".replace(/{slug}/, @slug)
 
 ProblemSetSchema.virtual('editorPath').get ->
-	"/panel/sets/{id}".replace(/{id}/, @id)
-
-################################################################################
-## Middlewares #################################################################
-
-# ProblemSchema.pre 'remove', (next) ->
-# 	next()
-# 	@addToGarbage (err) ->
-# 		console.log "#{err} - moving Problem #{@id} to garbage"
+	"/panel/sets/{slug}".replace(/{slug}/, @slug)
 
 ################################################################################
 ## Methods #####################################################################

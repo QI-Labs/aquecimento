@@ -47,8 +47,8 @@ PlayerSchema = new mongoose.Schema {
 		pset: 	{ type: String, ref: 'ProblemSet' }
 		start: 	{ type: Date }
 		moves: 	[{
-			correct: { type: Boolean }
-			skipped: { type: Boolean }
+			index: 	{ type: Number, required: true}
+			solved: { type: Boolean, default: false }
 		}]
 	}]
 

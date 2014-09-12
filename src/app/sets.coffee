@@ -17,43 +17,73 @@ module.exports = (app) ->
 
 	router.param('psetId', (req, res, next, psetId) ->
 		try
-			id = mongoose.Types.ObjectId.createFromHexString(psetId);
+			id = mongoose.Types.ObjectId.createFromHexString(psetId)
 		catch e
-			return next({ type: "InvalidId", args:'psetId', value:psetId});
-		ProblemSet.findOne { _id:psetId }, req.handleErr404 (pset) ->
+			return next({ type: "InvalidId", args:'psetId', value:psetId})
+		ProblemSet.findOne { _id:id }, req.handleErr404 (pset) ->
 			req.pset = pset
 			next()
 	)
 
-	# router.get '/', (req, res) ->
-	# 	ProblemSet.find {}, (err, sets) ->
-	# 		if err
-	# 			return req.status(404).send({ error: 'Not found.' })
-	# 		res.render 'panel/main', {
-	# 			sets: sets
-	# 		}
+	router.param('psetSlug', (req, res, next, slug) ->
+		ProblemSet.findOne { slug:slug }, req.handleErr404 (pset) ->
+			req.pset = pset
+			next()
+	)
 
-	router.get '/:psetId', (req, res, next) ->
-		res.render 'app/simulado', {
-			pset: req.pset
-			play: _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.pset.id)
-		}
-
-	router.get '/:psetId/start', (req, res, next) ->
+	router.get '/:psetSlug', (req, res, next) ->
 		play = _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.pset.id)
 		if not play
+			res.render 'app/simulado', {
+				pset: req.pset
+			}
+			return
+		problems = _.map(req.pset.docs, (i) -> new Problem(i))
+		res.render 'app/problem', {
+			pset: req.pset
+			problems: problems
+			moves: play.moves
+		}
+
+	router.get '/:psetSlug/start', (req, res, next) ->
+		play = _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.pset.id)
+		if not play
+			# moves = []
+			# for i in [0...req.pset.docs.length]
+			# 	moves.push({ correct: false, tried: false })
 			req.user.pset_play.push({
 				pset: req.pset._id
 				start: new Date()
+				# moves: moves
 			})
 		req.user.save (err) ->
 			console.log(err, req.user.pset_play)
 			if err
 				return next(err)
-			res.redirect('/p/'+req.pset.id+'/0')
+			res.redirect(req.pset.path+'/0')
 
-	router.get '/:psetId/:num', (req, res) ->
-		res.render 'app/problem', {}
+	router.get '/:psetSlug/:num', (req, res) ->
+		play = _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.pset.id)
+		if not play
+			res.redirect('/')
+			return
+		problems = _.map(req.pset.docs, (i) -> new Problem(i))
+		res.render 'app/problem', {
+			pset: req.pset
+			problems: problems
+			moves: play.moves
+		}
+		# play = _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.pset._id)
 
+		# console.log play, req.user.pset_play, req.pset._id
+		# if not play
+		# 	return res.redirect('/p/'+req.pset._id)
+
+		# if ''+play.moves.length isnt ''+req.params.num
+		# 	return res.redirect('/p/'+req.pset._id+'/'+play.moves.length)
+
+		# res.render 'app/problem', {
+		# 	set: req.pset
+		# }
 
 	return router
