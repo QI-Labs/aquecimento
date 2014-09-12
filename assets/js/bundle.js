@@ -674,18 +674,32 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 					)
 				),
 				React.DOM.div( {className:"content-col"}, 
-					React.DOM.h1(null),
-					"Problemas Resolvidos: ",  this.props.model.get('moves').length, "/", this.props.collection.length, 
+					React.DOM.h1(null,  this.props.model.get('name') ),
+					React.DOM.p( {className:"lead"}, 
+						"Esse simulado é composto por ",  this.props.collection.length,  " questões de matemática, que os tópicos: ", React.DOM.span( {className:"label label-info"}, "geometria"),", ", React.DOM.span( {className:"label label-success"}, "teoria dos números"),", ", React.DOM.span( {className:"label label-warning"}, "análise combinatória"), " e ", React.DOM.span( {className:"label label-danger"}, "álgebra"),"." 
+					),
+					React.DOM.h3(null, "Boa sorte!"),
 					React.DOM.div( {className:"contributors"}, 
-						React.DOM.label(null, "Contribuidores:"),
-						React.DOM.div( {className:"user-avatar"}, 
-							React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100002970450567/picture?width=200&height=200)'}})
+						React.DOM.label(null, "Banca:"),
+						React.DOM.a( {href:"http://qilabs.org/@felipearagaopires"}, 
+							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Franco Severo, IMPA", 'data-placement':"bottom"}, 
+								React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100002970450567/picture?width=200&height=200)'}})
+							)
 						),
-						React.DOM.div( {className:"user-avatar"}, 
-							React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100002234680040/picture?width=200&height=200)'}})
+						React.DOM.a( {href:"http://qilabs.org/@michelle.malher"}, 
+							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Michelle Malher, QI Labs", 'data-placement':"bottom"}, 
+								React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100002234680040/picture?width=200&height=200)'}})
+							)
 						),
-						React.DOM.div( {className:"user-avatar", 'data-toogle':"tooltip", title:"Luiz Fernando Leal"}, 
-							React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100001334209362/picture?width=200&height=200)'}})
+						React.DOM.a( {href:"http://qilabs.org/@luizfernando.gomes.581"}, 
+							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Luiz Fernando Leal, QI Labs", 'data-placement':"bottom"}, 
+								React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100001334209362/picture?width=200&height=200)'}})
+							)
+						),
+						React.DOM.a( {href:"http://qilabs.org/@franco.severo.7"}, 
+							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Felipe Aragão Pires, QI Labs", 'data-placement':"bottom"}, 
+								React.DOM.div( {className:"avatar", style:{background: 'url(http://i.imgur.com/nXb8vMd.png)'}})
+							)
 						)
 					)
 				),

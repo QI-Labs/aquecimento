@@ -518,19 +518,33 @@ var ProblemSetView = React.createClass({
 					</div>
 				</header>
 				<div className="content-col">
-					<h1></h1>
-					Problemas Resolvidos: { this.props.model.get('moves').length }/{ this.props.collection.length }
+					<h1>{ this.props.model.get('name') }</h1>
+					<p className="lead">
+						Esse simulado é composto por { this.props.collection.length } questões de matemática, que os tópicos: <span className="label label-info">geometria</span>, <span className="label label-success">teoria dos números</span>, <span className="label label-warning">análise combinatória</span> e <span className="label label-danger">álgebra</span>. 
+					</p>
+					<h3>Boa sorte!</h3>
 					<div className="contributors">
-						<label>Contribuidores:</label>
-						<div className="user-avatar">
-							<div className="avatar" style={{background: 'url(https://graph.facebook.com/100002970450567/picture?width=200&height=200)'}}></div>
-						</div>
-						<div className="user-avatar">
-							<div className="avatar" style={{background: 'url(https://graph.facebook.com/100002234680040/picture?width=200&height=200)'}}></div>
-						</div>
-						<div className="user-avatar" data-toogle="tooltip" title="Luiz Fernando Leal">
-							<div className="avatar" style={{background: 'url(https://graph.facebook.com/100001334209362/picture?width=200&height=200)'}}></div>
-						</div>
+						<label>Banca:</label>
+						<a href="http://qilabs.org/@felipearagaopires">
+							<div className="user-avatar" data-toggle="tooltip" title="Franco Severo, IMPA" data-placement="bottom">
+								<div className="avatar" style={{background: 'url(https://graph.facebook.com/100002970450567/picture?width=200&height=200)'}}></div>
+							</div>
+						</a>
+						<a href="http://qilabs.org/@michelle.malher">
+							<div className="user-avatar" data-toggle="tooltip" title="Michelle Malher, QI Labs" data-placement="bottom">
+								<div className="avatar" style={{background: 'url(https://graph.facebook.com/100002234680040/picture?width=200&height=200)'}}></div>
+							</div>
+						</a>
+						<a href="http://qilabs.org/@luizfernando.gomes.581">
+							<div className="user-avatar" data-toggle="tooltip" title="Luiz Fernando Leal, QI Labs" data-placement="bottom">
+								<div className="avatar" style={{background: 'url(https://graph.facebook.com/100001334209362/picture?width=200&height=200)'}}></div>
+							</div>
+						</a>
+						<a href="http://qilabs.org/@franco.severo.7">
+							<div className="user-avatar" data-toggle="tooltip" title="Felipe Aragão Pires, QI Labs" data-placement="bottom">
+								<div className="avatar" style={{background: 'url(http://i.imgur.com/nXb8vMd.png)'}}></div>
+							</div>
+						</a>
 					</div>
 				</div>
 				<div className="right-col">
