@@ -303,10 +303,10 @@ var ProblemView = React.createClass({
 		var html = marked(post.content.body);
 		var source = post.content.source?post.content.source.split(',')[0]:'';
 
-		var tried = this.props.trials.findWhere({ index: this.props.index });
-		console.log(tried)
-		if (tried) {
-			if (tried.correct) {
+		var trials = this.props.trials.findWhere({ index: this.props.index });
+		console.log(trials)
+		if (trials) {
+			if (trials.get('solved')) {
 				var feedback = (
 					<div>
 						<i className="icon-check-circle correct"></i>
@@ -360,7 +360,7 @@ var ProblemView = React.createClass({
 			<div className="qi-box question-box">
 				<header>
 					<div className="breadcrumbs">
-						Maratonas QI Labs &raquo;&nbsp;
+						<a href="/">Maratonas QI Labs</a> &raquo;&nbsp;
 						<a href={ this.props.set.get('path') }>
 							{ this.props.set.get('name') }
 						</a>
@@ -416,9 +416,10 @@ var ProblemSetView = React.createClass({
 			'geometry': 'icon-measure',
 		}
 
+
 		var problems = this.props.collection.map(function (problem, i) {
-			var solved = Math.random()>.8;
-			var tried = Math.random()>.5;
+			var trial = this.props.trials.findWhere({ index: i });
+			var solved = (trial && trial.get('solved')) || false;
 			var path = this.props.model.get('path')+'/'+i;
 			function gotoProblem() {
 				app.navigate(path, { trigger: true });
@@ -428,7 +429,7 @@ var ProblemSetView = React.createClass({
 					<button className="" onClick={gotoProblem}>
 						Problema {i+1}
 						{
-							tried?
+							trial?
 							<i className={"indicator "+(solved?"icon-tick":"icon-times")}></i>
 							:null
 						}
@@ -443,7 +444,7 @@ var ProblemSetView = React.createClass({
 			<div className="qi-box pset-box">
 				<header>
 					<div className="breadcrumbs">
-						Maratonas QI Labs &raquo;&nbsp;
+						<a href="/">Maratonas QI Labs</a> &raquo;&nbsp;
 						<a href="{{ this.props.model.get('path') }}">
 							<strong>{ this.props.model.get('name') }</strong>
 						</a>
@@ -571,7 +572,7 @@ var WorkspaceRouter = Backbone.Router.extend({
 				this.pset = new ProblemSet(window.set);
 				this.psetCollection = new ProblemList(window.set.docs);
 				this.moves = new PlayList(window.set.moves);
-				React.renderComponent(<ProblemSetView model={this.pset} collection={this.psetCollection} />,
+				React.renderComponent(<ProblemSetView trials={this.moves} model={this.pset} collection={this.psetCollection} />,
 					document.querySelector("#box-wrapper"),
 					function(){});
 			},

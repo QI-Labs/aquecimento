@@ -170,6 +170,7 @@ module.exports = (app) ->
 			num = parseInt(req.params.num)
 			console.log("Trying #{trying} for answer #{pset.docs[num].content.answer}")
 			if trying is pset.docs[num].content.answer
+				console.log('certo')
 				play.moves.push({ index: index, solved: true })
 				req.user.save (err) ->
 					if err
@@ -180,6 +181,7 @@ module.exports = (app) ->
 					data: { index: index, solved: true },
 					redirect: "/p/#{pset._id}/#{play.moves.length+1}"
 				})
+			console.log(JSON.stringify(trying), JSON.stringify(pset.docs[num].content.answer))
 			# Wrong answer.
 			play.moves.push({ index: index, solved: false })
 			req.user.save (err) ->
