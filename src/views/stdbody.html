@@ -10,22 +10,21 @@
 <link type="text/plain" rel="author" href="http://www.qilabs.org/humans.txt" />
 <meta name="viewport" content="width=device-width">
 <meta property="fb:app_id" content="{{ nconf.get('facebook_app_id') }}" />
-
 {% block meta %}
-	<meta property="og:title" content="Maratonas QI Labs" />
-	<meta property="og:image" content="http://qilabs.org/static/images/logoSolved.png" />
-	<meta property="og:url" content="http://maratona.qilabs.org" />
-	<meta property="og:description" content="Aquecimento para a segunda fase da OBMEP 2014." />
-	<meta property="og:type" content="website" />
+<meta property="og:title" content="Maratonas QI Labs" />
+<meta property="og:image" content="http://qilabs.org/static/images/logoBB.png" />
+<meta property="og:url" content="http://maratona.qilabs.org" />
+<meta property="og:description" content="Aquecimento para a segunda fase da OBMEP 2014." />
+<meta property="og:type" content="website" />
 
-	{{ metaTagMacros.meta({
-		title: "Aquecimento QI Labs · OBMEP",
-		description: 'Aquecimento para a segunda fase da OBMEP 2014.',
-	}) }}
-	{{ metaTagMacros.twitter({
-		title: "Aquecimento QI Labs · OBMEP",
-		description: 'Aquecimento para a segunda fase da OBMEP 2014.',
-	}) }}
+{{ metaTagMacros.meta({
+	title: "Aquecimento QI Labs · OBMEP",
+	description: 'Aquecimento para a segunda fase da OBMEP 2014.',
+}) }}
+{{ metaTagMacros.twitter({
+	title: "Aquecimento QI Labs · OBMEP",
+	description: 'Aquecimento para a segunda fase da OBMEP 2014.',
+}) }}
 {% endblock %}
 
 {% block head %}{% endblock %}
