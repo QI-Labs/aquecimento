@@ -25,6 +25,21 @@
 
 	<div class="row">
 		<div class="box">
+			<header>
+				<div class="breadcrumbs">
+					<a href="/">Maratonas QI Labs</a>
+				</div>
+				<div class="right">
+					Logado como
+					<div class="user-avatar">
+						<div class="avatar" style="background-image: url('{{ user.avatarUrl }}')"></div>
+					</div>
+					<strong><span class="username">{{ user.name }}</span></strong>,&nbsp;
+					<a href="#" data-ajax-post-href="/api/me/logout" data-redirect-href="/">
+						sair
+					</a>
+				</div>
+			</header>
 			<div class="almofada col-md-8">
 				<p class="lead">
 					Bem-vindo ao Maratonas QI Labs!<br/>
@@ -46,7 +61,7 @@
 		</div>
 	</div>
 	<footer class="">
-		<i class="xbulb icon-bulb2 inverse"><a data-toggle="title" title="Um projeto QI Labs · 2014" href="http://qilabs.org"></a></i>
+		<i class="xbulb icon-bulb2"><a data-toggle="title" title="Um projeto QI Labs · 2014" href="http://qilabs.org"></a></i>
 	</footer>
 </div>
 
