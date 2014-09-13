@@ -29,6 +29,11 @@ module.exports = (app) ->
 			next()
 	)
 
+	router.use (req, res, next) ->
+		if req.user
+			return next()
+		res.redirect('/')
+
 	router.get '/:psetSlug', (req, res, next) ->
 		play = _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.pset.id)
 		if not play
