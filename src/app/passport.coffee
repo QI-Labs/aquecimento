@@ -2,6 +2,17 @@
 passport = require 'passport'
 nconf = require 'nconf'
 
+
+genUsername = (profile) ->
+	names = []
+	if profile.name.givenName
+		names.push(profile.name.givenName)
+	if profile.name.middleName
+		names.push(profile.name.middleName)
+	if profile.name.familyName
+		names.push(profile.name.familyName)
+	return names.join('.').toLowerCase()
+
 module.exports = (app) ->
 	logger = app.get("logger")
 
