@@ -10,13 +10,14 @@
 <link type="text/plain" rel="author" href="http://www.qilabs.org/humans.txt" />
 <meta name="viewport" content="width=device-width">
 <meta property="fb:app_id" content="{{ nconf.get('facebook_app_id') }}" />
-<meta property="og:image" content="http://qilabs.org/static/images/logoSolved.png" />
 
 {% block meta %}
-	{{ metaTagMacros.facebook({
-		title: "Aquecimento QI Labs · OBMEP",
-		description: 'Aquecimento para a segunda fase da OBMEP 2014.',
-	}) }}
+	<meta property="og:title" content="Maratonas QI Labs" />
+	<meta property="og:image" content="http://qilabs.org/static/images/logoSolved.png" />
+	<meta property="og:url" content="http://maratona.qilabs.org" />
+	<meta property="og:description" content="Aquecimento para a segunda fase da OBMEP 2014." />
+	<meta property="og:type" content="website" />
+
 	{{ metaTagMacros.meta({
 		title: "Aquecimento QI Labs · OBMEP",
 		description: 'Aquecimento para a segunda fase da OBMEP 2014.',
