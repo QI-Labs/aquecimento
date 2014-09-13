@@ -44,7 +44,7 @@ module.exports = (app) ->
 				done null, user
 			else # new user
 				username = profile.username or genUsername(profile)
-				logger.info "New user: ", profile
+				logger.info "New user: ", profile.username, profile.id, profile.displayName
 				fbName = profile.displayName
 				nome1 = fbName.split(" ")[0]
 				nome2 = fbName.split(" ")[profile.displayName.split(" ").length - 1]
