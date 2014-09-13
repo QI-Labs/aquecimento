@@ -18,6 +18,22 @@
 {% block body %}
 {% endblock %}
 
+	{% block meta %}
+	{{ metaTagMacros.facebook({
+		title: "Aquecimento QI Labs · OBMEP",
+		description: 'Aquecimento para a segunda fase da OBMEP 2014.',
+	}) }}
+	{{ metaTagMacros.meta({
+		title: "Aquecimento QI Labs · OBMEP",
+		description: 'Aquecimento para a segunda fase da OBMEP 2014.',
+	}) }}
+	{{ metaTagMacros.twitter({
+		title: "Aquecimento QI Labs · OBMEP",
+		description: 'Aquecimento para a segunda fase da OBMEP 2014.',
+	}) }}
+	{% endblock %}
+
+
 {% block bodyEnd %}
 {% endblock %}
 

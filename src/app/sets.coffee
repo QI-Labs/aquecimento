@@ -13,8 +13,6 @@ requireIsEditor = (req, res, next) ->
 module.exports = (app) ->
 	router = require('express').Router()
 
-	router.use requireIsEditor
-
 	router.param('psetId', (req, res, next, psetId) ->
 		try
 			id = mongoose.Types.ObjectId.createFromHexString(psetId)

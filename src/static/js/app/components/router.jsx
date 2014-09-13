@@ -452,7 +452,8 @@ var ProblemSetView = React.createClass({
 							<div className="feedback">
 								<h2><strong>Sua pontuação final: {counts[true] || 0}/{this.props.trials.length}</strong></h2>
 							</div>
-							<p>
+							<p className="lead">
+								O gabarito será divulgado nos próximos dias.
 							</p>
 						</div>
 

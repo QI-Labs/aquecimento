@@ -7,20 +7,6 @@
 
 {% block head %}
 {% parent %}
-	{% block meta %}
-	{{ metaTagMacros.facebook({
-		title: "Aquecimento Qi Labs · OBM",
-		description: 'Aquecimento para a segunda fase da OBM 2014.',
-	}) }}
-	{{ metaTagMacros.meta({
-		title: "Aquecimento Qi Labs · OBM",
-		description: 'Aquecimento para a segunda fase da OBM 2014.',
-	}) }}
-	{{ metaTagMacros.twitter({
-		title: "Aquecimento Qi Labs · OBM",
-		description: 'Aquecimento para a segunda fase da OBM 2014.',
-	}) }}
-	{% endblock %}
 	{% if user %}
 	<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}'}</script>
 	{% else %}

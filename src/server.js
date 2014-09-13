@@ -70,8 +70,8 @@ app.use('/robots.txt', express.static(path.join(nconf.get('staticRoot'), 'robots
 app.use('/humans.txt', express.static(path.join(nconf.get('staticRoot'), 'humans.txt')));
 app.use(require('serve-favicon')(path.join(nconf.get('staticRoot'), 'favicon.ico')));
 
+swig.setDefaults({ cache: false });
 if (nconf.get('env') === 'development') {
-	swig.setDefaults({ cache: false });
 }
 
 /******************************************************************************/

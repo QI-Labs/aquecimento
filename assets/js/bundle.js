@@ -608,7 +608,8 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 							React.DOM.div( {className:"feedback"}, 
 								React.DOM.h2(null, React.DOM.strong(null, "Sua pontuação final: ", counts[true] || 0,"/",this.props.trials.length))
 							),
-							React.DOM.p(null
+							React.DOM.p( {className:"lead"}, 
+								"O gabarito será divulgado nos próximos dias."
 							)
 						),
 
