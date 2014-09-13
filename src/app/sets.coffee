@@ -29,25 +29,29 @@ module.exports = (app) ->
 			next()
 	)
 
+	router.get '/:psetSlug', (req, res, next) ->
+		if req.user
+			play = _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.pset.id)
+			if not play
+				res.render 'app/simulado', {
+					pset: req.pset
+				}
+				return
+			problems = _.map(req.pset.docs, (i) -> new Problem(i))
+			res.render 'app/problem', {
+				pset: req.pset
+				problems: problems
+				moves: play.moves
+			}
+		else
+			res.render 'app/simulado', {
+				pset: req.pset
+			}
+
 	router.use (req, res, next) ->
 		if req.user
 			return next()
 		res.redirect('/')
-
-
-	router.get '/:psetSlug', (req, res, next) ->
-		play = _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.pset.id)
-		if not play
-			res.render 'app/simulado', {
-				pset: req.pset
-			}
-			return
-		problems = _.map(req.pset.docs, (i) -> new Problem(i))
-		res.render 'app/problem', {
-			pset: req.pset
-			problems: problems
-			moves: play.moves
-		}
 
 	router.get '/:psetSlug/start', (req, res, next) ->
 		play = _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.pset.id)

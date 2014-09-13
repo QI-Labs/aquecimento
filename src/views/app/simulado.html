@@ -5,16 +5,24 @@
 
 {% block pageTitle %}{{ pageTitle|"Aquecimento QI Labs" }}{% endblock %}
 
+{% set head_prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# qilabsdotorg: http://ogp.me/ns/fb/qilabsdotorg#" %}
+
+{% block meta %}
+<meta property="og:title" content="{{ pset.name }}" />
+<meta property="og:image" content="http://qilabs.org/static/images/logo.png" />
+<meta property="og:url" content="http://maratona.qilabs.org{{ pset.path }}" />
+<meta property="og:type" content="qilabsdotorg:simulado" />
+<meta property="og:description" content="Aquecimento para a segunda fase da OBMEP 2014." />
+{% endblock %}
 {% block head %}
-{% parent %}
-	{% if user %}
-	<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}'}</script>
-	{% else %}
-	<script>window.user={}</script>
-	{% endif %}
-	<link rel="stylesheet" href="{{ assetUrl('css/bundle.css') }}">
-	<link rel="stylesheet" href="//brick.a.ssl.fastly.net/Clear+Sans:400,500,700/Bitter:400,700/Merriweather:400,400i,700">
-	<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700|PT+Serif:400,400i,700,700i'>
+{% if user %}
+<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}'}</script>
+{% else %}
+<script>window.user={}</script>
+{% endif %}
+<link rel="stylesheet" href="{{ assetUrl('css/bundle.css') }}">
+<link rel="stylesheet" href="//brick.a.ssl.fastly.net/Clear+Sans:400,500,700/Bitter:400,700/Merriweather:400,400i,700">
+<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700|PT+Serif:400,400i,700,700i'>
 {% endblock %}
 
 {% block body %}
@@ -29,6 +37,7 @@
 				<div class="breadcrumbs">
 					<a href="/">Maratonas QI Labs</a> &raquo; <strong>{{ pset.name }}</strong>
 				</div>
+				{% if user %}
 				<div class="right">
 					Logado como
 					<div class="user-avatar">
@@ -39,6 +48,7 @@
 						sair
 					</a>
 				</div>
+				{% endif %}
 			</header>
 			<div class="almofada col-md-12">
 				<p class="lead">
@@ -46,9 +56,15 @@
 					<br />
 					Boa sorte!
 				</p>
+				{% if user %}
 				<a class="button start" href="{{ pset.path }}/start">
 					Começar!
 				</a>
+				{% else %}
+				<a class="button start" href="/">
+					Entrar e participar
+				</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>
