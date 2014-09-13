@@ -1,5 +1,6 @@
 
 var async = require('async')
+var _ = require('lodash')
 var mongoose = require('mongoose')
 var ObjectId = mongoose.Types.ObjectId
 
@@ -8,22 +9,29 @@ var ObjectId = mongoose.Types.ObjectId
 jobber = require('./jobber.js')(function (e) {
 
 	var Problem = mongoose.model('Problem')
+	var User = mongoose.model('Player')
 	var ProblemSet = mongoose.model('ProblemSet')
 
-	ProblemSet.findOne({ _id: '54116b358b53a2020002515b' }, function (err, pset) {
+	ProblemSet.find({}, function (err, _psets) {
 
-		Problem.find({}, function (err, docs) {
+		var psets = _.indexBy(_psets, '_id')
 
-			for (var i=0; i<docs.length; i++) {
-				console.log("Pushing doc: "+docs[i].id+" "+docs[i].content.body.slice(0,100))
-				pset.docs.push(docs[i])
+		User.find({}, function (err, docs) {
+
+			for (var i=0; i<docs.length; ++i) {
+				var user = docs[i]
+				console.log('%s: name: %s (%s: %s)', i, user.name, user.facebook_id, user.profile.fbName)
+				user.pset_play.forEach(function (play) {
+					var score = _.filter(play.moves, function (move) { return move.solved; }).length;
+					console.log('    play: %s', psets[play.pset].name)
+					console.log('        start,last: %s → %s', play.start, play.last_update)
+					console.log('        score: %s/%s of %s', score, play.moves.length, psets[play.pset].docs.length)
+				})
 			}
-			pset.save(function (err, set) {
-				console.log("Save?", err)
-				e.quit();
-			})
-		});
-	});
+
+			e.quit()
+		})
+	})
 
 
 }).start()
