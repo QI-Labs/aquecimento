@@ -8,7 +8,7 @@
 {% block head %}
 {% parent %}
 	{% if user %}
-	<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}'}</script>
+	<script>window.user = {id: '{{user.id}}', name: '{{user.name}}', avatarUrl: '{{user.avatarUrl}}', access_token: '{{ user.access_token }}'}</script>
 	{% else %}
 	<script>window.user={}</script>
 	{% endif %}

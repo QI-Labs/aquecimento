@@ -29,6 +29,7 @@ module.exports = (app) ->
 			next()
 	)
 
+
 	router.use (req, res, next) ->
 		if req.user
 			return next()

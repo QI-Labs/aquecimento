@@ -568,6 +568,17 @@ var ProblemView = React.createClass({displayName: 'ProblemView',
 var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 
 	shareOnFacebook: function () {
+		FB.api(
+		'me/qilabsdotorg:solve',
+		'post',
+		{
+			simulado: "http://samples.ogp.me/731188110281757",
+			access_token: window.user.access_token
+		},
+		function(response) {
+			console.log(response)
+		}
+		);
 		alert("Ops. Não acabamos de implementar isso aqui ainda.");
 	},
 
@@ -687,7 +698,7 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 					React.DOM.h3(null, "Boa sorte!"),
 					React.DOM.div( {className:"contributors"}, 
 						React.DOM.label(null, "Banca:"),
-						React.DOM.a( {href:"http://qilabs.org/@felipearagaopires"}, 
+						React.DOM.a( {href:"http://qilabs.org/@franco.severo.7"}, 
 							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Franco Severo, IMPA",
 								'data-container':"body", 'data-placement':"bottom"}, 
 								React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100002970450567/picture?width=200&height=200)'}})
@@ -705,7 +716,7 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 								React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100001334209362/picture?width=200&height=200)'}})
 							)
 						),
-						React.DOM.a( {href:"http://qilabs.org/@franco.severo.7"}, 
+						React.DOM.a( {href:"http://qilabs.org/@felipearagaopires"}, 
 							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Felipe Aragão Pires, QI Labs",
 								'data-container':"body", 'data-placement':"bottom"}, 
 								React.DOM.div( {className:"avatar", style:{background: 'url(http://i.imgur.com/nXb8vMd.png)'}})

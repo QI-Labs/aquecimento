@@ -412,6 +412,17 @@ var ProblemView = React.createClass({
 var ProblemSetView = React.createClass({
 
 	shareOnFacebook: function () {
+		FB.api(
+		'me/qilabsdotorg:solve',
+		'post',
+		{
+			simulado: "http://samples.ogp.me/731188110281757",
+			access_token: window.user.access_token
+		},
+		function(response) {
+			console.log(response)
+		}
+		);
 		alert("Ops. Não acabamos de implementar isso aqui ainda.");
 	},
 
@@ -531,7 +542,7 @@ var ProblemSetView = React.createClass({
 					<h3>Boa sorte!</h3>
 					<div className="contributors">
 						<label>Banca:</label>
-						<a href="http://qilabs.org/@felipearagaopires">
+						<a href="http://qilabs.org/@franco.severo.7">
 							<div className="user-avatar" data-toggle="tooltip" title="Franco Severo, IMPA"
 								data-container="body" data-placement="bottom">
 								<div className="avatar" style={{background: 'url(https://graph.facebook.com/100002970450567/picture?width=200&height=200)'}}></div>
@@ -549,7 +560,7 @@ var ProblemSetView = React.createClass({
 								<div className="avatar" style={{background: 'url(https://graph.facebook.com/100001334209362/picture?width=200&height=200)'}}></div>
 							</div>
 						</a>
-						<a href="http://qilabs.org/@franco.severo.7">
+						<a href="http://qilabs.org/@felipearagaopires">
 							<div className="user-avatar" data-toggle="tooltip" title="Felipe Aragão Pires, QI Labs"
 								data-container="body" data-placement="bottom">
 								<div className="avatar" style={{background: 'url(http://i.imgur.com/nXb8vMd.png)'}}></div>
