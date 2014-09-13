@@ -411,6 +411,10 @@ var ProblemView = React.createClass({
 
 var ProblemSetView = React.createClass({
 
+	shareOnFacebook: function () {
+		alert("Ops. Não acabamos de implementar isso aqui ainda.");
+	},
+
 	render: function () {
 		var icons = {
 			'algebra': 'icon-plus-circle',
@@ -458,7 +462,7 @@ var ProblemSetView = React.createClass({
 						</div>
 
 						<div className="btn-group">
-							<button className="share-fb">
+							<button className="share-fb" onClick={this.shareOnFacebook}>
 								Compartilhe no Facebook
 							</button>
 							<a href="http://qilabs.org" className="button sign-beta">
