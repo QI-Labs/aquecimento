@@ -737,6 +737,7 @@ var WorkspaceRouter = Backbone.Router.extend({
 
 			var postItem = this.psetCollection.at(data.num);
 
+			$.get('/api/sets/'+data.psetSlug+'/'+data.num);
 			console.log(this.moves)
 			React.renderComponent(ProblemView( {trials:this.moves, set:this.pset, index:data.num, model:postItem} ),
 				document.querySelector("#box-wrapper"),

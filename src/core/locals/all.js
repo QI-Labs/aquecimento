@@ -45,5 +45,6 @@ module.exports = function (app) {
 		},
 	});
 
+	app.locals.nconf = nconf;
 	app.locals.urls = urls;
 }

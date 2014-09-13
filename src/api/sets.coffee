@@ -133,6 +133,9 @@ module.exports = (app) ->
 		req.pset.remove (err, num) ->
 			res.endJSON(err:err, success: !err, num:num)
 
+	router.post '/:pslug/:num', (req, res) ->
+		res.end()
+
 	router.post '/:psetId/problems/:problemId/delete', requireIsEditor, (req, res) ->
 		req.pset.docs.pull(req.params.problemId)
 		req.pset.save (err, num) ->
