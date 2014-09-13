@@ -528,22 +528,26 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 					React.DOM.div( {className:"contributors"}, 
 						React.DOM.label(null, "Banca:"),
 						React.DOM.a( {href:"http://qilabs.org/@felipearagaopires"}, 
-							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Franco Severo, IMPA", 'data-placement':"bottom"}, 
+							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Franco Severo, IMPA",
+								'data-container':"body", 'data-placement':"bottom"}, 
 								React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100002970450567/picture?width=200&height=200)'}})
 							)
 						),
 						React.DOM.a( {href:"http://qilabs.org/@michelle.malher"}, 
-							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Michelle Malher, QI Labs", 'data-placement':"bottom"}, 
+							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Michelle Malher, QI Labs",
+								'data-container':"body", 'data-placement':"bottom"}, 
 								React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100002234680040/picture?width=200&height=200)'}})
 							)
 						),
 						React.DOM.a( {href:"http://qilabs.org/@luizfernando.gomes.581"}, 
-							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Luiz Fernando Leal, QI Labs", 'data-placement':"bottom"}, 
+							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Luiz Fernando Leal, QI Labs",
+								'data-container':"body", 'data-placement':"bottom"}, 
 								React.DOM.div( {className:"avatar", style:{background: 'url(https://graph.facebook.com/100001334209362/picture?width=200&height=200)'}})
 							)
 						),
 						React.DOM.a( {href:"http://qilabs.org/@franco.severo.7"}, 
-							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Felipe Aragão Pires, QI Labs", 'data-placement':"bottom"}, 
+							React.DOM.div( {className:"user-avatar", 'data-toggle':"tooltip", title:"Felipe Aragão Pires, QI Labs",
+								'data-container':"body", 'data-placement':"bottom"}, 
 								React.DOM.div( {className:"avatar", style:{background: 'url(http://i.imgur.com/nXb8vMd.png)'}})
 							)
 						)

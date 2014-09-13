@@ -528,22 +528,26 @@ var ProblemSetView = React.createClass({
 					<div className="contributors">
 						<label>Banca:</label>
 						<a href="http://qilabs.org/@felipearagaopires">
-							<div className="user-avatar" data-toggle="tooltip" title="Franco Severo, IMPA" data-placement="bottom">
+							<div className="user-avatar" data-toggle="tooltip" title="Franco Severo, IMPA"
+								data-container="body" data-placement="bottom">
 								<div className="avatar" style={{background: 'url(https://graph.facebook.com/100002970450567/picture?width=200&height=200)'}}></div>
 							</div>
 						</a>
 						<a href="http://qilabs.org/@michelle.malher">
-							<div className="user-avatar" data-toggle="tooltip" title="Michelle Malher, QI Labs" data-placement="bottom">
+							<div className="user-avatar" data-toggle="tooltip" title="Michelle Malher, QI Labs"
+								data-container="body" data-placement="bottom">
 								<div className="avatar" style={{background: 'url(https://graph.facebook.com/100002234680040/picture?width=200&height=200)'}}></div>
 							</div>
 						</a>
 						<a href="http://qilabs.org/@luizfernando.gomes.581">
-							<div className="user-avatar" data-toggle="tooltip" title="Luiz Fernando Leal, QI Labs" data-placement="bottom">
+							<div className="user-avatar" data-toggle="tooltip" title="Luiz Fernando Leal, QI Labs"
+								data-container="body" data-placement="bottom">
 								<div className="avatar" style={{background: 'url(https://graph.facebook.com/100001334209362/picture?width=200&height=200)'}}></div>
 							</div>
 						</a>
 						<a href="http://qilabs.org/@franco.severo.7">
-							<div className="user-avatar" data-toggle="tooltip" title="Felipe Aragão Pires, QI Labs" data-placement="bottom">
+							<div className="user-avatar" data-toggle="tooltip" title="Felipe Aragão Pires, QI Labs"
+								data-container="body" data-placement="bottom">
 								<div className="avatar" style={{background: 'url(http://i.imgur.com/nXb8vMd.png)'}}></div>
 							</div>
 						</a>

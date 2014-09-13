@@ -84,7 +84,7 @@ module.exports = (app) ->
 	##########################################################################################################
 
 	router.post '/:psetId', requireIsEditor, (req, res) ->
-		console.log('name', req.body)
+		# console.log('name', req.body)
 		if req.body.name
 			req.pset.name = validator.trim(req.body.name)
 		req.pset.save (err, pset) ->
@@ -140,7 +140,7 @@ module.exports = (app) ->
 
 	router.post '/:psetId2/:num/try', (req, res) ->
 		play = _.findWhere(req.user.pset_play, (i) -> ''+i.pset is ''+req.params.psetId2)
-		console.log(play, req.user.pset_play, req.user.pset_play.length, req.params.psetId2)
+		# console.log(play, req.user.pset_play, req.user.pset_play.length, req.params.psetId2)
 		# Test if user's plays to this specific pset exists.
 		if not play
 			req.logger.warn("problem set not found in user's plays.")
