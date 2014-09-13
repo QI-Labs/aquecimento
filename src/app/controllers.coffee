@@ -26,7 +26,7 @@ module.exports = (app) ->
 			res.render 'app/front'
 
 	router.use '/panel', require('./panel')(app)
-	router.use '/p', require('./sets')(app)
+	# router.use '/p', require('./sets')(app)
 
 	for n in ['/problems/:problemId']
 		router.get n, required.login, (req, res, next) -> res.render('app/problem')
