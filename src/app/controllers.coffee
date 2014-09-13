@@ -25,6 +25,12 @@ module.exports = (app) ->
 		else
 			res.render 'app/front'
 
+	router.get '/opg/:psetId', (req, res) ->
+		ProblemSet.findOne { _id:req.params.psetId }, req.handleErr404 (pset) ->
+			res.render 'app/simulado_opg', {
+				pset: pset
+			}
+
 	router.use '/panel', require('./panel')(app)
 	router.use '/p', require('./sets')(app)
 
