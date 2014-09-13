@@ -183,6 +183,7 @@ module.exports = (app) ->
 				})
 			console.log(JSON.stringify(trying), JSON.stringify(pset.docs[num].content.answer))
 			# Wrong answer.
+			play.last_update = new Date()
 			play.moves.push({ index: index, solved: false })
 			req.user.save (err) ->
 				if err

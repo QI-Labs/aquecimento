@@ -46,6 +46,7 @@ PlayerSchema = new mongoose.Schema {
 	pset_play: [{
 		pset: 	{ type: String, ref: 'ProblemSet' }
 		start: 	{ type: Date }
+		last_update: { type: Date }
 		moves: 	[{
 			index: 	{ type: Number, required: true}
 			solved: { type: Boolean, default: false }
