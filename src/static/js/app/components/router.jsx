@@ -416,7 +416,7 @@ var ProblemSetView = React.createClass({
 		'me/qilabsdotorg:solve',
 		'post',
 		{
-			simulado: "http://maratona.qilabs.org/opg/"+this.props.model.get('id'),
+			simulado: "http://maratona.qilabs.org"+this.props.model.get('path'),
 			access_token: window.user.access_token
 		},
 		function(response) {
