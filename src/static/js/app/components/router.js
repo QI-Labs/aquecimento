@@ -424,7 +424,7 @@ var ProblemSetView = React.createClass({displayName: 'ProblemSetView',
 			if (response.error) {
 				app.flash.warn("Ops. Detectamos um erro, mas é provavelmente falha nossa.");
 			} else {
-				app.flash.info("Postado no seu mural com sucesso. <i class='icon-happy2'></i>");
+				app.flash.info("Postado no seu mural com sucesso.");
 			}
 		}
 		);
