@@ -1,9 +1,10 @@
 
 mongoose = require 'mongoose'
-required = require 'src/core/required.js'
 _ = require 'lodash'
 validator = require 'validator'
+nconf = require 'nconf'
 
+required = require 'src/core/required.js'
 please = require 'src/lib/please.js'
 please.args.extend(require 'src/models/lib/pleaseModels.js')
 
@@ -38,7 +39,6 @@ addProblemToSet = (self, pset, data, cb) ->
 			return cb(err)
 		cb(null, problem)
 
-nconf = require 'nconf'
 
 requireIsEditor = (req, res, next) ->
 	if req.user and ''+req.user.facebook_id in nconf.get('editorIds').split(',')
@@ -49,6 +49,9 @@ module.exports = (app) ->
 	router = require('express').Router()
 
 	logger = app.get('logger').child({child:'API',dir:'posts'})
+
+	if nconf.get('ICE_AGE') # not in aquecimento, require users to be editors
+		router.use requireIsEditor
 
 	##########################################################################################################
 	##########################################################################################################
